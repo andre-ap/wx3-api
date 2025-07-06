@@ -40,4 +40,6 @@ class Produto
         $this->peso = $dados['peso'];
         $this->categoriaId = $dados['categoria_id'];
     }
+
+    
 }

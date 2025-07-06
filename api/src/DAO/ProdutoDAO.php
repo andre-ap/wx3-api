@@ -2,6 +2,7 @@
 
 namespace Src\DAO;
 
+use Exception;
 use PDO;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
@@ -16,7 +17,6 @@ class ProdutoDAO
     }
 
     /**
-     * Summary of buscarProdutos
      * @return Produto[]
      */
     public function buscarProdutos(): array
@@ -27,7 +27,7 @@ class ProdutoDAO
             FROM produtos
         ");
             if (!$ps) {
-                throw ProdutoException::erroAoMontarObjeto(["Query mal escrita ou falha na execução."]);
+                throw new Exception("SQL mal formatada ou erro ao executar");
             }
 
             $dados = $ps->fetchAll(PDO::FETCH_ASSOC);
@@ -39,9 +39,30 @@ class ProdutoDAO
             }
 
             return $produtos;
-
         } catch (\PDOException $e) {
-            throw ProdutoException::erroAoAcessarBD();
+            throw new \RuntimeException('Erro ao acessar o banco de dados', 500, $e);
+        }
+    }
+
+    /**
+     * @return Produto
+     */
+    public function buscarProdutoPorId(int $id): Produto | null
+    {
+        try {
+            $sql = "SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id FROM produtos WHERE id = :id";
+            $ps = $this->pdo->prepare($sql);
+            $ps->execute(['id' => $id]);
+
+            $dados = $ps->fetch(PDO::FETCH_ASSOC);
+
+            if (!$dados){
+                return null;
+            }
+
+            return new Produto($dados);
+        } catch (\PDOException $e) {
+            throw new \RuntimeException('Erro ao acessar o banco de dados', 500, $e);
         }
     }
 }

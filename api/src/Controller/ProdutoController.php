@@ -15,10 +15,17 @@ class ProdutoController {
     }
 
     /**
-     * Summary of listar
      * @return Produto[]
      */
     public function listar (): array {
         return $this->service->listarTodosProdutos();
+    }
+
+    /**
+     * @return Produto|null
+     */
+    public function buscar (int $id): Produto|null {
+        
+        return $this->service->buscarProdutoPorId($id);
     }
 }

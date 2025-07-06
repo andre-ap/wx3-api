@@ -14,10 +14,16 @@ class ProdutoService {
     }
 
     /**
-     * Summary of listarTodosProdutos
      * @return Produto[]
      */
     public function listarTodosProdutos () {
         return $this->dao->buscarProdutos();
+    }
+
+    /**
+     * @return Produto
+     */
+    public function buscarProdutoPorId(int $id): Produto | null {
+        return $this->dao->buscarProdutoPorId($id);
     }
 }

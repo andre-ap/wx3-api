@@ -22,4 +22,13 @@ $app->get('/api/produtos', function (Request $request, Response $response){
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/api/produtos/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new ProdutoController($pdo);
+    $produto = $controller->buscar($id);
+    
+    $response->getBody()->write(json_encode($produto));
+    return $response->withHeader('Content-Type', 'application/json');
+});
 $app->run();
