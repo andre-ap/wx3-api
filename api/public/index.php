@@ -12,6 +12,12 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $app = AppFactory::create();
 
+$error_middleware = $app->addErrorMiddleware(true, true, true);
+
+$error_handler = $error_middleware->getDefaultErrorHandler();
+
+$error_handler->forceContentType('application/json');
+
 $app->get('/api/produtos', function (Request $request, Response $response){
     $pdo = ConexaoDB::conectar();
     $controller = new ProdutoController($pdo);
@@ -47,7 +53,8 @@ $app->put('/api/produtos/{id}', function (Request $request, Response $response, 
     $pdo = ConexaoDB::conectar();
     $controller = new ProdutoController($pdo);
 
-    $controller->atualizar($id, $dados);
+    $idAtualizado = $controller->atualizar($id, $dados);
+    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
@@ -55,7 +62,9 @@ $app->delete('/api/produtos/{id}', function (Request $request, Response $respons
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
     $controller = new ProdutoController($pdo);
-    $controller->remover($id);
+
+    $idRemovido = $controller->remover($id);
+    $response->getBody()->write(json_encode(['id' => $idRemovido]));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 

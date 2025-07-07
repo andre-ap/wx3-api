@@ -5,7 +5,6 @@ namespace Src\DAO;
 use DateTime;
 use Exception;
 use PDO;
-use Src\Exception\ProdutoException;
 use Src\Model\Produto;
 
 class ProdutoDAO
@@ -22,53 +21,52 @@ class ProdutoDAO
      */
     public function buscarProdutos(): array
     {
-        try {
-            $ps = $this->pdo->query("SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id 
-                                    FROM produtos");
 
-            if (!$ps) {
-                throw new Exception("SQL mal formatada ou erro ao executar");
-            }
+        $ps = $this->pdo->query("SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id FROM produtos");
 
-            $dados = $ps->fetchAll(PDO::FETCH_ASSOC);
-
-            $produtos = [];
-
-            foreach ($dados as $linha) {
-                $produtos[] = new Produto($linha);
-            }
-
-            return $produtos;
-        } catch (\PDOException $e) {
-            throw new \RuntimeException('Erro ao acessar o banco de dados', 500, $e);
+        if (!$ps) {
+            throw new Exception("SQL mal formatada ou erro ao executar");
         }
+
+        $dados = $ps->fetchAll(PDO::FETCH_ASSOC);
+
+        if (!$dados) {
+            return [];
+        }
+
+        $produtos = [];
+
+        foreach ($dados as $linha) {
+            $produtos[] = new Produto($linha);
+        }
+
+        return $produtos;
     }
 
     /**
-     * @return Produto
+     * @return Produto | array<void>
      */
-    public function buscarProdutoPorId(int $id): Produto | null
+    public function buscarProdutoPorId(int $id): Produto | array
     {
-        try {
-            $sql = "SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id 
-                FROM produtos WHERE id = :id";
-            $ps = $this->pdo->prepare($sql);
-            $ps->execute(['id' => $id]);
 
-            $dados = $ps->fetch(PDO::FETCH_ASSOC);
+        $sql = "SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id FROM produtos WHERE id = :id";
 
-            if (!$dados) {
-                return null;
-            }
+        $ps = $this->pdo->prepare($sql);
 
-            return new Produto($dados);
-        } catch (\PDOException $e) {
-            throw new \RuntimeException('Erro ao acessar o banco de dados', 500, $e);
+        $ps->execute(['id' => $id]);
+
+        $dados = $ps->fetch(PDO::FETCH_ASSOC);
+
+        if (!$dados) {
+            return [];
         }
+
+        return new Produto($dados);
     }
 
     /**
-     * 
+     * @param Produto $produto
+     * @return int
      */
     public function inserirProduto(Produto $produto): int
     {
@@ -92,8 +90,24 @@ class ProdutoDAO
         return (int) $this->pdo->lastInsertId();
     }
 
-    public function atualizarProduto (int $id, array $dados): void {
-        $sql = 
+    /**
+     * @param int $id
+     * @param array{
+     *   id: int,
+     *   nome: string,
+     *   cor: string,
+     *   imagem: string,
+     *   preco_base: float,
+     *   descricao: string,
+     *   dataCadastro: string,
+     *   peso: float,
+     *   categoria_id: int
+     * } $dados
+     * @return int
+     */
+    public function atualizarProduto(int $id, array $dados): int
+    {
+        $sql =
             "UPDATE produtos SET
                 nome = :nome,
                 cor = :cor,
@@ -106,6 +120,7 @@ class ProdutoDAO
             WHERE id = :id";
 
         $ps = $this->pdo->prepare($sql);
+
         $ps->execute([
             ':nome' => $dados['nome'],
             ':cor' => $dados['cor'],
@@ -117,11 +132,22 @@ class ProdutoDAO
             ':categoria_id' => $dados['categoria_id'],
             ':id' => $id
         ]);
+
+        return $id;
     }
 
-    public function removerProduto(int $id) {
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function removerProduto(int $id): int
+    {
         $sql = "DELETE FROM produtos WHERE id = :id";
+
         $ps = $this->pdo->prepare($sql);
+
         $ps->execute(['id' => $id]);
+
+        return $id;
     }
 }

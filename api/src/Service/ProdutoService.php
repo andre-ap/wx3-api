@@ -4,6 +4,7 @@ namespace Src\Service;
 
 use PDO;
 use Src\DAO\ProdutoDAO;
+use Src\Exception\ProdutoException;
 use Src\Model\Produto;
 
 class ProdutoService
@@ -24,11 +25,19 @@ class ProdutoService
     }
 
     /**
-     * @return Produto
+     * @return Produto | array<void>
      */
-    public function buscarProdutoPorId(int $id): Produto | null
+    public function buscarProdutoPorId(int $id): Produto | array
     {
-        return $this->dao->buscarProdutoPorId($id);
+        $this->validarId($id);
+
+        $produto = $this->dao->buscarProdutoPorId($id);
+
+        if (!$produto) {
+            throw new ProdutoException("Produto com ID $id não encontrado", 404);
+        }
+
+        return $produto;
     }
 
     /**
@@ -48,18 +57,102 @@ class ProdutoService
      */
     public function criarNovoProduto(array $dados): int
     {
-        // TODO -> fazer validações
+        $this->validarDados($dados);
+
         $produto = new Produto($dados);
+
         return $this->dao->inserirProduto($produto);
     }
 
-    public function atualizarProduto(int $id, array $dados): int {
-        $this->dao->atualizarProduto($id, $dados);
-        return (int) $id;
+    /**
+     * @param int $id
+     * @param array{
+     *   id: int,
+     *   nome: string,
+     *   cor: string,
+     *   imagem: string,
+     *   preco_base: float,
+     *   descricao: string,
+     *   dataCadastro: string,
+     *   peso: float,
+     *   categoria_id: int
+     * } $dados
+     */
+    public function atualizarProduto(int $id, array $dados): int
+    {
+        $this->validarId($id);
+
+        $this->validarDados($dados);
+
+        $produto = $this->buscarProdutoPorId($id);
+
+        if (!$produto) {
+            throw ProdutoException::produtoInexistente($id);
+        }
+
+        return $this->dao->atualizarProduto($id, $dados);
     }
 
-    public function removerProduto(int $id){
-        $this->dao->removerProduto($id);
-        return (int) $id;
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function removerProduto(int $id): int
+    {
+        $this->validarId($id);
+
+        $produto = $this->buscarProdutoPorId($id);
+
+        if (!$produto) {
+            throw ProdutoException::produtoInexistente($id);
+        }
+
+        return $this->dao->removerProduto($id);
+    }
+
+    /**
+      * @param array<string, mixed> $dados
+      * @return void
+     */
+    public function validarDados(array $dados): void
+    {
+        if (empty($dados['nome']) || strlen($dados['nome']) < 2) {
+            throw ProdutoException::nomeInvalido();
+        }
+
+        if (empty($dados['cor']) || strlen($dados['cor']) < 3) {
+            throw ProdutoException::corInvalida();
+        }
+
+        if (!isset($dados['preco_base']) || !is_numeric($dados['preco_base']) || $dados['preco_base'] <= 0) {
+            throw ProdutoException::precoInvalido();
+        }
+
+        if (empty($dados['descricao']) || strlen($dados['descricao']) < 5) {
+            throw ProdutoException::descricaoInvalida();
+        }
+
+        if (!isset($dados['peso']) || !is_numeric($dados['peso']) || $dados['peso'] <= 0) {
+            throw ProdutoException::pesoInvalido();
+        }
+
+        if (!isset($dados['categoria_id']) || !is_numeric($dados['categoria_id'])) {
+            throw ProdutoException::categoriaInvalida();
+        }
+
+        // Validar Data
+
+        // Validar categoria
+    }
+
+    /**
+     * @param int $id
+     * @return void
+     */
+    public function validarId(int $id): void
+    {
+        if ($id <= 0) {
+            throw ProdutoException::idInvalido();
+        }
     }
 }

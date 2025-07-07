@@ -6,26 +6,29 @@ use PDO;
 use Src\Service\ProdutoService;
 use Src\Model\Produto;
 
-class ProdutoController {
+class ProdutoController
+{
 
     private ProdutoService $service;
 
-    public function __construct (PDO $pdo) {
-        $this->service = new ProdutoService ($pdo);
+    public function __construct(PDO $pdo)
+    {
+        $this->service = new ProdutoService($pdo);
     }
 
     /**
      * @return Produto[]
      */
-    public function listar (): array {
+    public function listar(): array
+    {
         return $this->service->listarTodosProdutos();
     }
 
     /**
-     * @return Produto | null
+     * @return Produto | array <void>
      */
-    public function buscar (int $id): Produto|null {
-        
+    public function buscar(int $id): Produto | array
+    {
         return $this->service->buscarProdutoPorId($id);
     }
 
@@ -44,15 +47,36 @@ class ProdutoController {
      * } $dados
      * @return int
      */
-    public function criar (array $dados): int {
+    public function criar(array $dados): int
+    {
         return $this->service->criarNovoProduto($dados);
     }
 
-    public function atualizar (int $id, array $dados): int {
+    /**
+     * @param int $id
+     * @param array{
+     *   id: int,
+     *   nome: string,
+     *   cor: string,
+     *   imagem: string,
+     *   preco_base: float,
+     *   descricao: string,
+     *   dataCadastro: string,
+     *   peso: float,
+     *   categoria_id: int
+     * } $dados
+     */
+    public function atualizar(int $id, array $dados): int
+    {
         return $this->service->atualizarProduto($id, $dados);
     }
 
-    public function remover (int $id) {
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function remover(int $id): int
+    {
         return $this->service->removerProduto($id);
     }
 }

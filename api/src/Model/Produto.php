@@ -15,7 +15,6 @@ class Produto
     public int $categoriaId;
 
     /**
-     * Summary of __construct
      * @param array{
      *   id: int | null,
      *   nome: string,
