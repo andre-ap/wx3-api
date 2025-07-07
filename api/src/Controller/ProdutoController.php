@@ -28,4 +28,8 @@ class ProdutoController {
         
         return $this->service->buscarProdutoPorId($id);
     }
+
+    public function criar (array $dados): int {
+        return $this->service->criarNovoProduto($dados);
+    }
 }

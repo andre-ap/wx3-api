@@ -31,4 +31,15 @@ $app->get('/api/produtos/{id}', function (Request $request, Response $response, 
     $response->getBody()->write(json_encode($produto));
     return $response->withHeader('Content-Type', 'application/json');
 });
+
+$app->post('/api/produtos', function (Request $request, Response $response, array $args) {
+    $pdo = ConexaoDB::conectar();
+    $controller = new ProdutoController($pdo);
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $novoProduto = $controller->criar($dados);
+
+    $response->getBody()->write(json_encode($novoProduto));
+    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+});
+
 $app->run();

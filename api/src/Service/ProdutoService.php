@@ -26,4 +26,10 @@ class ProdutoService {
     public function buscarProdutoPorId(int $id): Produto | null {
         return $this->dao->buscarProdutoPorId($id);
     }
+
+    public function criarNovoProduto (array $dados): int {
+        // TODO -> fazer validações
+        $produto = new Produto ($dados);
+        return $this->dao->inserirProduto($produto);
+    }
 }
