@@ -17,7 +17,7 @@ class Produto
     /**
      * Summary of __construct
      * @param array{
-     *   id: int,
+     *   id: int | null,
      *   nome: string,
      *   cor: string,
      *   imagem: string,

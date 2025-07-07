@@ -91,4 +91,31 @@ class ProdutoDAO
 
         return (int) $this->pdo->lastInsertId();
     }
+
+    public function atualizarProduto (int $id, array $dados): void {
+        $sql = 
+            "UPDATE produtos SET
+                nome = :nome,
+                cor = :cor,
+                imagem = :imagem,
+                preco_base = :preco_base,
+                descricao = :descricao,
+                data_cadastro = :data_cadastro,
+                peso = :peso,
+                categoria_id = :categoria_id
+            WHERE id = :id";
+
+        $ps = $this->pdo->prepare($sql);
+        $ps->execute([
+            ':nome' => $dados['nome'],
+            ':cor' => $dados['cor'],
+            ':imagem' => $dados['imagem'],
+            ':preco_base' => $dados['preco_base'],
+            ':descricao' => $dados['descricao'],
+            ':peso' => $dados['peso'],
+            ':data_cadastro' => $dados['dataCadastro'],
+            ':categoria_id' => $dados['categoria_id'],
+            ':id' => $id
+        ]);
+    }
 }

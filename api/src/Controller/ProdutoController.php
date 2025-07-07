@@ -22,14 +22,33 @@ class ProdutoController {
     }
 
     /**
-     * @return Produto|null
+     * @return Produto | null
      */
     public function buscar (int $id): Produto|null {
         
         return $this->service->buscarProdutoPorId($id);
     }
 
+    /**
+     * Summary of __construct
+     * @param array{
+     *   id: int,
+     *   nome: string,
+     *   cor: string,
+     *   imagem: string,
+     *   preco_base: float,
+     *   descricao: string,
+     *   data_cadastro: string | null,
+     *   peso: float,
+     *   categoria_id: int
+     * } $dados
+     * @return int
+     */
     public function criar (array $dados): int {
         return $this->service->criarNovoProduto($dados);
+    }
+
+    public function atualizar (int $id, array $dados): int {
+        return $this->service->atualizarProduto($id, $dados);
     }
 }
