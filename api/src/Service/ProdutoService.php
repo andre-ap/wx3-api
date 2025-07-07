@@ -57,4 +57,9 @@ class ProdutoService
         $this->dao->atualizarProduto($id, $dados);
         return (int) $id;
     }
+
+    public function removerProduto(int $id){
+        $this->dao->removerProduto($id);
+        return (int) $id;
+    }
 }

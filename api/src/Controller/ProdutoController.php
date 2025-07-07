@@ -51,4 +51,8 @@ class ProdutoController {
     public function atualizar (int $id, array $dados): int {
         return $this->service->atualizarProduto($id, $dados);
     }
+
+    public function remover (int $id) {
+        return $this->service->removerProduto($id);
+    }
 }

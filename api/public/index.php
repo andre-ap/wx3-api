@@ -51,4 +51,12 @@ $app->put('/api/produtos/{id}', function (Request $request, Response $response, 
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
 
+$app->delete('/api/produtos/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new ProdutoController($pdo);
+    $controller->remover($id);
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
 $app->run();

@@ -118,4 +118,10 @@ class ProdutoDAO
             ':id' => $id
         ]);
     }
+
+    public function removerProduto(int $id) {
+        $sql = "DELETE FROM produtos WHERE id = :id";
+        $ps = $this->pdo->prepare($sql);
+        $ps->execute(['id' => $id]);
+    }
 }
