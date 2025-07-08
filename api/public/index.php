@@ -7,6 +7,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Src\Config\ConexaoDB;
 use Src\Controller\CategoriaController;
+use Src\Controller\ClienteController;
 use Src\Controller\ProdutoController;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -120,5 +121,16 @@ $app->delete('/api/categorias/{id}', function (Request $request, Response $respo
     $response->getBody()->write(json_encode(['id' => $idRemovido]));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
 });
+
+// === CLIENTES ===
+$app->get('/api/clientes', function (Request $request, Response $response){
+    $pdo = ConexaoDB::conectar();
+    $controller = new ClienteController($pdo);
+    $categorias = $controller->listar();
+
+    $response->getBody()->write(json_encode($categorias));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
 
 $app->run();
