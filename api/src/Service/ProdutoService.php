@@ -143,10 +143,10 @@ class ProdutoService
             throw ProdutoException::categoriaInvalida();
         }
 
-        $categoria = $this->categoriaService->buscarCategoriaPorId($dados['categoria_id']);
+        $categoria = $this->categoriaService->buscarCategoriaPorId((int)$dados['categoria_id']);
 
         if (!$categoria) {
-            throw ProdutoException::categoriaInexistente($dados['categoria_id']);
+            throw ProdutoException::categoriaInexistente((int)$dados['categoria_id']);
         }
 
         // Validar Data

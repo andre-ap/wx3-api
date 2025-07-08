@@ -9,7 +9,7 @@ class CategoriaException extends TratadorDeErros
         return new self ("O id deve ser um número inteiro", 422);
     }
 
-    public static function naoEncontrada($id): self
+    public static function naoEncontrada(int $id): self
     {
         return new self ("A categoria de id $id não foi encontrada", 404);
     }

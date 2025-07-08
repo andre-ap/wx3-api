@@ -44,7 +44,7 @@ class ProdutoException extends TratadorDeErros
         return new self ("O ID da categoria deve ser um número válido", 422);
     }
 
-    public static function categoriaInexistente($id): self
+    public static function categoriaInexistente(int $id): self
     {
         return new self ("A categoria de id: $id não existe");
     }

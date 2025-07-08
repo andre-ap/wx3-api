@@ -76,7 +76,7 @@ class CategoriaService
         $categoria = $this->dao->buscarCategoriaPorId($id);
 
         if (!$categoria) {
-            throw CategoriaException::categoriaInexistente($id);
+            throw CategoriaException::categoriaInexistente();
         }
 
         return $this->dao->atualizarCategoria($id, $dados);
@@ -93,7 +93,7 @@ class CategoriaService
         $categoria = $this->buscarCategoriaPorId($id);
 
         if (!$categoria) {
-            throw CategoriaException::categoriaInexistente($id);
+            throw CategoriaException::categoriaInexistente();
         }
 
         return $this->dao->removerItemPorID($id);
