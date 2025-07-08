@@ -33,7 +33,6 @@ class ProdutoController
     }
 
     /**
-     * Summary of __construct
      * @param array{
      *   id: int,
      *   nome: string,
