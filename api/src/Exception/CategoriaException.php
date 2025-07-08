@@ -11,18 +11,21 @@ class CategoriaException extends TratadorDeErros
 
     public static function naoEncontrada($id): self
     {
-        return new self ("O categoria de id $id não foi encontrada", 404);
+        return new self ("A categoria de id $id não foi encontrada", 404);
     }
 
     public static function nomeInvalido(): self
     {
-        return new self ("O nome do produto deve ter pelo menos 2 caracteres", 422);
+        return new self ("O nome da categoria deve ter pelo menos 2 caracteres", 422);
     }
 
     public static function descricaoInvalida(): self
     {
-        return new self ("O nome do produto deve ter pelo menos 5 caracteres", 422);
+        return new self ("O nome da categoria deve ter pelo menos 5 caracteres", 422);
     }
 
-    
+    public static function categoriaInexistente(): self
+    {
+        return new self("Categoria não encontrada", 404); 
+    }
 }

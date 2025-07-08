@@ -28,7 +28,7 @@ class CategoriaService
      * @param int $id
      * @return Categoria | array<void>
      */
-    public function buscarCategoriaPorId (int $id): Categoria | array
+    public function buscarCategoriaPorId(int $id): Categoria | array
     {
         $this->validarId($id);
 
@@ -51,7 +51,10 @@ class CategoriaService
      */
     public function criarNovaCategoria(array $dados): int
     {
+        $this->validarDados($dados);
+
         $categoria = new Categoria($dados);
+
         return $this->dao->criarNovaCategoria($categoria);
     }
 
@@ -64,8 +67,18 @@ class CategoriaService
      * } $dados
      * @return int
      */
-    public function atualizarCategoria (int $id, array $dados): int 
+    public function atualizarCategoria(int $id, array $dados): int
     {
+        $this->validarId($id);
+
+        $this->validarDados($dados);
+
+        $categoria = $this->dao->buscarCategoriaPorId($id);
+
+        if (!$categoria) {
+            throw CategoriaException::categoriaInexistente($id);
+        }
+
         return $this->dao->atualizarCategoria($id, $dados);
     }
 
@@ -73,8 +86,16 @@ class CategoriaService
      * @param int $id
      * @return int
      */
-    public function removerItemPorID (int $id): int
+    public function removerItemPorID(int $id): int
     {
+        $this->validarId($id);
+
+        $categoria = $this->buscarCategoriaPorId($id);
+
+        if (!$categoria) {
+            throw CategoriaException::categoriaInexistente($id);
+        }
+
         return $this->dao->removerItemPorID($id);
     }
 
@@ -96,8 +117,8 @@ class CategoriaService
      * descricao: string
      * } $dados
      * @return void
-    */ 
-    public function validarDados (array $dados): void
+     */
+    public function validarDados(array $dados): void
     {
         if (empty($dados['nome']) || strlen($dados['nome']) < 2) {
             throw CategoriaException::nomeInvalido();
