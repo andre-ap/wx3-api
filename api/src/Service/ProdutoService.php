@@ -6,14 +6,17 @@ use PDO;
 use Src\DAO\ProdutoDAO;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
+use Src\Service\CategoriaService;
 
 class ProdutoService
 {
     private ProdutoDAO $dao;
+    private CategoriaService $categoriaService;
 
     public function __construct(PDO $pdo)
     {
         $this->dao = new ProdutoDAO($pdo);
+        $this->categoriaService = new CategoriaService($pdo);
     }
 
     /**
@@ -140,9 +143,13 @@ class ProdutoService
             throw ProdutoException::categoriaInvalida();
         }
 
-        // Validar Data
+        $categoria = $this->categoriaService->buscarCategoriaPorId($dados['categoria_id']);
 
-        // Validar categoria
+        if (!$categoria) {
+            throw ProdutoException::categoriaInexistente($dados['categoria_id']);
+        }
+
+        // Validar Data
     }
 
     /**
