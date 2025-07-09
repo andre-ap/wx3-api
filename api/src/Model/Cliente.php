@@ -5,9 +5,9 @@ namespace Src\Model;
 class Cliente
 {
     public ?int $id;
-    public string $nome;
+    public string $nome_completo;
     public string $cpf;
-    public string $dataNascimento;
+    public string $data_nascimento;
 
     /**
      * @param array{
@@ -20,9 +20,9 @@ class Cliente
     public function __construct(array $dados)
     {
         $this->id = $dados['id'] ?? null;
-        $this->nome = $dados['nome_completo'];
+        $this->nome_completo = $dados['nome_completo'];
         $this->cpf = $dados['cpf'];
-        $this->dataNascimento = $dados['data_nascimento'];
+        $this->data_nascimento = $dados['data_nascimento'];
     }
 
     

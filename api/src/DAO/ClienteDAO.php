@@ -76,9 +76,9 @@ class ClienteDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ":nome_completo" => $cliente->nome,
+            ":nome_completo" => $cliente->nome_completo,
             ":cpf" => $cliente->cpf,
-            ":data_nascimento" => $cliente->dataNascimento
+            ":data_nascimento" => $cliente->data_nascimento
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -123,5 +123,25 @@ class ClienteDAO
         $ps->execute([":id" => $id]);
 
         return $id;
+    }
+
+    /**
+     * @param string @cpf
+     * @return bool
+     */
+    public function verificarCliente(string $cpf): bool {
+        $sql = "SELECT nome_completo FROM clientes WHERE cpf = :cpf";
+
+        $ps = $this->pdo->prepare($sql);
+        
+        $ps->execute([':cpf' => $cpf]);
+
+        $dados = $ps->fetch();
+
+        if (!$dados) {
+            return false;
+        }
+
+        return true;
     }
 }

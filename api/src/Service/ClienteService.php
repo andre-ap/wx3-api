@@ -47,6 +47,12 @@ class ClienteService
      */
     public function criarNovoCliente($dados): int
     {
+        $this->validarDados($dados);
+
+        if ($this->dao->verificarCliente($dados['cpf'])){
+            throw ClienteException::clienteExistente();
+        }
+
         $cliente = new Cliente($dados);
 
         return $this->dao->criarNovoCliente($cliente);
@@ -65,6 +71,10 @@ class ClienteService
     public function atualizarCliente($id, $dados): int
     {
         $this->validarId($id);
+
+        if ($this->dao->verificarCliente($dados['cpf'])){
+            throw ClienteException::clienteExistente();
+        }
 
         $this->validarDados($dados);
 
@@ -108,7 +118,8 @@ class ClienteService
             throw ClienteException::nomeInvalido();
         }
 
-        if (!isset($dados['cpf']) || !ctype_digit($dados['cpf']) || strlen($dados['cpf']) !== 11) {
+        // Melhorar validação do CPF
+        if (!isset($dados['cpf']) || strlen($dados['cpf']) !== 14) {
             throw ClienteException::cpfInvalido();
         }
 
