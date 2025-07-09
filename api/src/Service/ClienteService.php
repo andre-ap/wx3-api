@@ -96,7 +96,7 @@ class ClienteService
     /**
      *@param array{
      * id: int | null,
-     * nome: string,
+     * nome_completo: string,
      * cpf: string,
      * data_nascimento: string,
      * } $dados
@@ -104,11 +104,11 @@ class ClienteService
      */
     public function validarDados(array $dados): void
     {
-        if (empty($dados['nome']) || strlen($dados['nome']) < 2) {
+        if (empty($dados['nome_completo']) || strlen($dados['nome_completo']) < 2) {
             throw ClienteException::nomeInvalido();
         }
 
-        if (empty($dados['cpf']) || strlen($dados['cpf']) !== 3 || is_numeric($dados['cpf'])) {
+        if (!isset($dados['cpf']) || !ctype_digit($dados['cpf']) || strlen($dados['cpf']) !== 11) {
             throw ClienteException::cpfInvalido();
         }
 

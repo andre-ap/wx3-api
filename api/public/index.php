@@ -85,9 +85,9 @@ $app->get('/api/categorias/{id}', function (Request $request, Response $response
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
     $controller = new CategoriaController($pdo);
-    $categorias = $controller->buscar($id);
+    $categoria = $controller->buscar($id);
     
-    $response->getBody()->write(json_encode($categorias));
+    $response->getBody()->write(json_encode($categoria));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
@@ -132,5 +132,45 @@ $app->get('/api/clientes', function (Request $request, Response $response){
     return $response->withHeader('Content-Type', 'application/json');
 });
 
+$app->get('/api/clientes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new ClienteController($pdo);
+    $cliente = $controller->buscar($id);
+    
+    $response->getBody()->write(json_encode($cliente));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/clientes', function (Request $request, Response $response) {
+    $pdo = ConexaoDB::conectar();
+    $controller = new ClienteController($pdo);
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $novoCliente = $controller->criar($dados);
+
+    $response->getBody()->write(json_encode($novoCliente));
+    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+});
+
+$app->put('/api/clientes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $pdo = ConexaoDB::conectar();
+    $controller = new ClienteController($pdo);
+
+    $idAtualizado = $controller->atualizar($id, $dados);
+    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->delete('/api/clientes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new ClienteController($pdo);
+
+    $idRemovido = $controller->remover($id);
+    $response->getBody()->write(json_encode(['id' => $idRemovido]));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
 
 $app->run();

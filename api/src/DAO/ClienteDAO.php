@@ -71,12 +71,12 @@ class ClienteDAO
      */
     public function criarNovoCliente(Cliente $cliente): int
     {
-        $sql = "INSERT INTO clientes nome, cpf, data_nascimento VALUES (:nome, :cpf, :data_nascimento)";
+        $sql = "INSERT INTO clientes (nome_completo, cpf, data_nascimento) VALUES (:nome_completo, :cpf, :data_nascimento)";
 
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ":nome" => $cliente->nome,
+            ":nome_completo" => $cliente->nome,
             ":cpf" => $cliente->cpf,
             ":data_nascimento" => $cliente->dataNascimento
         ]);
@@ -95,14 +95,16 @@ class ClienteDAO
      */
     public function atualizarCliente(int $id, array $dados): int
     {
-        $sql = "UPDATE clientes SET nome = :nome, cpf = :cpf, data_nascimento = :data_nascimento";
+        $sql = "UPDATE clientes SET nome_completo = :nome_completo, cpf = :cpf, data_nascimento = :data_nascimento 
+                WHERE id = :id";
 
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':nome' => $dados['nome'],
+            ':nome_completo' => $dados['nome_completo'],
             ':cpf' => $dados['cpf'],
-            'data_nascimento' => $dados['data_nascimento']
+            'data_nascimento' => $dados['data_nascimento'],
+            ':id' => $id
         ]);
 
         return $id;

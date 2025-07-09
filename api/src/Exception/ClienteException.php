@@ -11,11 +11,11 @@ class ClienteException extends TratadorDeErros
 
     public static function nomeInvalido(): self
     {
-        return new self ("O nome deve ter mais de 2 caracteres");
+        return new self ("O nome deve ter mais de 2 caracteres", 422);
     }
 
     public static function cpfInvalido(): self
     {
-        return new self("O cpf deve ser um número de 11 dígitos");
+        return new self("O cpf deve ser um número de 11 dígitos", 422);
     }
 }
