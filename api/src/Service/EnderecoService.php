@@ -16,14 +16,14 @@ class EnderecoService
     }
 
     /**
-     * @return Endereco[]
+     * @return Endereco[] | null
      */
-    public function listarEnderecos(): array
+    public function listarEnderecos(): array | null
     {
         return $this->dao->listarEnderecos();
     }
 
-    public function buscarEnderecoPorId(int $id): Endereco
+    public function buscarEnderecoPorId(int $id): Endereco | null
     {
         return $this->dao->buscarEnderecoPorId($id);
     }
@@ -32,7 +32,7 @@ class EnderecoService
      * @param array{
      * 
      * } $dados
-     * @return int
+     * @return int | null
      */
     public function criarNovoEndereco (array $dados): int
     {

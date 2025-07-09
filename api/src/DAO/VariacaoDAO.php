@@ -38,7 +38,7 @@ class VariacaoDAO
         return $variacoes;
     }
 
-    public function buscarVariacaoPorId ($id): Variacao
+    public function buscarVariacaoPorId ($id): Variacao|null
     {
         $sql = "SELECT id, produto_id, tamanho, estoque, preco 
                 FROM variacoes
@@ -49,6 +49,10 @@ class VariacaoDAO
         $ps->execute([':id' => $id]);
 
         $variacao = $ps->fetch(PDO::FETCH_ASSOC);
+
+        if (!$variacao) {
+            return null;
+        }
 
         return new Variacao($variacao);
     }

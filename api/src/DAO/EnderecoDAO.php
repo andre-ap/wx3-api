@@ -16,9 +16,9 @@ class EnderecoDAO
     }
 
     /**
-     * @return Endereco[]
+     * @return Endereco[] | null
      */
-    public function listarEnderecos(): array
+    public function listarEnderecos(): array | null
     {
         $ps = $this->pdo->query("SELECT id, cliente_id, logradouro, cidade, bairro, numero, cep, complemento FROM enderecos");
 
@@ -30,6 +30,10 @@ class EnderecoDAO
 
         $enderecos = [];
 
+        if (!$enderecos) {
+            return null;
+        }
+
         foreach ($dados as $linha) {
             $enderecos[] = new Endereco($linha);
         }
@@ -37,7 +41,7 @@ class EnderecoDAO
         return $enderecos;
     }
 
-    public function buscarEnderecoPorId(int $id): Endereco
+    public function buscarEnderecoPorId(int $id): Endereco | null
     {
         $sql = "SELECT id, cliente_id, logradouro, cidade, bairro, numero, cep, complemento 
                 FROM enderecos WHERE id = :id";
@@ -47,6 +51,10 @@ class EnderecoDAO
         $ps->execute([':id' => $id]);
 
         $endereco = $ps->fetch(PDO::FETCH_ASSOC);
+
+        if (!$endereco) {
+            return null;
+        }
 
         return $endereco = new Endereco($endereco);
     }

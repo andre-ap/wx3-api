@@ -9,6 +9,7 @@ use Src\Config\ConexaoDB;
 use Src\Controller\CategoriaController;
 use Src\Controller\ClienteController;
 use Src\Controller\EnderecoController;
+use Src\Controller\PedidoController;
 use Src\Controller\ProdutoController;
 use Src\Controller\VariacaoController;
 
@@ -275,6 +276,16 @@ $app->delete('/api/variacoes/{id}', function (Request $request, Response $respon
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));
     return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/pedidos', function (Request $request, Response $response) {
+    $pdo = ConexaoDB::conectar();
+    $controller = new PedidoController($pdo);
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $novaVariacao = $controller->criar($dados);
+
+    $response->getBody()->write(json_encode($novaVariacao));
+    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();

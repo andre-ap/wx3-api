@@ -20,7 +20,7 @@ class VariacaoService
         return $this->dao->listarVariacoes();
     }
 
-    public function buscarVariacaoPorId ($id): Variacao
+    public function buscarVariacaoPorId ($id): Variacao|null
     {
         return $this->dao->buscarVariacaoPorId($id);
     }
