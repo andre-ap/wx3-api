@@ -10,6 +10,7 @@ use Src\Controller\CategoriaController;
 use Src\Controller\ClienteController;
 use Src\Controller\EnderecoController;
 use Src\Controller\ProdutoController;
+use Src\Controller\VariacaoController;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -219,6 +220,57 @@ $app->delete('/api/enderecos/{id}', function (Request $request, Response $respon
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
     $controller = new EnderecoController($pdo);
+
+    $idRemovido = $controller->remover($id);
+    $response->getBody()->write(json_encode(['id' => $idRemovido]));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+// === VARIAÇÕES ===
+$app->get('/api/variacoes', function (Request $request, Response $response){
+    $pdo = ConexaoDB::conectar();
+    $controller = new VariacaoController($pdo);
+    $variacoes = $controller->listar();
+
+    $response->getBody()->write(json_encode($variacoes));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->get('/api/variacoes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new VariacaoController($pdo);
+    $variacao = $controller->buscar($id);
+    
+    $response->getBody()->write(json_encode($variacao));
+    return $response->withHeader('Content-Type', 'application/json');
+});
+
+$app->post('/api/variacoes', function (Request $request, Response $response) {
+    $pdo = ConexaoDB::conectar();
+    $controller = new VariacaoController($pdo);
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $novaVariacao = $controller->criar($dados);
+
+    $response->getBody()->write(json_encode($novaVariacao));
+    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+});
+
+$app->put('/api/variacoes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $dados = json_decode($request->getBody()->getContents(), true);
+    $pdo = ConexaoDB::conectar();
+    $controller = new VariacaoController($pdo);
+
+    $idAtualizado = $controller->atualizar($id, $dados);
+    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+});
+
+$app->delete('/api/variacoes/{id}', function (Request $request, Response $response, array $args){
+    $id = (int) $args['id'];
+    $pdo = ConexaoDB::conectar();
+    $controller = new VariacaoController($pdo);
 
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));
