@@ -13,22 +13,22 @@ INSERT INTO categorias (nome, descricao) VALUES
 -- Inserir dados na tabela 'produtos'
 -- Categoria: Camisetas (id=1)
 INSERT INTO produtos (nome, cor, imagem, preco_base, descricao, peso, categoria_id) VALUES
-('Camiseta Básica Algodão', 'Branco', 'https://placehold.co/300x300/F0F0F0/000000?text=Camiseta+Branca', 39.90, 'Camiseta unissex de algodão 100%, ideal para o dia a dia.', 0.20, 1),
-('Camiseta Estampada Vintage', 'Preto', 'https://placehold.co/300x300/333333/FFFFFF?text=Camiseta+Preta+Estampada', 59.90, 'Camiseta com estampa vintage, 100% algodão, corte moderno.', 0.22, 1),
-('Camiseta Dry-Fit Esportiva', 'Azul', 'https://placehold.co/300x300/0000FF/FFFFFF?text=Camiseta+Azul+DryFit', 79.90, 'Camiseta esportiva com tecnologia dry-fit, para alta performance.', 0.18, 1);
+('Camiseta Básica Algodão', 'Branco', 'camiseta.jpg', 39.90, 'Camiseta unissex de algodão 100%, ideal para o dia a dia.', 0.20, 1),
+('Camiseta Estampada Vintage', 'Preto', 'camiseta2.jpg', 59.90, 'Camiseta com estampa vintage, 100% algodão, corte moderno.', 0.22, 1),
+('Camiseta Dry-Fit Esportiva', 'Azul', 'camiseta3.jpg', 79.90, 'Camiseta esportiva com tecnologia dry-fit, para alta performance.', 0.18, 1);
 
 -- Categoria: Calças (id=2)
 INSERT INTO produtos (nome, cor, imagem, preco_base, descricao, peso, categoria_id) VALUES
-('Calça Jeans Slim Fit', 'Azul Escuro', 'https://placehold.co/300x300/00008B/FFFFFF?text=Calca+Jeans+Slim', 129.90, 'Calça jeans masculina com corte slim fit, confortável e estilosa.', 0.60, 2),
-('Calça Social Feminina', 'Preto', 'https://placehold.co/300x300/000000/FFFFFF?text=Calca+Social+Fem', 149.90, 'Calça social feminina de alfaiataria, caimento perfeito.', 0.45, 2);
+('Calça Jeans Slim Fit', 'Azul Escuro', 'calca1.jpg', 129.90, 'Calça jeans masculina com corte slim fit, confortável e estilosa.', 0.60, 2),
+('Calça Social Feminina', 'Preto', 'calca2.jpg', 149.90, 'Calça social feminina de alfaiataria, caimento perfeito.', 0.45, 2);
 
 -- Categoria: Vestidos (id=3)
 INSERT INTO produtos (nome, cor, imagem, preco_base, descricao, peso, categoria_id) VALUES
-('Vestido Floral Midi', 'Multicor', 'https://placehold.co/300x300/FFC0CB/000000?text=Vestido+Floral', 189.90, 'Vestido midi com estampa floral, tecido leve e fluido.', 0.35, 3);
+('Vestido Floral Midi', 'Multicor', 'vestido.jpg', 189.90, 'Vestido midi com estampa floral, tecido leve e fluido.', 0.35, 3);
 
 -- Categoria: Jaquetas (id=5)
 INSERT INTO produtos (nome, cor, imagem, preco_base, descricao, peso, categoria_id) VALUES
-('Jaqueta Jeans Clássica', 'Azul Claro', 'https://placehold.co/300x300/ADD8E6/000000?text=Jaqueta+Jeans', 249.90, 'Jaqueta jeans unissex, modelo clássico e atemporal.', 0.80, 5);
+('Jaqueta Jeans Clássica', 'Azul Claro', 'jaqueta.jpf', 249.90, 'Jaqueta jeans unissex, modelo clássico e atemporal.', 0.80, 5);
 
 
 -- Inserir dados na tabela 'variacoes'
