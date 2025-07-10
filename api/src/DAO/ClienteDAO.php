@@ -21,7 +21,7 @@ class ClienteDAO
      */
     public function listarClientes(): array
     {
-        $ps = $this->pdo->query ("SELECT id, nome_completo, cpf, data_nascimento
+        $ps = $this->pdo->query("SELECT id, nome_completo, cpf, data_nascimento
                 FROM clientes");
 
         if (!$ps) {
@@ -37,7 +37,12 @@ class ClienteDAO
         $clientes = [];
 
         foreach ($dados as $linha) {
-            $clientes[] = new Cliente($linha);
+            $clientes[] = new Cliente(
+                id: $linha['id'],
+                nomeCompleto: $linha['nome_completo'],
+                cpf: $linha['cpf'],
+                dataNascimento: $linha['data_nascimento']
+            );
         }
 
         return $clientes;
@@ -45,9 +50,9 @@ class ClienteDAO
 
     /**
      * @param int $id
-     * @return Cliente | array<void>
+     * @return Cliente | null
      */
-    public function buscarClientePorID(int $id): Cliente | array
+    public function buscarClientePorID(int $id): Cliente | null
     {
         $sql = "SELECT id, nome_completo, cpf, data_nascimento
                 FROM clientes WHERE id = :id";
@@ -59,10 +64,15 @@ class ClienteDAO
         $dados = $ps->fetch(PDO::FETCH_ASSOC);
 
         if (!$dados) {
-            return [];
+            return null;
         }
 
-        return new Cliente($dados);
+        return new Cliente(
+            id: $dados['id'],
+            nomeCompleto: $dados['nome_completo'],
+            cpf: $dados['cpf'],
+            dataNascimento: $dados['data_nascimento']
+        );
     }
 
     /**
@@ -76,9 +86,9 @@ class ClienteDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ":nome_completo" => $cliente->nome_completo,
+            ":nome_completo" => $cliente->nomeCompleto,
             ":cpf" => $cliente->cpf,
-            ":data_nascimento" => $cliente->data_nascimento
+            ":data_nascimento" => $cliente->dataNascimento
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -87,9 +97,9 @@ class ClienteDAO
     /**
      * @param int $id
      * @param array{
-     * nome: string,
-     * cpf:string,
-     * data_nascimento: string
+     * nomeCompleto: string,
+     * cpf: string,
+     * dataNascimento: string,
      * } $dados
      * @return int
      */
@@ -101,9 +111,9 @@ class ClienteDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':nome_completo' => $dados['nome_completo'],
+            ':nome_completo' => $dados['nomeCompleto'],
             ':cpf' => $dados['cpf'],
-            'data_nascimento' => $dados['data_nascimento'],
+            'data_nascimento' => $dados['dataNascimento'],
             ':id' => $id
         ]);
 
@@ -126,14 +136,15 @@ class ClienteDAO
     }
 
     /**
-     * @param string @cpf
+     * @param string $cpf
      * @return bool
      */
-    public function verificarCliente(string $cpf): bool {
+    public function verificarCliente(string $cpf): bool
+    {
         $sql = "SELECT nome_completo FROM clientes WHERE cpf = :cpf";
 
         $ps = $this->pdo->prepare($sql);
-        
+
         $ps->execute([':cpf' => $cpf]);
 
         $dados = $ps->fetch();

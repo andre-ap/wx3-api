@@ -26,19 +26,18 @@ class ClienteController
 
     /**
      * @param int $id
-     * @return Cliente | array<void>
+     * @return Cliente | null
      */
-    public function buscar(int $id): Cliente | array
+    public function buscar(int $id): Cliente | null
     {
         return $this->service->buscarClientePorID($id);
     }
 
     /**
      * @param array{
-     *  id: int|null,
-     *  nome_completo: string, 
+     *  nomeCompleto: string, 
      *  cpf: string,
-     *  data_nascimento: string
+     *  dataNascimento: string
      * } $dados
      * @return int
      */
@@ -50,10 +49,9 @@ class ClienteController
     /**
      * @param int $id
      * @param array{
-     *  id: int|null,
-     *  nome: string, 
+     *  nomeCompleto: string, 
      *  cpf: string,
-     *  data_nascimento: string
+     *  dataNascimento: string
      * } $dados
      * @return int
      */

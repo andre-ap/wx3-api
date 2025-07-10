@@ -26,9 +26,9 @@ class ClienteService
 
     /**
      * @param int $id
-     * @return Cliente | array<void>
+     * @return Cliente | null
      */
-    public function buscarClientePorID(int $id): Cliente | array
+    public function buscarClientePorID(int $id): Cliente | null
     {
         $this->validarId($id);
 
@@ -38,10 +38,9 @@ class ClienteService
 
     /**
      * @param array{
-     *   id: int | null,
-     *   nome_completo: string,
-     *   cpf: string,
-     *   data_nascimento: string,
+     * nomeCompleto: string,
+     * cpf: string,
+     * dataNascimento: string
      * } $dados
      * @return int
      */
@@ -49,11 +48,15 @@ class ClienteService
     {
         $this->validarDados($dados);
 
-        if ($this->dao->verificarCliente($dados['cpf'])){
+        if ($this->dao->verificarCliente($dados['cpf'])) {
             throw ClienteException::clienteExistente();
         }
 
-        $cliente = new Cliente($dados);
+        $cliente = new Cliente(
+            nomeCompleto: $dados['nomeCompleto'],
+            cpf: $dados['cpf'],
+            dataNascimento: $dados['dataNascimento']
+        );
 
         return $this->dao->criarNovoCliente($cliente);
     }
@@ -61,20 +64,15 @@ class ClienteService
     /**
      * @param int $id
      * @param array{
-     *   id: int | null,
-     *   nome: string,
-     *   cpf: string,
-     *   data_nascimento: string,
+     *  nomeCompleto: string, 
+     *  cpf: string,
+     *  dataNascimento: string
      * } $dados
      * @return int
      */
     public function atualizarCliente($id, $dados): int
     {
         $this->validarId($id);
-
-        if ($this->dao->verificarCliente($dados['cpf'])){
-            throw ClienteException::clienteExistente();
-        }
 
         $this->validarDados($dados);
 
@@ -101,28 +99,29 @@ class ClienteService
         if ($id <= 0) {
             throw ClienteException::idInvalido();
         }
+
+        if (!$this->dao->buscarClientePorId($id)) {
+            throw ClienteException::clienteInexistente();
+        }
     }
 
     /**
-     *@param array{
-     * id: int | null,
-     * nome_completo: string,
+     * @param array{
+     * nomeCompleto: string,
      * cpf: string,
-     * data_nascimento: string,
+     * dataNascimento: string
      * } $dados
+     * @throws ClienteException
      * @return void
      */
     public function validarDados(array $dados): void
     {
-        if (empty($dados['nome_completo']) || strlen($dados['nome_completo']) < 2) {
+        if (empty($dados['nomeCompleto']) || strlen($dados['nomeCompleto']) < 2) {
             throw ClienteException::nomeInvalido();
         }
 
-        // Melhorar validação do CPF
-        if (!isset($dados['cpf']) || strlen($dados['cpf']) !== 14) {
+        if (strlen($dados['cpf']) !== 14) {
             throw ClienteException::cpfInvalido();
         }
-
-        // Validar Data
     }
 }
