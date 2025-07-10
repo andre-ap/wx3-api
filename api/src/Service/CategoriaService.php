@@ -53,7 +53,10 @@ class CategoriaService
     {
         $this->validarDados($dados);
 
-        $categoria = new Categoria($dados);
+        $categoria = new Categoria(
+            nome: $dados["nome"],
+            descricao: $dados["descricao"]
+        );
 
         return $this->dao->criarNovaCategoria($categoria);
     }

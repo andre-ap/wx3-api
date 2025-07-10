@@ -22,7 +22,7 @@ class CategoriaDAO
     public function buscarCategorias(): array
     {
         $sql = "SELECT id, nome, descricao FROM categorias";
-        
+
         $ps = $this->pdo->query($sql);
 
         if (!$ps) {
@@ -34,7 +34,11 @@ class CategoriaDAO
         $categorias = [];
 
         foreach ($dados as $linha) {
-            $categorias[] = new Categoria($linha);
+            $categorias[] = new Categoria(
+                id: $linha["id"],
+                nome: $linha["nome"],
+                descricao: $linha["descricao"]
+            );
         }
 
         return $categorias;
@@ -44,7 +48,7 @@ class CategoriaDAO
      * @param int $id
      * @return Categoria | array<void>
      */
-    public function buscarCategoriaPorId (int $id): Categoria | array
+    public function buscarCategoriaPorId(int $id): Categoria | array
     {
         $sql = "SELECT id, nome, descricao FROM categorias
         WHERE id = :id";
@@ -59,7 +63,11 @@ class CategoriaDAO
             return [];
         }
 
-        return new Categoria($dados);
+        return new Categoria(
+            id: $dados["id"],
+            nome: $dados["nome"],
+            descricao: $dados["descricao"]
+        );;
     }
 
 
@@ -74,7 +82,7 @@ class CategoriaDAO
             ":nome" => $categoria->nome,
             ":descricao" => $categoria->descricao
         ]);
- 
+
         return (int) $this->pdo->lastInsertId();
     }
 
@@ -85,7 +93,7 @@ class CategoriaDAO
      * descricao: string 
      * } $dados
      */
-    public function atualizarCategoria (int $id, array $dados): int
+    public function atualizarCategoria(int $id, array $dados): int
     {
         $sql = "UPDATE categorias SET nome = :nome, descricao = :descricao
                 WHERE id = :id";
@@ -111,7 +119,7 @@ class CategoriaDAO
 
         $ps = $this->pdo->prepare($sql);
 
-        $ps->execute ([':id' => $id]);
+        $ps->execute([':id' => $id]);
 
         return $id;
     }
