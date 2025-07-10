@@ -2,6 +2,7 @@
 
 namespace Src\Service;
 
+use DateTime;
 use PDO;
 use Src\DAO\ProdutoDAO;
 use Src\Exception\ProdutoException;
@@ -44,17 +45,15 @@ class ProdutoService
     }
 
     /**
-     * Summary of __construct
      * @param array{
      *   id: int,
      *   nome: string,
      *   cor: string,
      *   imagem: string,
-     *   preco_base: float,
+     *   preco: float,
      *   descricao: string,
-     *   data_cadastro: string | null,
      *   peso: float,
-     *   categoria_id: int
+     *   categoriaId: int
      * } $dados
      * @return int
      */
@@ -62,7 +61,19 @@ class ProdutoService
     {
         $this->validarDados($dados);
 
-        $produto = new Produto($dados);
+        $data = new DateTime();
+        $dataFormatada = $data->format("Y-m-d");
+
+        $produto = new Produto(
+            nome: $dados['nome'],
+            cor: $dados['cor'],
+            imagem: $dados['imagem'],
+            preco: $dados['preco'],
+            descricao: $dados['descricao'],
+            dataCadastro: $dataFormatada,
+            peso: $dados['peso'],
+            categoria: $dados['categoriaId']
+        );
 
         return $this->dao->inserirProduto($produto);
     }
@@ -70,15 +81,13 @@ class ProdutoService
     /**
      * @param int $id
      * @param array{
-     *   id: int,
      *   nome: string,
      *   cor: string,
      *   imagem: string,
-     *   preco_base: float,
+     *   preco: float,
      *   descricao: string,
-     *   dataCadastro: string,
      *   peso: float,
-     *   categoria_id: int
+     *   categoriaId: int
      * } $dados
      */
     public function atualizarProduto(int $id, array $dados): int
@@ -114,8 +123,16 @@ class ProdutoService
     }
 
     /**
-      * @param array<string, mixed> $dados
-      * @return void
+     * @param array{
+     *   nome: string,
+     *   cor: string,
+     *   imagem: string,
+     *   preco: float,
+     *   descricao: string,
+     *   peso: float,
+     *   categoriaId: int
+     * } $dados
+     * @return void
      */
     public function validarDados(array $dados): void
     {
@@ -127,7 +144,7 @@ class ProdutoService
             throw ProdutoException::corInvalida();
         }
 
-        if (!isset($dados['preco_base']) || !is_numeric($dados['preco_base']) || $dados['preco_base'] <= 0) {
+        if ($dados['preco'] <= 0) {
             throw ProdutoException::precoInvalido();
         }
 
@@ -135,21 +152,19 @@ class ProdutoService
             throw ProdutoException::descricaoInvalida();
         }
 
-        if (!isset($dados['peso']) || !is_numeric($dados['peso']) || $dados['peso'] <= 0) {
+        if ($dados['peso'] <= 0) {
             throw ProdutoException::pesoInvalido();
         }
 
-        if (!isset($dados['categoria_id']) || !is_numeric($dados['categoria_id'])) {
+        if ($dados['categoriaId'] <= 0) {
             throw ProdutoException::categoriaInvalida();
         }
 
-        $categoria = $this->categoriaService->buscarCategoriaPorId((int)$dados['categoria_id']);
+        $categoria = $this->categoriaService->buscarCategoriaPorId((int)$dados['categoriaId']);
 
         if (!$categoria) {
-            throw ProdutoException::categoriaInexistente((int)$dados['categoria_id']);
+            throw ProdutoException::categoriaInexistente((int)$dados['categoriaId']);
         }
-
-        // Validar Data
     }
 
     /**

@@ -25,6 +25,7 @@ class ProdutoController
     }
 
     /**
+     * @param int $id
      * @return Produto | array <void>
      */
     public function buscar(int $id): Produto | array
@@ -38,11 +39,11 @@ class ProdutoController
      *   nome: string,
      *   cor: string,
      *   imagem: string,
-     *   preco_base: float,
+     *   preco: float,
      *   descricao: string,
-     *   data_cadastro: string | null,
+     *   dataCadastro: string | null,
      *   peso: float,
-     *   categoria_id: int
+     *   categoriaId: int
      * } $dados
      * @return int
      */
@@ -58,11 +59,11 @@ class ProdutoController
      *   nome: string,
      *   cor: string,
      *   imagem: string,
-     *   preco_base: float,
+     *   preco: float,
      *   descricao: string,
      *   dataCadastro: string,
      *   peso: float,
-     *   categoria_id: int
+     *   categoriaId: int
      * } $dados
      */
     public function atualizar(int $id, array $dados): int

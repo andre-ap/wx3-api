@@ -22,7 +22,9 @@ class ProdutoDAO
     public function buscarProdutos(): array
     {
 
-        $ps = $this->pdo->query("SELECT id, nome, cor, imagem, preco_base, descricao, data_cadastro, peso, categoria_id FROM produtos");
+        $ps = $this->pdo->query("SELECT id, nome, cor, imagem, preco_base, descricao, 
+                                data_cadastro, peso, categoria_id 
+                                FROM produtos");
 
         if (!$ps) {
             throw new Exception("SQL mal formatada ou erro ao executar");
@@ -37,7 +39,17 @@ class ProdutoDAO
         $produtos = [];
 
         foreach ($dados as $linha) {
-            $produtos[] = new Produto($linha);
+            $produtos[] = new Produto(
+                id: $linha['id'],
+                nome: $linha['nome'],
+                cor: $linha['cor'],
+                imagem: $linha['imagem'],
+                preco: $linha['preco_base'],
+                descricao: $linha['descricao'],
+                dataCadastro: $linha['data_cadastro'],
+                peso: $linha['peso'],
+                categoria: $linha['categoria_id']
+            );
         }
 
         return $produtos;
@@ -61,7 +73,17 @@ class ProdutoDAO
             return [];
         }
 
-        return new Produto($dados);
+        return new Produto(
+            id: $dados['id'],
+            nome: $dados['nome'],
+            cor: $dados['cor'],
+            imagem: $dados['imagem'],
+            preco: $dados['preco_base'],
+            descricao: $dados['descricao'],
+            dataCadastro: $dados['data_cadastro'],
+            peso: $dados['peso'],
+            categoria: $dados['categoria_id']
+        );
     }
 
     /**
@@ -84,7 +106,7 @@ class ProdutoDAO
             ':descricao' => $produto->descricao,
             ':data_cadastro' => $dataString,
             ':peso' => $produto->peso,
-            ':categoria_id' => $produto->categoriaId
+            ':categoria_id' => $produto->categoria
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -93,17 +115,14 @@ class ProdutoDAO
     /**
      * @param int $id
      * @param array{
-     *   id: int,
      *   nome: string,
      *   cor: string,
      *   imagem: string,
-     *   preco_base: float,
+     *   preco: float,
      *   descricao: string,
-     *   dataCadastro: string,
      *   peso: float,
-     *   categoria_id: int
+     *   categoriaId: int
      * } $dados
-     * @return int
      */
     public function atualizarProduto(int $id, array $dados): int
     {
@@ -114,7 +133,6 @@ class ProdutoDAO
                 imagem = :imagem,
                 preco_base = :preco_base,
                 descricao = :descricao,
-                data_cadastro = :data_cadastro,
                 peso = :peso,
                 categoria_id = :categoria_id
             WHERE id = :id";
@@ -125,11 +143,10 @@ class ProdutoDAO
             ':nome' => $dados['nome'],
             ':cor' => $dados['cor'],
             ':imagem' => $dados['imagem'],
-            ':preco_base' => $dados['preco_base'],
+            ':preco_base' => $dados['preco'],
             ':descricao' => $dados['descricao'],
             ':peso' => $dados['peso'],
-            ':data_cadastro' => $dados['dataCadastro'],
-            ':categoria_id' => $dados['categoria_id'],
+            ':categoria_id' => $dados['categoriaId'],
             ':id' => $id
         ]);
 
