@@ -15,6 +15,9 @@ class VariacaoDAO
         $this->pdo = $pdo;
     }
 
+    /**
+     * @return Variacao[]
+     */
     public function listarVariacoes(): array
     {
         $ps = $this->pdo->query("SELECT id, produto_id, tamanho, estoque, preco FROM variacoes");
@@ -32,13 +35,23 @@ class VariacaoDAO
         $variacoes = [];
 
         foreach ($dados as $linha) {
-            $variacoes[] = new Variacao($linha);
+            $variacoes[] = new Variacao(
+                id: $linha["id"],
+                produtoId: $linha["produto_id"],
+                tamanho: $linha["tamanho"],
+                estoque: $linha["estoque"],
+                preco: $linha["preco"],
+            );
         }
 
         return $variacoes;
     }
 
-    public function buscarVariacaoPorId ($id): Variacao|null
+    /**
+     * @param int $id
+     * @return Variacao|null
+     */
+    public function buscarVariacaoPorId($id): Variacao|null
     {
         $sql = "SELECT id, produto_id, tamanho, estoque, preco 
                 FROM variacoes
@@ -54,10 +67,20 @@ class VariacaoDAO
             return null;
         }
 
-        return new Variacao($variacao);
+        return new Variacao(
+            id: $variacao["id"],
+            produtoId: $variacao["produto_id"],
+            tamanho: $variacao["tamanho"],
+            estoque: $variacao["estoque"],
+            preco: $variacao["preco"],
+        );
     }
 
-    public function criarNovaVariacao (array $dados): int
+    /**
+     * @param Variacao $variacao
+     * @return int
+     */
+    public function criarNovaVariacao(Variacao $variacao): int
     {
         $sql = "INSERT INTO variacoes (produto_id, tamanho, estoque, preco)
                 VALUES (:produto_id, :tamanho, :estoque, :preco)";
@@ -65,16 +88,27 @@ class VariacaoDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':produto_id' => $dados['produto_id'],
-            ':tamanho' => $dados['tamanho'],
-            ':estoque' => $dados['estoque'],
-            ':preco' => $dados['preco']
+            ':produto_id' => $variacao->produtoId,
+            ':tamanho' => $variacao->tamanho,
+            ':estoque' => $variacao->estoque,
+            ':preco' => $variacao->preco
         ]);
 
         return (int) $this->pdo->lastInsertId();
     }
 
-    public function atualizarVariacao (int $id, array $dados): int {
+    /**
+     * @param int $id
+     * @param array{
+     * produtoId: int,
+     * tamanho: string,
+     * estoque: int,
+     * preco: float
+     * } $dados
+     * @return int
+     */
+    public function atualizarVariacao(int $id, array $dados): int
+    {
         $sql = "UPDATE variacoes SET produto_id = :produto_id, tamanho = :tamanho,
                 estoque = :estoque, preco = :preco
                 WHERE id = :id";
@@ -82,7 +116,7 @@ class VariacaoDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':produto_id' => $dados['produto_id'],
+            ':produto_id' => $dados['produtoId'],
             ':tamanho' => $dados['tamanho'],
             ':estoque' => $dados['estoque'],
             ':preco' => $dados['preco'],
@@ -92,10 +126,14 @@ class VariacaoDAO
         return $id;
     }
 
-    public function removerVariacaoPorId (int $id): int 
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function removerVariacaoPorId(int $id): int
     {
         $sql = "DELETE FROM variacoes WHERE id = :id";
-        
+
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([':id' => $id]);
