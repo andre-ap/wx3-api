@@ -21,7 +21,7 @@ class CategoriaException extends TratadorDeErros
 
     public static function descricaoInvalida(): self
     {
-        return new self ("O nome da categoria deve ter pelo menos 5 caracteres", 422);
+        return new self ("A descrição da categoria deve ter pelo menos 5 caracteres", 422);
     }
 
     public static function categoriaInexistente(): self
