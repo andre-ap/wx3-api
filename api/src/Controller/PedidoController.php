@@ -16,16 +16,16 @@ class PedidoController
 
     /**
      * @param array{
-     *   clienteId: int,
-     *   enderecoEntrega_id: int,
-     *   formaPagamento: string,
-     *   itens: array<array{
-     *     variacaoId: int,
-     *     quantidade: int
-     *   }>
+     * clienteId: int,
+     * enderecoEntregaId: int,
+     * formaPagamento: 'PIX'|'BOLETO'|'CARTAO_1X',
+     * itens: array<array{
+     *  variacaoId: int,
+     *  quantidade: int
+     * }>
      * } $dados
      * @return int
-    */
+     */
     public function criar($dados): int
     {
         return $this->service->criarNovoPedido($dados);

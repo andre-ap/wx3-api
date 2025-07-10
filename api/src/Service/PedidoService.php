@@ -7,6 +7,7 @@ use Src\DAO\PedidoDAO;
 use Src\Exception\PedidoException;
 use Src\Model\ItemPedido;
 use Src\Model\Pedido;
+use Src\Model\Variacao;
 
 class PedidoService
 {
@@ -27,13 +28,13 @@ class PedidoService
 
     /**
      * @param array{
-     *   clienteId: int,
-     *   enderecoEntregaId: int,
-     *   formaPagamento: string,
-     *   itens: array<array{
-     *     variacaoId: int,
-     *     quantidade: int
-     *   }>
+     * clienteId: int,
+     * enderecoEntregaId: int,
+     * formaPagamento: 'PIX'|'BOLETO'|'CARTAO_1X',
+     * itens: array<array{
+     *  variacaoId: int,
+     *  quantidade: int
+     * }>
      * } $dados
      * @return int
      */
@@ -43,6 +44,7 @@ class PedidoService
 
         $formaPagamento = $dados['formaPagamento'];
         $itens = $dados['itens'];
+
         $total = $this->calcularTotal($itens, $formaPagamento);
 
         $pedido = new Pedido(
@@ -52,13 +54,17 @@ class PedidoService
             valorFrete: (float) $total['frete'],
             desconto: (float) $total['desconto'],
             valorTotal: (float) $total['valorTotal'],
-            dataPedido: date('Y-m-d H:i:s')
+            dataPedido: date('Y-m-d')
         );
 
-        $pedidos = [];
+        $itensPedido = [];
 
         foreach ($itens as $item) {
             $variacao = $this->variacaoService->buscarVariacaoPorId($item['variacaoId']);
+
+            if (!$variacao instanceof Variacao) {
+                throw PedidoException::variacaoInexistente();
+            }
 
             $itensPedido[] = new ItemPedido([
                 'variacaoId' => $item['variacaoId'],
@@ -80,11 +86,11 @@ class PedidoService
      *     quantidade: int
      *   }>
      * } $dados
-     * @return int
+     * @return void
      */
     private function validarDados(array $dados): void
     {
-        if (!isset($dados['clienteId']) || !is_numeric($dados['clienteId'])) {
+        if ($dados['clienteId'] <= 0) {
             throw PedidoException::clienteInvalido();
         }
 
@@ -92,7 +98,7 @@ class PedidoService
             throw PedidoException::clienteInexistente();
         }
 
-        if (!isset($dados['enderecoEntregaId']) || !is_numeric($dados['enderecoEntregaId'])) {
+        if ($dados['enderecoEntregaId'] <= 0) {
             throw PedidoException::enderecoInvalido();
         }
 
@@ -101,16 +107,16 @@ class PedidoService
         }
 
         $pagamentos = ['PIX', 'BOLETO', 'CARTAO_1X'];
-        if (empty($dados['formaPagamento']) || !in_array($dados['formaPagamento'], $pagamentos, true)) {
+        if (!in_array($dados['formaPagamento'], $pagamentos, true)) {
             throw PedidoException::formaPagamentoInvalida();
         }
 
-        if (!isset($dados['itens']) || !is_array($dados['itens']) || empty($dados['itens'])) {
+        if (empty($dados['itens'])) {
             throw PedidoException::itensInvalidos();
         }
 
         foreach ($dados['itens'] as $item) {
-            if (!isset($item['variacaoId']) || !is_numeric($item['variacaoId'])) {
+            if ($item['variacaoId'] <= 0) {
                 throw PedidoException::variacaoInvalida();
             }
 
@@ -119,7 +125,7 @@ class PedidoService
                 throw PedidoException::variacaoInexistente();
             }
 
-            if (!isset($item['quantidade']) || !is_numeric($item['quantidade'])) {
+            if ($item['quantidade'] <= 0) {
                 throw PedidoException::variacaoInvalida();
             }
 
@@ -129,12 +135,29 @@ class PedidoService
         }
     }
 
+    /**
+     * @param array<array{
+     *  variacaoId: int, 
+     *  quantidade: int
+     * }> $itens
+     * @param 'PIX'|'BOLETO'|'CARTAO_1X' $formaPagamento
+     * @return array{
+     *  frete: float,
+     *  desconto: float,
+     *  valorTotal: float
+     * }
+     */
     public function calcularTotal($itens, $formaPagamento): array
     {
         $subtotal = 0.0;
 
         foreach ($itens as $item) {
             $variacao = $this->variacaoService->buscarVariacaoPorId((int)$item['variacaoId']);
+
+            if (!$variacao) {
+                throw PedidoException::variacaoInexistente();
+            }
+
             $preco = $variacao->preco;
             $quantidade = (int)$item['quantidade'];
             $subtotal += $preco * $quantidade;

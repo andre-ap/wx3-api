@@ -24,4 +24,9 @@ class ClienteException extends TratadorDeErros
         // Erro ao cadastrar cliente? 
         return new self ("O cliente com o CPF informado já foi cadastrado", 409);
     }
+
+    public static function clienteInexistente():self
+    {
+        return new self ("O cliente buscado não existe", 404);
+    }
 }

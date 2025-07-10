@@ -4,6 +4,7 @@ namespace Src\Service;
 
 use PDO;
 use Src\DAO\VariacaoDAO;
+use Src\Exception\VariacaoException;
 use Src\Model\Variacao;
 
 class VariacaoService
@@ -15,28 +16,107 @@ class VariacaoService
         $this->dao = new VariacaoDAO($pdo);
     }
 
-    public function listarVariacoes (): array
+    /**
+     * @return Variacao[]
+     */
+    public function listarVariacoes(): array
     {
         return $this->dao->listarVariacoes();
     }
 
-    public function buscarVariacaoPorId ($id): Variacao|null
+    /**
+     * @param int $id
+     * @return Variacao|null
+     */
+    public function buscarVariacaoPorId(int $id): Variacao|null
     {
+        $this->validarId($id);
+
         return $this->dao->buscarVariacaoPorId($id);
     }
- 
-    public function criarNovaVariacao (array $dados): int
+
+    /**
+     * @param array{
+     * produtoId: int,
+     * tamanho: string,
+     * estoque: int,
+     * preco: float
+     * } $dados
+     * @return int
+     */
+    public function criarNovaVariacao(array $dados): int
     {
-        return $this->dao->criarNovaVariacao($dados);
+        $this->validarDados($dados);
+
+        $variacao = new Variacao(
+            produtoId: $dados["produtoId"],
+            tamanho: $dados["tamanho"],
+            estoque: $dados["estoque"],
+            preco: $dados["preco"],
+        );
+
+        return $this->dao->criarNovaVariacao($variacao);
     }
 
-    public function atualizarVariacao (int $id, array $dados): int
+    /**
+     * @param int $id
+     * @param array{
+     * produtoId: int,
+     * tamanho: string,
+     * estoque: int,
+     * preco: float
+     * } $dados
+     * @return int
+     */
+    public function atualizarVariacao(int $id, array $dados): int
     {
+        $this->validarId($id);
+        $this->validarDados($dados);
+
         return $this->dao->atualizarVariacao($id, $dados);
     }
- 
-    public function removerVariacaoPorId (int $id): int
+
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function removerVariacaoPorId(int $id): int
     {
         return $this->dao->removerVariacaoPorId($id);
+    }
+
+    public function validarId(int $id): void
+    {
+        if ($id <= 0) {
+            throw VariacaoException::idInvalido();
+        }
+    }
+
+    /**
+     * @param array{
+     * produtoId: int,
+     * tamanho: string,
+     * estoque: int,
+     * preco: float
+     * } $dados
+     * @return void
+     */
+    public function validarDados(array $dados): void
+    {
+        if ($dados['produtoId'] <= 0) {
+            throw VariacaoException::produtoIdInvalido();
+        }
+
+        if (strlen($dados['tamanho']) < 1 || strlen($dados['tamanho']) > 10) {
+            throw VariacaoException::tamanhoInvalido();
+        }
+
+        if ($dados['estoque'] < 0) {
+            throw VariacaoException::estoqueInvalido();
+        }
+
+        if ($dados['preco'] <= 0) {
+            throw VariacaoException::precoInvalido();
+        }
     }
 }

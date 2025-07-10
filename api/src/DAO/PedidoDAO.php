@@ -5,6 +5,7 @@ namespace Src\DAO;
 use Exception;
 use PDO;
 use Src\Model\Pedido;
+use Src\Model\ItemPedido;
 
 class PedidoDAO
 {
@@ -17,6 +18,7 @@ class PedidoDAO
 
     /**
      * @param Pedido $pedido
+     * @param ItemPedido[] $itens
      * @return int
      */
     public function criarNovoPedido(Pedido $pedido, array $itens): int
