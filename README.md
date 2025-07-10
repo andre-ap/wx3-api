@@ -44,7 +44,7 @@
 {
   "nomeCompleto": "Andre Teste",
   "cpf": "999.888.777-11",
-  "dataNascimento": "1996-05-29
+  "dataNascimento": "1996-05-29"
 }
 ```
 
