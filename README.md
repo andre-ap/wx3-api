@@ -2,10 +2,11 @@
 
 ## Para rodar o projeto siga os passos:
 
-1. Dentro da pasta /api, utilize o comando 'composer install' e em seguida 'composer dump-autoload'
-2. Em seguinda, ainda na pasta /api, utilize o comando 'php -S localhost:8080 -t public/'.
-3. Em seguida crie um banco de dados utilizando o script do arquivo 'bd.sql' da pasta /docs;
-4. Utilize também o arquivo 'seed.sql' para popular o banco de dados.
+1. Dentro da pasta /api, utilize o comando `composer install` e em seguida `composer dump-autoload`
+2. Em seguinda, ainda na pasta /api, utilize o comando `php -S localhost:8080 -t public/`.
+3. Em seguida crie um banco de dados utilizando o script do arquivo `bd.sql` da pasta /docs;
+4. Utilize também o arquivo `seed.sql` para popular o banco de dados.
+5. Para rodar os testes usando Kahlan, basta usar o comando `composer test`
 
 ## Referências:
 
