@@ -17,39 +17,58 @@ class EnderecoController
     }
 
     /**
-     * @return Endereco[]
+     * @return Endereco[] | null
      */
-    public function listar(): array
+    public function listar(): array | null
     {
-        return $this->service->listarEnderecos(); 
+        return $this->service->listarEnderecos();
     }
 
     /**
      * @param int $id
-     * @return Endereco
+     * @return Endereco | null
      */
-    public function buscar(int $id): Endereco
+    public function buscar(int $id): Endereco | null
     {
         return $this->service->buscarEnderecoPorId($id);
     }
 
     /**
      * @param array{
-     * 
+     * clienteId: int,
+     * logradouro: string,
+     * cidade: string,
+     * bairro: string,
+     * numero: string,
+     * cep: string,
+     * complemento: string
      * } $dados
      * @return int
      */
-    public function criar (array $dados): int
+    public function criar(array $dados): int
     {
         return $this->service->criarNovoEndereco($dados);
     }
 
-    public function atualizar (int $id, array $dados): int
+    /**
+     * @param int $id
+     * @param array{
+     * logradouro: string,
+     * cidade: string,
+     * bairro: string,
+     * numero: string,
+     * cep: string,
+     * complemento: string,
+     * clienteId: int
+     * } $dados
+     * @return int
+     */
+    public function atualizar(int $id, array $dados): int
     {
         return $this->service->atualizarEndereco($id, $dados);
     }
 
-    public function remover (int $id): int
+    public function remover(int $id): int
     {
         return $this->service->removerEnderecoPorId($id);
     }

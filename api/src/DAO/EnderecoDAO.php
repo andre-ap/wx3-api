@@ -20,7 +20,9 @@ class EnderecoDAO
      */
     public function listarEnderecos(): array | null
     {
-        $ps = $this->pdo->query("SELECT id, cliente_id, logradouro, cidade, bairro, numero, cep, complemento FROM enderecos");
+        $ps = $this->pdo->query(query: "SELECT id, cliente_id, logradouro,
+                                 cidade, bairro, numero, cep, complemento 
+                                 FROM enderecos");
 
         if (!$ps) {
             throw new Exception("SQL mal formatada ou erro ao executar");
@@ -28,19 +30,32 @@ class EnderecoDAO
 
         $dados = $ps->fetchAll(PDO::FETCH_ASSOC);
 
-        $enderecos = [];
-
-        if (!$enderecos) {
+        if (!$dados) {
             return null;
         }
 
+        $enderecos = [];
+
         foreach ($dados as $linha) {
-            $enderecos[] = new Endereco($linha);
+            $enderecos[] = new Endereco(
+                id: $linha['id'],
+                clienteId: $linha['cliente_id'],
+                logradouro: $linha['logradouro'],
+                cidade: $linha['cidade'],
+                bairro: $linha['bairro'],
+                numero: $linha['numero'],
+                cep: $linha['cep'],
+                complemento: $linha['complemento'],
+            );
         }
 
         return $enderecos;
     }
 
+    /**
+     * @param int $id
+     * @return Endereco|null
+     */
     public function buscarEnderecoPorId(int $id): Endereco | null
     {
         $sql = "SELECT id, cliente_id, logradouro, cidade, bairro, numero, cep, complemento 
@@ -56,12 +71,27 @@ class EnderecoDAO
             return null;
         }
 
-        return $endereco = new Endereco($endereco);
+        return $endereco = new Endereco(
+            id: $endereco['id'],
+            clienteId: $endereco['cliente_id'],
+            logradouro: $endereco['logradouro'],
+            cidade: $endereco['cidade'],
+            bairro: $endereco['bairro'],
+            numero: $endereco['numero'],
+            cep: $endereco['cep'],
+            complemento: $endereco['complemento'],
+        );
     }
 
     /**
      * @param array{
-     * 
+     * clienteId: int,
+     * logradouro: string,
+     * cidade: string,
+     * bairro: string,
+     * numero: string,
+     * cep: string,
+     * complemento: string
      * } $dados
      * @return int
      */
@@ -73,7 +103,7 @@ class EnderecoDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':cliente_id' => $dados['cliente_id'],
+            ':cliente_id' => $dados['clienteId'],
             ':logradouro' => $dados['logradouro'],
             ':cidade'     => $dados['cidade'],
             ':bairro'     => $dados['bairro'],
@@ -85,6 +115,19 @@ class EnderecoDAO
         return (int) $this->pdo->lastInsertId();
     }
 
+    /**
+     * @param int $id
+     * @param array{
+     * clienteId: int,
+     * logradouro: string,
+     * cidade: string,
+     * bairro: string,
+     * numero: string,
+     * cep: string,
+     * complemento: string
+     * } $dados
+     * @return int
+     */
     public function atualizarEndereco(int $id, array $dados): int
     {
         $sql = "UPDATE enderecos SET cliente_id = :cliente_id, logradouro = :logradouro, 
@@ -94,7 +137,7 @@ class EnderecoDAO
         $ps = $this->pdo->prepare($sql);
 
         $ps->execute([
-            ':cliente_id' => $dados['cliente_id'],
+            ':cliente_id' => $dados['clienteId'],
             ':logradouro' => $dados['logradouro'],
             ':cidade'     => $dados['cidade'],
             ':bairro'     => $dados['bairro'],
@@ -107,7 +150,11 @@ class EnderecoDAO
         return $id;
     }
 
-    public function removerEnderecoPorId (int $id): int
+    /**
+     * @param int $id
+     * @return int
+     */
+    public function removerEnderecoPorId(int $id): int
     {
         $sql = "DELETE FROM enderecos WHERE id = :id";
 
