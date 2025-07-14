@@ -298,9 +298,10 @@ $app->delete('/api/enderecos/{id}', function (Request $request, Response $respon
 // === VARIAÇÕES ===
 $app->get('/api/variacoes', function (Request $request, Response $response) {
     $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $dao = new VariacaoDAO($pdo);
+    $service = new VariacaoService($dao);
+    $controller = new VariacaoController($service);
+
 
     $variacoes = $controller->listar();
     $response->getBody()->write(json_encode($variacoes));
@@ -311,9 +312,10 @@ $app->get('/api/variacoes/{id}', function (Request $request, Response $response,
     $id = (int) $args['id'];
 
     $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $dao = new VariacaoDAO($pdo);
+    $service = new VariacaoService($dao);
+    $controller = new VariacaoController($service);
+
 
     $variacao = $controller->buscar($id);
     $response->getBody()->write(json_encode($variacao));
@@ -324,9 +326,10 @@ $app->post('/api/variacoes', function (Request $request, Response $response) {
     $dados = json_decode($request->getBody()->getContents(), true);
 
     $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $dao = new VariacaoDAO($pdo);
+    $service = new VariacaoService($dao);
+    $controller = new VariacaoController($service);
+
 
     $novaVariacao = $controller->criar($dados);
     $response->getBody()->write(json_encode($novaVariacao));
@@ -338,9 +341,10 @@ $app->put('/api/variacoes/{id}', function (Request $request, Response $response,
     $dados = json_decode($request->getBody()->getContents(), true);
 
     $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $dao = new VariacaoDAO($pdo);
+    $service = new VariacaoService($dao);
+    $controller = new VariacaoController($service);
+
 
     $idAtualizado = $controller->atualizar($id, $dados);
     $response->getBody()->write(json_encode(['id' => $idAtualizado]));
@@ -351,9 +355,10 @@ $app->delete('/api/variacoes/{id}', function (Request $request, Response $respon
     $id = (int) $args['id'];
 
     $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $dao = new VariacaoDAO($pdo);
+    $service = new VariacaoService($dao);
+    $controller = new VariacaoController($service);
+
 
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));
