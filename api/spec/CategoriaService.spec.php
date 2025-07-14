@@ -1,6 +1,8 @@
 <?php
 
+use Src\Config\ConexaoDB;
 use Src\Config\ConexaoTeste;
+use Src\DAO\CategoriaDAO;
 use Src\Service\CategoriaService;
 use Src\Exception\CategoriaException;
 
@@ -14,7 +16,8 @@ describe('CategoriaService', function () {
 
     beforeEach(function () {
         $pdo = ConexaoTeste::conectar();
-        $this->service = new CategoriaService($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $this->service = new CategoriaService($categoriaDAO);
     });
 
     it('deve listar as categorias corretamente', function () {
@@ -124,6 +127,4 @@ describe('CategoriaService', function () {
 
         expect($linhasAfetadas)->toEqual($id);
     });
-
-
 });

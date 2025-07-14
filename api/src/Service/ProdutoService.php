@@ -4,6 +4,7 @@ namespace Src\Service;
 
 use DateTime;
 use PDO;
+use Src\DAO\CategoriaDAO;
 use Src\DAO\ProdutoDAO;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
@@ -17,7 +18,8 @@ class ProdutoService
     public function __construct(PDO $pdo)
     {
         $this->dao = new ProdutoDAO($pdo);
-        $this->categoriaService = new CategoriaService($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $this->categoriaService = new CategoriaService($categoriaDAO);
     }
 
     /**

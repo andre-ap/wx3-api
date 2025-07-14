@@ -4,16 +4,17 @@ namespace Src\Service;
 
 use PDO;
 use Src\DAO\CategoriaDAO;
+use Src\DAO\CategoriaDAOInterface;
 use Src\Model\Categoria;
 use Src\Exception\CategoriaException;
 
 class CategoriaService
 {
-    private CategoriaDAO $dao;
+    private CategoriaDAOInterface $dao;
 
-    public function __construct(PDO $pdo)
+    public function __construct(CategoriaDAOInterface $dao)
     {
-        $this->dao = new CategoriaDAO($pdo);
+        $this->dao = $dao;
     }
 
     /**

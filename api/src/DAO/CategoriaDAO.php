@@ -2,12 +2,11 @@
 
 namespace Src\DAO;
 
-use DateTime;
 use Exception;
 use PDO;
 use Src\Model\Categoria;
 
-class CategoriaDAO
+class CategoriaDAO implements CategoriaDAOInterface
 {
     private PDO $pdo;
 

@@ -11,9 +11,9 @@ class CategoriaController
 
     private CategoriaService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(CategoriaService $service)
     {
-        $this->service = new CategoriaService($pdo);
+        $this->service = $service;
     }
 
     /**
@@ -55,15 +55,16 @@ class CategoriaController
      * } $dados
      * @return int
      */
-    public function atualizar (int $id, array $dados): int {
+    public function atualizar(int $id, array $dados): int
+    {
         return $this->service->atualizarCategoria($id, $dados);
     }
- 
+
     /**
      * @param int $id
      * @return int
      */
-    public function remover (int $id): int
+    public function remover(int $id): int
     {
         return $this->service->removerItemPorID($id);
     }
