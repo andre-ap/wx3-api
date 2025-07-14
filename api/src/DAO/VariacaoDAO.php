@@ -6,7 +6,7 @@ use Exception;
 use PDO;
 use Src\Model\Variacao;
 
-class VariacaoDAO
+class VariacaoDAO implements VariacaoDAOInterface
 {
     private PDO $pdo;
 

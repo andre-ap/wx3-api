@@ -2,7 +2,6 @@
 
 namespace Src\Controller;
 
-use PDO;
 use Src\Model\Variacao;
 use Src\Service\VariacaoService;
 
@@ -11,9 +10,9 @@ class VariacaoController
 
     private VariacaoService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(VariacaoService $service)
     {
-        $this->service = new VariacaoService($pdo);
+        $this->service = $service;
     }
 
     /**

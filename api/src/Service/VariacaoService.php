@@ -2,18 +2,17 @@
 
 namespace Src\Service;
 
-use PDO;
-use Src\DAO\VariacaoDAO;
+use Src\DAO\VariacaoDAOInterface;
 use Src\Exception\VariacaoException;
 use Src\Model\Variacao;
 
 class VariacaoService
 {
-    private VariacaoDAO $dao;
+    private VariacaoDAOInterface $dao;
 
-    public function __construct(PDO $pdo)
+    public function __construct(VariacaoDAOInterface $dao)
     {
-        $this->dao = new VariacaoDAO($pdo);
+        $this->dao = $dao;
     }
 
     /**
