@@ -14,8 +14,10 @@ use Src\Controller\ProdutoController;
 use Src\Controller\VariacaoController;
 use Src\DAO\CategoriaDAO;
 use Src\DAO\ClienteDAO;
+use Src\DAO\EnderecoDAO;
 use Src\Service\CategoriaService;
 use Src\Service\ClienteService;
+use Src\Service\EnderecoService;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -204,7 +206,10 @@ $app->delete('/api/clientes/{id}', function (Request $request, Response $respons
 // === ENDEREÇO ===
 $app->get('/api/enderecos', function (Request $request, Response $response) {
     $pdo = ConexaoDB::conectar();
-    $controller = new EnderecoController($pdo);
+    $dao = new EnderecoDAO($pdo);
+    $service = new EnderecoService($dao);
+    $controller = new EnderecoController($service);
+
     $enderecos = $controller->listar();
 
     $response->getBody()->write(json_encode($enderecos));
@@ -214,19 +219,23 @@ $app->get('/api/enderecos', function (Request $request, Response $response) {
 $app->get('/api/enderecos/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
-    $controller = new EnderecoController($pdo);
-    $endereco = $controller->buscar($id);
+    $dao = new EnderecoDAO($pdo);
+    $service = new EnderecoService($dao);
+    $controller = new EnderecoController($service);
 
+    $endereco = $controller->buscar($id);
     $response->getBody()->write(json_encode($endereco));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/api/enderecos', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $controller = new EnderecoController($pdo);
     $dados = json_decode($request->getBody()->getContents(), true);
-    $novoEndereco = $controller->criar($dados);
+    $pdo = ConexaoDB::conectar();
+    $dao = new EnderecoDAO($pdo);
+    $service = new EnderecoService($dao);
+    $controller = new EnderecoController($service);
 
+    $novoEndereco = $controller->criar($dados);
     $response->getBody()->write(json_encode($novoEndereco));
     return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
@@ -235,7 +244,9 @@ $app->put('/api/enderecos/{id}', function (Request $request, Response $response,
     $id = (int) $args['id'];
     $dados = json_decode($request->getBody()->getContents(), true);
     $pdo = ConexaoDB::conectar();
-    $controller = new EnderecoController($pdo);
+    $dao = new EnderecoDAO($pdo);
+    $service = new EnderecoService($dao);
+    $controller = new EnderecoController($service);
 
     $idAtualizado = $controller->atualizar($id, $dados);
     $response->getBody()->write(json_encode(['id' => $idAtualizado]));
@@ -245,7 +256,9 @@ $app->put('/api/enderecos/{id}', function (Request $request, Response $response,
 $app->delete('/api/enderecos/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
-    $controller = new EnderecoController($pdo);
+    $dao = new EnderecoDAO($pdo);
+    $service = new EnderecoService($dao);
+    $controller = new EnderecoController($service);
 
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));

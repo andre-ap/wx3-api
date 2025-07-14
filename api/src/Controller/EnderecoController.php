@@ -11,9 +11,9 @@ class EnderecoController
 
     private EnderecoService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(EnderecoService $service)
     {
-        $this->service = new EnderecoService($pdo);
+        $this->service = $service;
     }
 
     /**

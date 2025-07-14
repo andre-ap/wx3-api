@@ -2,18 +2,17 @@
 
 namespace Src\Service;
 
-use PDO;
-use Src\DAO\EnderecoDAO;
+use Src\DAO\EnderecoDAOInterface;
 use Src\Exception\EnderecoException;
 use Src\Model\Endereco;
 
 class EnderecoService
 {
-    private EnderecoDAO $dao;
+    private EnderecoDAOInterface $dao;
 
-    public function __construct(PDO $pdo)
+    public function __construct(EnderecoDAOInterface $dao)
     {
-        $this->dao = new EnderecoDAO($pdo);
+        $this->dao = $dao;
     }
 
     /**

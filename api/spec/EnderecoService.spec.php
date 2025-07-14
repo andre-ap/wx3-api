@@ -1,6 +1,7 @@
 <?php
 
 use Src\Config\ConexaoDB;
+use Src\DAO\EnderecoDAO;
 use Src\Service\EnderecoService;
 use Src\Exception\EnderecoException;
 
@@ -12,7 +13,9 @@ describe('EnderecoService', function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
         $pdo = ConexaoDB::conectar();
-        $this->service = new EnderecoService($pdo);
+        $dao = new EnderecoDAO($pdo);
+
+        $this->service = new EnderecoService($dao);
     });
 
     it('deve listar endereços', function () {

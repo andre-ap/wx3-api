@@ -6,7 +6,7 @@ use Exception;
 use PDO;
 use Src\Model\Endereco;
 
-class EnderecoDAO
+class EnderecoDAO implements EnderecoDAOInterface
 {
     private PDO $pdo;
 
