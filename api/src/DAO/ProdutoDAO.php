@@ -7,7 +7,7 @@ use Exception;
 use PDO;
 use Src\Model\Produto;
 
-class ProdutoDAO
+class ProdutoDAO implements ProdutoDAOInterface
 {
     private PDO $pdo;
 

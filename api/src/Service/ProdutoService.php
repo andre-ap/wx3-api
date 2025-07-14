@@ -6,6 +6,7 @@ use DateTime;
 use PDO;
 use Src\DAO\CategoriaDAO;
 use Src\DAO\ProdutoDAO;
+use Src\DAO\ProdutoDAOInterface;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
 use Src\Service\CategoriaService;
@@ -15,11 +16,10 @@ class ProdutoService
     private ProdutoDAO $dao;
     private CategoriaService $categoriaService;
 
-    public function __construct(PDO $pdo)
+    public function __construct(ProdutoDAOInterface $produtoDAO, CategoriaService $categoriaService)
     {
-        $this->dao = new ProdutoDAO($pdo);
-        $categoriaDAO = new CategoriaDAO($pdo);
-        $this->categoriaService = new CategoriaService($categoriaDAO);
+        $this->dao = $produtoDAO;
+        $this->categoriaService = $categoriaService;
     }
 
     /**

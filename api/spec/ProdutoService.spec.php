@@ -1,10 +1,13 @@
 <?php
 
 use Src\Config\ConexaoDB;
+use Src\DAO\CategoriaDAO;
+use Src\DAO\ProdutoDAO;
 use Src\Exception\CategoriaException;
 use Src\Service\ProdutoService;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
+use Src\Service\CategoriaService;
 
 require_once __DIR__ . '/SetupBancoTestes.php';
 
@@ -13,8 +16,14 @@ describe('ProdutoService', function () {
     beforeEach(function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
+
         $pdo = ConexaoDB::conectar();
-        $this->service = new ProdutoService($pdo);
+
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+
+        $this->service = new ProdutoService($produtoDAO, $categoriaService);
     });
 
     it('deve listar todos os produtos', function () {

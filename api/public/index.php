@@ -15,9 +15,11 @@ use Src\Controller\VariacaoController;
 use Src\DAO\CategoriaDAO;
 use Src\DAO\ClienteDAO;
 use Src\DAO\EnderecoDAO;
+use Src\DAO\ProdutoDAO;
 use Src\Service\CategoriaService;
 use Src\Service\ClienteService;
 use Src\Service\EnderecoService;
+use Src\Service\ProdutoService;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -32,29 +34,43 @@ $error_handler->forceContentType('application/json');
 // === PRODUTOS ===
 $app->get('/api/produtos', function (Request $request, Response $response) {
     $pdo = ConexaoDB::conectar();
-    $controller = new ProdutoController($pdo);
-    $produtos = $controller->listar();
+    $produtoDAO = new ProdutoDAO($pdo);
+    $categoriaDAO = new CategoriaDAO($pdo);
+    $categoriaService = new CategoriaService($categoriaDAO);
+    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+    $controller = new ProdutoController($produtoService);
 
+    $produtos = $controller->listar();
     $response->getBody()->write(json_encode($produtos));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->get('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $controller = new ProdutoController($pdo);
-    $produto = $controller->buscar($id);
 
+    $pdo = ConexaoDB::conectar();
+    $produtoDAO = new ProdutoDAO($pdo);
+    $categoriaDAO = new CategoriaDAO($pdo);
+    $categoriaService = new CategoriaService($categoriaDAO);
+    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+    $controller = new ProdutoController($produtoService);
+
+    $produto = $controller->buscar($id);
     $response->getBody()->write(json_encode($produto));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/api/produtos', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $controller = new ProdutoController($pdo);
     $dados = json_decode($request->getBody()->getContents(), true);
-    $novoProduto = $controller->criar($dados);
+    
+    $pdo = ConexaoDB::conectar();
+    $produtoDAO = new ProdutoDAO($pdo);
+    $categoriaDAO = new CategoriaDAO($pdo);
+    $categoriaService = new CategoriaService($categoriaDAO);
+    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+    $controller = new ProdutoController($produtoService);
 
+    $novoProduto = $controller->criar($dados);
     $response->getBody()->write(json_encode($novoProduto));
     return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
@@ -62,8 +78,13 @@ $app->post('/api/produtos', function (Request $request, Response $response) {
 $app->put('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
     $dados = json_decode($request->getBody()->getContents(), true);
+
     $pdo = ConexaoDB::conectar();
-    $controller = new ProdutoController($pdo);
+    $produtoDAO = new ProdutoDAO($pdo);
+    $categoriaDAO = new CategoriaDAO($pdo);
+    $categoriaService = new CategoriaService($categoriaDAO);
+    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+    $controller = new ProdutoController($produtoService);
 
     $idAtualizado = $controller->atualizar($id, $dados);
     $response->getBody()->write(json_encode(['id' => $idAtualizado]));
@@ -72,8 +93,13 @@ $app->put('/api/produtos/{id}', function (Request $request, Response $response, 
 
 $app->delete('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
+
     $pdo = ConexaoDB::conectar();
-    $controller = new ProdutoController($pdo);
+    $produtoDAO = new ProdutoDAO($pdo);
+    $categoriaDAO = new CategoriaDAO($pdo);
+    $categoriaService = new CategoriaService($categoriaDAO);
+    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+    $controller = new ProdutoController($produtoService);
 
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));

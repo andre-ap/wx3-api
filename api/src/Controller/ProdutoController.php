@@ -3,17 +3,20 @@
 namespace Src\Controller;
 
 use PDO;
+use Src\DAO\CategoriaDAO;
+use Src\DAO\ProdutoDAO;
 use Src\Service\ProdutoService;
 use Src\Model\Produto;
+use Src\Service\CategoriaService;
 
 class ProdutoController
 {
 
     private ProdutoService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(ProdutoService $service)
     {
-        $this->service = new ProdutoService($pdo);
+        $this->service = $service;
     }
 
     /**
