@@ -13,7 +13,19 @@
 					"name": "Listar Todos",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
 					},
 					"response": []
 				},
@@ -21,7 +33,20 @@
 					"name": "Listar {id}",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clientes",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -40,7 +65,7 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/clientes",
+							"raw": "http://localhost:8080/api/enderecos",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -48,7 +73,7 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"clientes"
+								"enderecos"
 							]
 						}
 					},
@@ -141,7 +166,20 @@
 					"name": "Listar {id}",
 					"request": {
 						"method": "GET",
-						"header": []
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/categorias/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"categorias",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -308,7 +346,7 @@
 							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos",
+							"raw": "http://localhost:8080/api/produtos/1",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -316,7 +354,8 @@
 							"port": "8080",
 							"path": [
 								"api",
-								"produtos"
+								"produtos",
+								"1"
 							]
 						}
 					},
