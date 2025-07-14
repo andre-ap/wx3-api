@@ -1,0 +1,699 @@
+{
+	"info": {
+		"_postman_id": "fa0bf807-76ad-4a62-9213-ba14d0a85871",
+		"name": "wx3_collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "46490074"
+	},
+	"item": [
+		{
+			"name": "Clientes",
+			"item": [
+				{
+					"name": "Listar Todos",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Listar {id}",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Novo Cliente",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis Pinto\",\r\n    \"cpf\": \"162.229.097-60\",\r\n    \"dataNascimento\": \"1995-03-22\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clientes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clientes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Editar Cliente",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis\",\r\n    \"cpf\": \"162.229.097-00\",\r\n    \"dataNascimento\": \"1990-01-01\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/clientes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clientes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Cliente",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/clientes/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"clientes",
+								"51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Categorias",
+			"item": [
+				{
+					"name": "Listar Categorias",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis Pinto\",\r\n    \"cpf\": \"162.229.097-60\",\r\n    \"dataNascimento\": \"1995-03-22\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/categorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar {id}",
+					"request": {
+						"method": "GET",
+						"header": []
+					},
+					"response": []
+				},
+				{
+					"name": "Nova Categoria",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/categorias",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"categorias"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Categoria",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/categorias/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"categorias",
+								"51"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Categoria",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/categorias/51",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"categorias",
+								"51"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Pedidos",
+			"item": [
+				{
+					"name": "Novo Pedido",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/pedidos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"pedidos"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Produtos",
+			"item": [
+				{
+					"name": "Listar Produtos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/produtos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Produto {id}",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/produtos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Novo Produto",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata leve.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/produtos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"produtos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Produto",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/produtos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"produtos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Produto",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/produtos/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"produtos",
+								"3"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Endereços",
+			"item": [
+				{
+					"name": "Listar Todos",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Endereço {id}",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Novo Endereço",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"clienteId\": 1,\r\n    \"logradouro\": \"Av Barao de Catangalo\",\r\n    \"cidade\": \"Cantagalo\",\r\n    \"bairro\": \"Centro\",\r\n    \"numero\": \"46\",\r\n    \"cep\": \"28500-000\",\r\n    \"complemento\": \"Última casa\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Endereço",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n    \"clienteId\": 1,\r\n    \"logradouro\": \"Av Barao de Catangalo\",\r\n    \"cidade\": \"Cantagalo\",\r\n    \"bairro\": \"Centro\",\r\n    \"numero\": \"46\",\r\n    \"cep\": \"28500-000\",\r\n    \"complemento\": \"Última casa da vila\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover endereço",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/enderecos/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"enderecos",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Variações",
+			"item": [
+				{
+					"name": "Listar Variações",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"clienteId\": 1,\r\n    \"logradouro\": \"Av Barao de Catangalo\",\r\n    \"cidade\": \"Cantagalo\",\r\n    \"bairro\": \"Centro\",\r\n    \"numero\": \"46\",\r\n    \"cep\": \"28500-000\",\r\n    \"complemento\": \"Última casa da vila\"\r\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/variacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"variacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Listar Variação",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/variacoes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"variacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Nova Variação",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript",
+								"packages": {}
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50,\r\n    \"preco\": 30.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/variacoes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"variacoes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Atualizar Variação",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50,\r\n    \"preco\": 30.00\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/variacoes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"variacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remover Variação",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/variacoes/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"variacoes",
+								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

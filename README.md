@@ -6,90 +6,14 @@
 2. Em seguinda, ainda na pasta /api, utilize o comando `php -S localhost:8080 -t public/`.
 3. Em seguida crie um banco de dados utilizando o script do arquivo `bd.sql` da pasta /docs;
 4. Utilize também o arquivo `seed.sql` para popular o banco de dados.
-5. Para rodar os testes usando Kahlan, basta usar o comando `composer test`
+6. Edite o arquivo `.env` para o contexto do seu banco de dados.
+7. Para rodar os testes usando Kahlan, basta usar o comando `composer test`
+8. Para testar o end-points usando Postman, importe a collection `wx3_collection.postman_collection.json` da pasta /docs.
 
 ## Referências:
 
+- PHP 8.2: https://www.php.net/
+- MariaDB 10.4 https://mariadb.org/
 - Slim Framework: https://www.slimframework.com/
 - Kahlan: https://kahlan.github.io/docs/
 - PHPStan: https://phpstan.org/
-
-## Json pra testes:
-
-#### Produtos: http://localhost:8080/api/produtos
-
-```json
-{
-  "nome": "Camiseta Regata",
-  "cor": "Preta",
-  "imagem": "regata.jpg",
-  "preco": 39.9,
-  "descricao": "Camiseta regata leve.",
-  "peso": 0.25,
-  "categoriaId": 1
-}
-```
-
-#### Categorias: http://localhost:8080/api/categorias
-
-```json
-{
-  "nome": "Chapeus",
-  "descricao": "Para colocar na cabeça"
-}
-```
-
-#### Clientes: http://localhost:8080/api/clientes
-
-```json
-{
-  "nomeCompleto": "Andre Teste",
-  "cpf": "999.888.777-11",
-  "dataNascimento": "1996-05-29"
-}
-```
-
-#### Endereços: http://localhost:8080/api/enderecos
-
-```json
-{
-  "clienteId": 1,
-  "logradouro": "Av Barao de Catangalo",
-  "cidade": "Cantagalo",
-  "bairro": "Centro",
-  "numero": "46",
-  "cep": "28500-000",
-  "complemento": "Última casa"
-}
-```
-
-#### Variações: http://localhost:8080/api/variacoes
-
-```json
-{
-  "produtoId": 3,
-  "tamanho": "G",
-  "estoque": 50,
-  "preco": 30.0
-}
-```
-
-#### Pedidos: http://localhost:8080/api/produtos
-
-```json
-{
-  "clienteId": 1,
-  "enderecoEntregaId": 2,
-  "formaPagamento": "PIX",
-  "itens": [
-    {
-      "variacaoId": 3,
-      "quantidade": 2
-    },
-    {
-      "variacaoId": 2,
-      "quantidade": 2
-    }
-  ]
-}
-```
