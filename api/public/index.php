@@ -15,11 +15,15 @@ use Src\Controller\VariacaoController;
 use Src\DAO\CategoriaDAO;
 use Src\DAO\ClienteDAO;
 use Src\DAO\EnderecoDAO;
+use Src\DAO\PedidoDAO;
 use Src\DAO\ProdutoDAO;
+use Src\DAO\VariacaoDAO;
 use Src\Service\CategoriaService;
 use Src\Service\ClienteService;
 use Src\Service\EnderecoService;
+use Src\Service\PedidoService;
 use Src\Service\ProdutoService;
+use Src\Service\VariacaoService;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -62,7 +66,7 @@ $app->get('/api/produtos/{id}', function (Request $request, Response $response, 
 
 $app->post('/api/produtos', function (Request $request, Response $response) {
     $dados = json_decode($request->getBody()->getContents(), true);
-    
+
     $pdo = ConexaoDB::conectar();
     $produtoDAO = new ProdutoDAO($pdo);
     $categoriaDAO = new CategoriaDAO($pdo);
@@ -343,12 +347,27 @@ $app->delete('/api/variacoes/{id}', function (Request $request, Response $respon
 });
 
 $app->post('/api/pedidos', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $controller = new PedidoController($pdo);
     $dados = json_decode($request->getBody()->getContents(), true);
-    $novaVariacao = $controller->criar($dados);
 
-    $response->getBody()->write(json_encode($novaVariacao));
+    $pdo = ConexaoDB::conectar();
+
+    $pedidoDAO = new PedidoDAO($pdo);
+    $clienteDAO = new ClienteDAO($pdo);
+    $enderecoDAO = new EnderecoDAO($pdo);
+    $variacaoDAO = new VariacaoDAO($pdo);
+
+    $clienteService = new ClienteService($clienteDAO);
+    $enderecoService = new EnderecoService($enderecoDAO);
+    $variacaoService = new VariacaoService($variacaoDAO);
+    $pedidoService = new PedidoService($pedidoDAO, $clienteService, $enderecoService, $variacaoService);
+
+    $controller = new PedidoController($pedidoService);
+
+    $pedidoService = new PedidoService($pedidoDAO, $clienteService, $enderecoService, $variacaoService);
+
+    $novoPedido = $controller->criar($dados);
+
+    $response->getBody()->write(json_encode($novoPedido));
     return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
 

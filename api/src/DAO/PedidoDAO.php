@@ -7,7 +7,7 @@ use PDO;
 use Src\Model\Pedido;
 use Src\Model\ItemPedido;
 
-class PedidoDAO
+class PedidoDAO implements PedidoDAOInterface
 {
     private PDO $pdo;
 

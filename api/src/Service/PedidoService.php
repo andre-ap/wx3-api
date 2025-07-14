@@ -4,6 +4,7 @@ namespace Src\Service;
 
 use PDO;
 use Src\DAO\PedidoDAO;
+use Src\DAO\PedidoDAOInterface;
 use Src\Exception\PedidoException;
 use Src\Model\ItemPedido;
 use Src\Model\Pedido;
@@ -18,12 +19,16 @@ class PedidoService
     private EnderecoService $enderecoService;
     private VariacaoService $variacaoService;
 
-    public function __construct(PDO $pdo)
-    {
-        $this->dao = new PedidoDAO($pdo);
-        $this->clienteService = new ClienteService($pdo);
-        $this->enderecoService = new EnderecoService($pdo);
-        $this->variacaoService = new VariacaoService($pdo);
+    public function __construct(
+        PedidoDAOInterface $pedidoDAO,
+        ClienteService $clienteService,
+        EnderecoService $enderecoService,
+        VariacaoService $variacaoService
+    ) {
+        $this->dao = $pedidoDAO;
+        $this->clienteService = $clienteService;
+        $this->enderecoService = $enderecoService;
+        $this->variacaoService = $variacaoService;
     }
 
     /**

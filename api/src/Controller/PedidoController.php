@@ -9,9 +9,9 @@ class PedidoController
 {
     private PedidoService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(PedidoService $service)
     {
-        $this->service = new PedidoService($pdo);
+        $this->service = $service;
     }
 
     /**

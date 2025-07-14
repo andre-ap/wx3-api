@@ -1,10 +1,17 @@
 <?php
 
 use Src\Config\ConexaoDB;
+use Src\DAO\ClienteDAO;
+use Src\DAO\EnderecoDAO;
+use Src\DAO\PedidoDAO;
+use Src\DAO\VariacaoDAO;
 use Src\Exception\ClienteException;
 use Src\Exception\EnderecoException;
 use Src\Service\PedidoService;
 use Src\Exception\PedidoException;
+use Src\Service\ClienteService;
+use Src\Service\EnderecoService;
+use Src\Service\VariacaoService;
 
 require_once __DIR__ . '/SetupBancoTestes.php';
 
@@ -13,8 +20,24 @@ describe('PedidoService', function () {
     beforeEach(function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
+
         $pdo = ConexaoDB::conectar();
-        $this->service = new PedidoService($pdo);
+
+        $pedidoDAO = new PedidoDAO($pdo);
+        $clienteDAO = new ClienteDAO($pdo);
+        $enderecoDAO = new EnderecoDAO($pdo);
+        $variacaoDAO = new VariacaoDAO($pdo);
+
+        $clienteService = new ClienteService($clienteDAO);
+        $enderecoService = new EnderecoService($enderecoDAO);
+        $variacaoService = new VariacaoService($variacaoDAO);
+
+        $this->service = new PedidoService(
+            $pedidoDAO,
+            $clienteService,
+            $enderecoService,
+            $variacaoService
+        );
     });
 
     it('deve criar um novo pedido', function () {
