@@ -1,6 +1,7 @@
 <?php
 
 use Src\Config\ConexaoTeste;
+use Src\DAO\ClienteDAO;
 use Src\Service\ClienteService;
 use Src\Exception\ClienteException;
 
@@ -12,7 +13,8 @@ describe('ClienteService', function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
         $pdo = ConexaoTeste::conectar();
-        $this->service = new ClienteService($pdo);
+        $dao = new ClienteDAO($pdo);
+        $this->service = new ClienteService($dao);
     });
 
     it('deve listar clientes', function () {
@@ -98,7 +100,7 @@ describe('ClienteService', function () {
         ];
 
         $afetados = $this->service->atualizarCliente(1, $dados);
-        
+
 
         expect($afetados)->toEqual($afetados);
     });

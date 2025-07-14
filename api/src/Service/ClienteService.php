@@ -2,18 +2,17 @@
 
 namespace Src\Service;
 
-use PDO;
-use Src\DAO\ClienteDAO;
+use Src\DAO\ClienteDAOInterface;
 use Src\Exception\ClienteException;
 use Src\Model\Cliente;
 
 class ClienteService
 {
-    private ClienteDAO $dao;
+    private ClienteDAOInterface $dao;
 
-    public function __construct(PDO $pdo)
+    public function __construct(ClienteDAOInterface $dao)
     {
-        $this->dao = new ClienteDAO($pdo);
+        $this->dao = $dao;
     }
 
     /**

@@ -11,9 +11,9 @@ class ClienteController
 
     private ClienteService $service;
 
-    public function __construct(PDO $pdo)
+    public function __construct(ClienteService $service)
     {
-        $this->service = new ClienteService($pdo);
+        $this->service = $service;
     }
 
     /**

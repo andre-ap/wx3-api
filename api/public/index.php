@@ -13,7 +13,9 @@ use Src\Controller\PedidoController;
 use Src\Controller\ProdutoController;
 use Src\Controller\VariacaoController;
 use Src\DAO\CategoriaDAO;
+use Src\DAO\ClienteDAO;
 use Src\Service\CategoriaService;
+use Src\Service\ClienteService;
 
 require __DIR__ . '/../vendor/autoload.php';
 
@@ -141,9 +143,11 @@ $app->delete('/api/categorias/{id}', function (Request $request, Response $respo
 // === CLIENTES ===
 $app->get('/api/clientes', function (Request $request, Response $response) {
     $pdo = ConexaoDB::conectar();
-    $controller = new ClienteController($pdo);
-    $categorias = $controller->listar();
+    $dao = new ClienteDAO($pdo);
+    $service = new ClienteService($dao);
+    $controller = new ClienteController($service);
 
+    $categorias = $controller->listar();
     $response->getBody()->write(json_encode($categorias));
     return $response->withHeader('Content-Type', 'application/json');
 });
@@ -151,19 +155,23 @@ $app->get('/api/clientes', function (Request $request, Response $response) {
 $app->get('/api/clientes/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
-    $controller = new ClienteController($pdo);
-    $cliente = $controller->buscar($id);
+    $dao = new ClienteDAO($pdo);
+    $service = new ClienteService($dao);
+    $controller = new ClienteController($service);
 
+    $cliente = $controller->buscar($id);
     $response->getBody()->write(json_encode($cliente));
     return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->post('/api/clientes', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $controller = new ClienteController($pdo);
     $dados = json_decode($request->getBody()->getContents(), true);
-    $novoCliente = $controller->criar($dados);
+    $pdo = ConexaoDB::conectar();
+    $dao = new ClienteDAO($pdo);
+    $service = new ClienteService($dao);
+    $controller = new ClienteController($service);
 
+    $novoCliente = $controller->criar($dados);
     $response->getBody()->write(json_encode($novoCliente));
     return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
@@ -172,7 +180,9 @@ $app->put('/api/clientes/{id}', function (Request $request, Response $response, 
     $id = (int) $args['id'];
     $dados = json_decode($request->getBody()->getContents(), true);
     $pdo = ConexaoDB::conectar();
-    $controller = new ClienteController($pdo);
+    $dao = new ClienteDAO($pdo);
+    $service = new ClienteService($dao);
+    $controller = new ClienteController($service);
 
     $idAtualizado = $controller->atualizar($id, $dados);
     $response->getBody()->write(json_encode(['id' => $idAtualizado]));
@@ -182,7 +192,9 @@ $app->put('/api/clientes/{id}', function (Request $request, Response $response, 
 $app->delete('/api/clientes/{id}', function (Request $request, Response $response, array $args) {
     $id = (int) $args['id'];
     $pdo = ConexaoDB::conectar();
-    $controller = new ClienteController($pdo);
+    $dao = new ClienteDAO($pdo);
+    $service = new ClienteService($dao);
+    $controller = new ClienteController($service);
 
     $idRemovido = $controller->remover($id);
     $response->getBody()->write(json_encode(['id' => $idRemovido]));

@@ -6,7 +6,7 @@ use Exception;
 use PDO;
 use Src\Model\Cliente;
 
-class ClienteDAO
+class ClienteDAO implements ClienteDAOInterface
 {
     private PDO $pdo;
 
