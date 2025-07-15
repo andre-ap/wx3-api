@@ -1,16 +1,5 @@
-DROP DATABASE acme_teste;
-
-CREATE DATABASE IF NOT EXISTS acme_teste;
-
-USE acme_teste;
-
-DROP TABLE IF EXISTS itens_pedido;
-DROP TABLE IF EXISTS pedidos;
-DROP TABLE IF EXISTS enderecos;
-DROP TABLE IF EXISTS clientes;
-DROP TABLE IF EXISTS variacoes;
-DROP TABLE IF EXISTS produtos;
-DROP TABLE IF EXISTS categorias;
+CREATE DATABASE IF NOT EXISTS acme;
+USE acme;
 
 CREATE TABLE categorias (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -25,7 +14,7 @@ CREATE TABLE produtos (
     imagem VARCHAR(255),
     preco_base DECIMAL(10,2) NOT NULL,
     descricao TEXT,
-    data_cadastro DATE NOT NULL DEFAULT CURRENT_DATE,
+    data_cadastro DATE NOT NULL,
     peso DECIMAL(10,2),
     categoria_id INT,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id)
