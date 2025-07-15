@@ -30,344 +30,337 @@ require __DIR__ . '/../vendor/autoload.php';
 $app = AppFactory::create();
 
 $error_middleware = $app->addErrorMiddleware(true, true, true);
-
 $error_handler = $error_middleware->getDefaultErrorHandler();
-
 $error_handler->forceContentType('application/json');
 
 // === PRODUTOS ===
-$app->get('/api/produtos', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $produtoDAO = new ProdutoDAO($pdo);
-    $categoriaDAO = new CategoriaDAO($pdo);
-    $categoriaService = new CategoriaService($categoriaDAO);
-    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
-    $controller = new ProdutoController($produtoService);
+$app->group('/api/produtos', function ($group) {
+    $group->get('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+        $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+        $controller = new ProdutoController($produtoService);
 
-    $produtos = $controller->listar();
-    $response->getBody()->write(json_encode($produtos));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+        $produtos = $controller->listar();
+        $response->getBody()->write(json_encode($produtos));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-$app->get('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
+    $group->get('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+        $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+        $controller = new ProdutoController($produtoService);
 
-    $pdo = ConexaoDB::conectar();
-    $produtoDAO = new ProdutoDAO($pdo);
-    $categoriaDAO = new CategoriaDAO($pdo);
-    $categoriaService = new CategoriaService($categoriaDAO);
-    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
-    $controller = new ProdutoController($produtoService);
+        $produto = $controller->buscar($id);
+        $response->getBody()->write(json_encode($produto));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-    $produto = $controller->buscar($id);
-    $response->getBody()->write(json_encode($produto));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+    $group->post('', function (Request $request, Response $response) {
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+        $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+        $controller = new ProdutoController($produtoService);
 
-$app->post('/api/produtos', function (Request $request, Response $response) {
-    $dados = json_decode($request->getBody()->getContents(), true);
+        $novoProduto = $controller->criar($dados);
+        $response->getBody()->write(json_encode($novoProduto));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    });
 
-    $pdo = ConexaoDB::conectar();
-    $produtoDAO = new ProdutoDAO($pdo);
-    $categoriaDAO = new CategoriaDAO($pdo);
-    $categoriaService = new CategoriaService($categoriaDAO);
-    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
-    $controller = new ProdutoController($produtoService);
+    $group->put('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+        $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+        $controller = new ProdutoController($produtoService);
 
-    $novoProduto = $controller->criar($dados);
-    $response->getBody()->write(json_encode($novoProduto));
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-});
+        $idAtualizado = $controller->atualizar($id, $dados);
+        $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-$app->put('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $dados = json_decode($request->getBody()->getContents(), true);
+    $group->delete('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $produtoDAO = new ProdutoDAO($pdo);
+        $categoriaDAO = new CategoriaDAO($pdo);
+        $categoriaService = new CategoriaService($categoriaDAO);
+        $produtoService = new ProdutoService($produtoDAO, $categoriaService);
+        $controller = new ProdutoController($produtoService);
 
-    $pdo = ConexaoDB::conectar();
-    $produtoDAO = new ProdutoDAO($pdo);
-    $categoriaDAO = new CategoriaDAO($pdo);
-    $categoriaService = new CategoriaService($categoriaDAO);
-    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
-    $controller = new ProdutoController($produtoService);
-
-    $idAtualizado = $controller->atualizar($id, $dados);
-    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-$app->delete('/api/produtos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-
-    $pdo = ConexaoDB::conectar();
-    $produtoDAO = new ProdutoDAO($pdo);
-    $categoriaDAO = new CategoriaDAO($pdo);
-    $categoriaService = new CategoriaService($categoriaDAO);
-    $produtoService = new ProdutoService($produtoDAO, $categoriaService);
-    $controller = new ProdutoController($produtoService);
-
-    $idRemovido = $controller->remover($id);
-    $response->getBody()->write(json_encode(['id' => $idRemovido]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $idRemovido = $controller->remover($id);
+        $response->getBody()->write(json_encode(['id' => $idRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 });
 
 // === CATEGORIAS ===
-$app->get('/api/categorias', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $dao = new CategoriaDAO($pdo);
-    $service = new CategoriaService($dao);
-    $controller = new CategoriaController($service);
+$app->group('/api/categorias', function ($group) {
+    $group->get('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $dao = new CategoriaDAO($pdo);
+        $service = new CategoriaService($dao);
+        $controller = new CategoriaController($service);
 
-    $categorias = $controller->listar();
+        $categorias = $controller->listar();
+        $response->getBody()->write(json_encode($categorias));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-    $response->getBody()->write(json_encode($categorias));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+    $group->get('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new CategoriaDAO($pdo);
+        $service = new CategoriaService($dao);
+        $controller = new CategoriaController($service);
 
-$app->get('/api/categorias/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new CategoriaDAO($pdo);
-    $service = new CategoriaService($dao);
-    $controller = new CategoriaController($service);
+        $categoria = $controller->buscar($id);
+        $response->getBody()->write(json_encode($categoria));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-    $categoria = $controller->buscar($id);
-    $response->getBody()->write(json_encode($categoria));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+    $group->post('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $dao = new CategoriaDAO($pdo);
+        $service = new CategoriaService($dao);
+        $controller = new CategoriaController($service);
+        $dados = json_decode($request->getBody()->getContents(), true);
 
-$app->post('/api/categorias', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $dao = new CategoriaDAO($pdo);
-    $service = new CategoriaService($dao);
-    $controller = new CategoriaController($service);
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $novaCategoria = $controller->criar($dados);
+        $novaCategoria = $controller->criar($dados);
+        $response->getBody()->write(json_encode($novaCategoria));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    });
 
-    $response->getBody()->write(json_encode($novaCategoria));
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-});
+    $group->put('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new CategoriaDAO($pdo);
+        $service = new CategoriaService($dao);
+        $controller = new CategoriaController($service);
 
-$app->put('/api/categorias/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $pdo = ConexaoDB::conectar();
-    $dao = new CategoriaDAO($pdo);
-    $service = new CategoriaService($dao);
-    $controller = new CategoriaController($service);
+        $idAtualizado = $controller->atualizar($id, $dados);
+        $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-    $idAtualizado = $controller->atualizar($id, $dados);
-    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+    $group->delete('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new CategoriaDAO($pdo);
+        $service = new CategoriaService($dao);
+        $controller = new CategoriaController($service);
 
-$app->delete('/api/categorias/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new CategoriaDAO($pdo);
-    $service = new CategoriaService($dao);
-    $controller = new CategoriaController($service);
-
-    $idRemovido = $controller->remover($id);
-    $response->getBody()->write(json_encode(['id' => $idRemovido]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $idRemovido = $controller->remover($id);
+        $response->getBody()->write(json_encode(['id' => $idRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 });
 
 // === CLIENTES ===
-$app->get('/api/clientes', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $dao = new ClienteDAO($pdo);
-    $service = new ClienteService($dao);
-    $controller = new ClienteController($service);
+$app->group('/api/clientes', function ($group) {
+    $group->get('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $dao = new ClienteDAO($pdo);
+        $service = new ClienteService($dao);
+        $controller = new ClienteController($service);
 
-    $categorias = $controller->listar();
-    $response->getBody()->write(json_encode($categorias));
-    return $response->withHeader('Content-Type', 'application/json');
+        $clientes = $controller->listar();
+        $response->getBody()->write(json_encode($clientes));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->get('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new ClienteDAO($pdo);
+        $service = new ClienteService($dao);
+        $controller = new ClienteController($service);
+
+        $cliente = $controller->buscar($id);
+        $response->getBody()->write(json_encode($cliente));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('', function (Request $request, Response $response) {
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new ClienteDAO($pdo);
+        $service = new ClienteService($dao);
+        $controller = new ClienteController($service);
+
+        $novoCliente = $controller->criar($dados);
+        $response->getBody()->write(json_encode($novoCliente));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->put('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new ClienteDAO($pdo);
+        $service = new ClienteService($dao);
+        $controller = new ClienteController($service);
+
+        $idAtualizado = $controller->atualizar($id, $dados);
+        $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->delete('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new ClienteDAO($pdo);
+        $service = new ClienteService($dao);
+        $controller = new ClienteController($service);
+
+        $idRemovido = $controller->remover($id);
+        $response->getBody()->write(json_encode(['id' => $idRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 });
 
-$app->get('/api/clientes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new ClienteDAO($pdo);
-    $service = new ClienteService($dao);
-    $controller = new ClienteController($service);
+// === ENDEREÇOS ===
+$app->group('/api/enderecos', function ($group) {
+    $group->get('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $dao = new EnderecoDAO($pdo);
+        $service = new EnderecoService($dao);
+        $controller = new EnderecoController($service);
 
-    $cliente = $controller->buscar($id);
-    $response->getBody()->write(json_encode($cliente));
-    return $response->withHeader('Content-Type', 'application/json');
-});
+        $enderecos = $controller->listar();
+        $response->getBody()->write(json_encode($enderecos));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-$app->post('/api/clientes', function (Request $request, Response $response) {
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $pdo = ConexaoDB::conectar();
-    $dao = new ClienteDAO($pdo);
-    $service = new ClienteService($dao);
-    $controller = new ClienteController($service);
+    $group->get('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new EnderecoDAO($pdo);
+        $service = new EnderecoService($dao);
+        $controller = new EnderecoController($service);
 
-    $novoCliente = $controller->criar($dados);
-    $response->getBody()->write(json_encode($novoCliente));
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-});
+        $endereco = $controller->buscar($id);
+        $response->getBody()->write(json_encode($endereco));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-$app->put('/api/clientes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $pdo = ConexaoDB::conectar();
-    $dao = new ClienteDAO($pdo);
-    $service = new ClienteService($dao);
-    $controller = new ClienteController($service);
+    $group->post('', function (Request $request, Response $response) {
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new EnderecoDAO($pdo);
+        $service = new EnderecoService($dao);
+        $controller = new EnderecoController($service);
 
-    $idAtualizado = $controller->atualizar($id, $dados);
-    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+        $novoEndereco = $controller->criar($dados);
+        $response->getBody()->write(json_encode($novoEndereco));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    });
 
-$app->delete('/api/clientes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new ClienteDAO($pdo);
-    $service = new ClienteService($dao);
-    $controller = new ClienteController($service);
+    $group->put('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new EnderecoDAO($pdo);
+        $service = new EnderecoService($dao);
+        $controller = new EnderecoController($service);
 
-    $idRemovido = $controller->remover($id);
-    $response->getBody()->write(json_encode(['id' => $idRemovido]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
+        $idAtualizado = $controller->atualizar($id, $dados);
+        $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 
-// === ENDEREÇO ===
-$app->get('/api/enderecos', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
+    $group->delete('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new EnderecoDAO($pdo);
+        $service = new EnderecoService($dao);
+        $controller = new EnderecoController($service);
 
-    $enderecos = $controller->listar();
-
-    $response->getBody()->write(json_encode($enderecos));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->get('/api/enderecos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
-
-    $endereco = $controller->buscar($id);
-    $response->getBody()->write(json_encode($endereco));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->post('/api/enderecos', function (Request $request, Response $response) {
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
-
-    $novoEndereco = $controller->criar($dados);
-    $response->getBody()->write(json_encode($novoEndereco));
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-});
-
-$app->put('/api/enderecos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $dados = json_decode($request->getBody()->getContents(), true);
-    $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
-
-    $idAtualizado = $controller->atualizar($id, $dados);
-    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-$app->delete('/api/enderecos/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $pdo = ConexaoDB::conectar();
-    $dao = new EnderecoDAO($pdo);
-    $service = new EnderecoService($dao);
-    $controller = new EnderecoController($service);
-
-    $idRemovido = $controller->remover($id);
-    $response->getBody()->write(json_encode(['id' => $idRemovido]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+        $idRemovido = $controller->remover($id);
+        $response->getBody()->write(json_encode(['id' => $idRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 });
 
 // === VARIAÇÕES ===
-$app->get('/api/variacoes', function (Request $request, Response $response) {
-    $pdo = ConexaoDB::conectar();
-    $dao = new VariacaoDAO($pdo);
-    $service = new VariacaoService($dao);
-    $controller = new VariacaoController($service);
+$app->group('/api/variacoes', function ($group) {
+    $group->get('', function (Request $request, Response $response) {
+        $pdo = ConexaoDB::conectar();
+        $dao = new VariacaoDAO($pdo);
+        $service = new VariacaoService($dao);
+        $controller = new VariacaoController($service);
 
+        $variacoes = $controller->listar();
+        $response->getBody()->write(json_encode($variacoes));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
 
-    $variacoes = $controller->listar();
-    $response->getBody()->write(json_encode($variacoes));
-    return $response->withHeader('Content-Type', 'application/json');
+    $group->get('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new VariacaoDAO($pdo);
+        $service = new VariacaoService($dao);
+        $controller = new VariacaoController($service);
+
+        $variacao = $controller->buscar($id);
+        $response->getBody()->write(json_encode($variacao));
+        return $response->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->post('', function (Request $request, Response $response) {
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new VariacaoDAO($pdo);
+        $service = new VariacaoService($dao);
+        $controller = new VariacaoController($service);
+
+        $novaVariacao = $controller->criar($dados);
+        $response->getBody()->write(json_encode($novaVariacao));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->put('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $dados = json_decode($request->getBody()->getContents(), true);
+        $pdo = ConexaoDB::conectar();
+        $dao = new VariacaoDAO($pdo);
+        $service = new VariacaoService($dao);
+        $controller = new VariacaoController($service);
+
+        $idAtualizado = $controller->atualizar($id, $dados);
+        $response->getBody()->write(json_encode(['id' => $idAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
+
+    $group->delete('/{id}', function (Request $request, Response $response, array $args) {
+        $id = (int) $args['id'];
+        $pdo = ConexaoDB::conectar();
+        $dao = new VariacaoDAO($pdo);
+        $service = new VariacaoService($dao);
+        $controller = new VariacaoController($service);
+
+        $idRemovido = $controller->remover($id);
+        $response->getBody()->write(json_encode(['id' => $idRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
+    });
 });
 
-$app->get('/api/variacoes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-
-    $pdo = ConexaoDB::conectar();
-    $dao = new VariacaoDAO($pdo);
-    $service = new VariacaoService($dao);
-    $controller = new VariacaoController($service);
-
-
-    $variacao = $controller->buscar($id);
-    $response->getBody()->write(json_encode($variacao));
-    return $response->withHeader('Content-Type', 'application/json');
-});
-
-$app->post('/api/variacoes', function (Request $request, Response $response) {
-    $dados = json_decode($request->getBody()->getContents(), true);
-
-    $pdo = ConexaoDB::conectar();
-    $dao = new VariacaoDAO($pdo);
-    $service = new VariacaoService($dao);
-    $controller = new VariacaoController($service);
-
-
-    $novaVariacao = $controller->criar($dados);
-    $response->getBody()->write(json_encode($novaVariacao));
-    return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
-});
-
-$app->put('/api/variacoes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-    $dados = json_decode($request->getBody()->getContents(), true);
-
-    $pdo = ConexaoDB::conectar();
-    $dao = new VariacaoDAO($pdo);
-    $service = new VariacaoService($dao);
-    $controller = new VariacaoController($service);
-
-
-    $idAtualizado = $controller->atualizar($id, $dados);
-    $response->getBody()->write(json_encode(['id' => $idAtualizado]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
-$app->delete('/api/variacoes/{id}', function (Request $request, Response $response, array $args) {
-    $id = (int) $args['id'];
-
-    $pdo = ConexaoDB::conectar();
-    $dao = new VariacaoDAO($pdo);
-    $service = new VariacaoService($dao);
-    $controller = new VariacaoController($service);
-
-
-    $idRemovido = $controller->remover($id);
-    $response->getBody()->write(json_encode(['id' => $idRemovido]));
-    return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
-});
-
+// === PEDIDOS ===
 $app->post('/api/pedidos', function (Request $request, Response $response) {
     $dados = json_decode($request->getBody()->getContents(), true);
-
     $pdo = ConexaoDB::conectar();
 
     $pedidoDAO = new PedidoDAO($pdo);
@@ -382,10 +375,7 @@ $app->post('/api/pedidos', function (Request $request, Response $response) {
 
     $controller = new PedidoController($pedidoService);
 
-    $pedidoService = new PedidoService($pedidoDAO, $clienteService, $enderecoService, $variacaoService);
-
     $novoPedido = $controller->criar($dados);
-
     $response->getBody()->write(json_encode($novoPedido));
     return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
 });
