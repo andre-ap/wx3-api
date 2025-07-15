@@ -13,6 +13,15 @@ interface ClienteDAOInterface
 
     public function criarNovoCliente(Cliente $cliente): int;
 
+    /**
+     * @param int $id
+     * @param array{
+     * nomeCompleto: string,
+     * cpf: string,
+     * dataNascimento: string,
+     * } $dados
+     * @return int
+     */
     public function atualizarCliente(int $id, array $dados): int;
 
     public function removerCliente(int $id): int;

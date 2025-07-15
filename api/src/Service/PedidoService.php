@@ -14,7 +14,7 @@ class PedidoService
 {
     private const FRETE_PADRAO = 10.00;
 
-    private PedidoDAO $dao;
+    private PedidoDAOInterface $dao;
     private ClienteService $clienteService;
     private EnderecoService $enderecoService;
     private VariacaoService $variacaoService;

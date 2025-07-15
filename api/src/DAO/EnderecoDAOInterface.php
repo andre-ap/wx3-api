@@ -24,6 +24,19 @@ interface EnderecoDAOInterface
      */
     public function criarNovoEndereco(array $dados): int;
 
+    /**
+     * @param int $id
+     * @param array{
+     * clienteId: int,
+     * logradouro: string,
+     * cidade: string,
+     * bairro: string,
+     * numero: string,
+     * cep: string,
+     * complemento: string
+     * } $dados
+     * @return int
+     */
     public function atualizarEndereco(int $id, array $dados): int;
 
     public function removerEnderecoPorId(int $id): int;

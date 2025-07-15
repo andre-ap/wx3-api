@@ -4,8 +4,6 @@ namespace Src\Service;
 
 use DateTime;
 use PDO;
-use Src\DAO\CategoriaDAO;
-use Src\DAO\ProdutoDAO;
 use Src\DAO\ProdutoDAOInterface;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
@@ -13,7 +11,7 @@ use Src\Service\CategoriaService;
 
 class ProdutoService
 {
-    private ProdutoDAO $dao;
+    private ProdutoDAOInterface $dao;
     private CategoriaService $categoriaService;
 
     public function __construct(ProdutoDAOInterface $produtoDAO, CategoriaService $categoriaService)
