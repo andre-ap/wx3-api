@@ -20,7 +20,6 @@ CREATE TABLE produtos (
     nome VARCHAR(100) NOT NULL,
     cor VARCHAR(50),
     imagem VARCHAR(255),
-    preco_base DECIMAL(10,2) NOT NULL,
     descricao TEXT,
     data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     peso DECIMAL(10,2),
