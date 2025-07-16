@@ -2,13 +2,12 @@
 
 namespace Src\Controller;
 
-use PDO;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\CategoriaService;
-use Src\Model\Categoria;
 
 class CategoriaController
 {
-
     private CategoriaService $service;
 
     public function __construct(CategoriaService $service)
@@ -16,56 +15,48 @@ class CategoriaController
         $this->service = $service;
     }
 
-    /**
-     * @return Categoria[]
-     */
-    public function listar(): array
+    public function listar(Request $request, Response $response): Response
     {
-        return $this->service->listarTodasCategorias();
+        $categorias = $this->service->listarTodasCategorias();
+        $response->getBody()->write(json_encode($categorias));
+        
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return Categoria | array<void>
-     */
-    public function buscar(int $id): Categoria | array
+    public function buscar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->buscarCategoriaPorId($id);
+        $id = (int)$args['id'];
+        $categoria = $this->service->buscarCategoriaPorId($id);
+
+        $response->getBody()->write(json_encode($categoria));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param array{
-     * id: int,
-     * nome: string,
-     * descricao: string
-     * } $dados
-     * @return int
-     */
-    public function criar(array $dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovaCategoria($dados);
+        $dados = $request->getParsedBody();
+        $novaCategoriaId = $this->service->criarNovaCategoria($dados);
+
+        $response->getBody()->write(json_encode($novaCategoriaId));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @param array{
-     * id: int,
-     * nome: string,
-     * descricao: string
-     * } $dados
-     * @return int
-     */
-    public function atualizar(int $id, array $dados): int
+    public function atualizar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->atualizarCategoria($id, $dados);
+        $id = (int)$args['id'];
+        $dados = $request->getParsedBody();
+        $linhasAfetadas = $this->service->atualizarCategoria($id, $dados);
+
+        $response->getBody()->write($linhasAfetadas);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function remover(int $id): int
+    public function remover(Response $response, array $args): Response
     {
-        return $this->service->removerItemPorID($id);
+        $id = (int)$args['id'];
+        $linhasAfetadas = $this->service->removerItemPorID($id);
+
+        $response->getBody()->write($linhasAfetadas);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

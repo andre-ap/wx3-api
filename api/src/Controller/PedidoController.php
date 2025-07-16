@@ -2,7 +2,8 @@
 
 namespace Src\Controller;
 
-use PDO;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\PedidoService;
 
 class PedidoController
@@ -14,20 +15,12 @@ class PedidoController
         $this->service = $service;
     }
 
-    /**
-     * @param array{
-     * clienteId: int,
-     * enderecoEntregaId: int,
-     * formaPagamento: 'PIX'|'BOLETO'|'CARTAO_1X',
-     * itens: array<array{
-     *  variacaoId: int,
-     *  quantidade: int
-     * }>
-     * } $dados
-     * @return int
-     */
-    public function criar($dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovoPedido($dados);
+        $dados = $request->getParsedBody();
+        $novoPedidoId = $this->service->criarNovoPedido($dados);
+
+        $response->getBody()->write($novoPedidoId);
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 }

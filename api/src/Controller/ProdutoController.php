@@ -2,16 +2,12 @@
 
 namespace Src\Controller;
 
-use PDO;
-use Src\DAO\CategoriaDAO;
-use Src\DAO\ProdutoDAO;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\ProdutoService;
-use Src\Model\Produto;
-use Src\Service\CategoriaService;
 
 class ProdutoController
 {
-
     private ProdutoService $service;
 
     public function __construct(ProdutoService $service)
@@ -20,66 +16,73 @@ class ProdutoController
     }
 
     /**
-     * @return Produto[]
+     * @param Request $request
+     * @param Response $response
+     * @return Response
      */
-    public function listar(): array
+    public function listar(Request $request, Response $response): Response
     {
-        return $this->service->listarTodosProdutos();
+        $produtos = $this->service->listarTodosProdutos();
+        $response->getBody()->write(json_encode($produtos));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
-     * @param int $id
-     * @return Produto | array <void>
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
      */
-    public function buscar(int $id): Produto | array
+    public function buscar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->buscarProdutoPorId($id);
+        $id = (int) $args['id'];
+        $produto = $this->service->buscarProdutoPorId($id);
+        $response->getBody()->write(json_encode($produto));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
     /**
-     * @param array{
-     *   id: int,
-     *   nome: string,
-     *   cor: string,
-     *   imagem: string,
-     *   preco: float,
-     *   descricao: string,
-     *   dataCadastro: string | null,
-     *   peso: float,
-     *   categoriaId: int
-     * } $dados
-     * @return int
+     * @param Request $request
+     * @param Response $response
+     * @return Response
      */
-    public function criar(array $dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovoProduto($dados);
+        $dados = $request->getParsedBody();
+        $novoProdutoId = $this->service->criarNovoProduto($dados);
+        
+        $response->getBody()->write(json_encode(['id' => $novoProdutoId]));
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
     /**
-     * @param int $id
-     * @param array{
-     *   id: int,
-     *   nome: string,
-     *   cor: string,
-     *   imagem: string,
-     *   preco: float,
-     *   descricao: string,
-     *   dataCadastro: string,
-     *   peso: float,
-     *   categoriaId: int
-     * } $dados
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
      */
-    public function atualizar(int $id, array $dados): int
+    public function atualizar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->atualizarProduto($id, $dados);
+        $id = (int) $args['id'];
+        $dados = $request->getParsedBody();
+        $produtoAtualizado = $this->service->atualizarProduto($id, $dados);
+        
+        $response->getBody()->write(json_encode(['id' => $produtoAtualizado]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
     /**
-     * @param int $id
-     * @return int
+     * @param Request $request
+     * @param Response $response
+     * @param array $args
+     * @return Response
      */
-    public function remover(int $id): int
+    public function remover(Request $request, Response $response, array $args): Response
     {
-        return $this->service->removerProduto($id);
+        $id = (int) $args['id'];
+        $produtoRemovido = $this->service->removerProduto($id);
+        
+        $response->getBody()->write(json_encode(['id' => $produtoRemovido]));
+        return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

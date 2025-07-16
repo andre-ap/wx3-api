@@ -2,12 +2,12 @@
 
 namespace Src\Controller;
 
-use Src\Model\Variacao;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\VariacaoService;
 
 class VariacaoController
 {
-
     private VariacaoService $service;
 
     public function __construct(VariacaoService $service)
@@ -15,58 +15,48 @@ class VariacaoController
         $this->service = $service;
     }
 
-    /**
-     * @return Variacao[]
-     */
-    public function listar()
+    public function listar(Request $request, Response $response): Response
     {
-        return $this->service->listarVariacoes();
+        $variacoes = $this->service->listarVariacoes();
+
+        $response->getBody()->write(json_encode($variacoes));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return Variacao|null
-     */
-    public function buscar(int $id)
+    public function buscar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->buscarVariacaoPorId($id);
+        $id = (int)$args['id'];
+        $variacao = $this->service->buscarVariacaoPorId($id);
+
+        $response->getBody()->write(json_encode($variacao));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param array{
-     * produtoId: int,
-     * tamanho: string,
-     * estoque: int,
-     * preco: float
-     * } $dados
-     * @return int
-     */
-    public function criar(array $dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovaVariacao($dados);
+        $dados = $request->getParsedBody();
+        $novaVariacaoId = $this->service->criarNovaVariacao($dados);
+
+        $response->getBody()->write($novaVariacaoId);
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @param array{
-     * produtoId: int,
-     * tamanho: string,
-     * estoque: int,
-     * preco: float
-     * } $dados
-     * @return int
-     */
-    public function atualizar(int $id, array $dados): int
+    public function atualizar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->atualizarVariacao($id, $dados);
+        $id = (int)$args['id'];
+        $dados = $request->getParsedBody();
+        $variacaoAtualizada = $this->service->atualizarVariacao($id, $dados);
+
+        $response->getBody()->write($variacaoAtualizada);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function remover(int $id): int
+    public function remover(Request $request, Response $response, array $args): Response
     {
-        return $this->service->removerVariacaoPorId($id);
+        $id = (int)$args['id'];
+        $variacaoRemovida = $this->service->removerVariacaoPorId($id);
+
+        $response->getBody()->write($variacaoRemovida);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

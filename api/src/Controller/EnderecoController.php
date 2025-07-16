@@ -2,8 +2,8 @@
 
 namespace Src\Controller;
 
-use PDO;
-use Src\Model\Endereco;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\EnderecoService;
 
 class EnderecoController
@@ -16,60 +16,48 @@ class EnderecoController
         $this->service = $service;
     }
 
-    /**
-     * @return Endereco[] | null
-     */
-    public function listar(): array | null
+    public function listar(Request $request, Response $response): Response
     {
-        return $this->service->listarEnderecos();
+        $enderecos = $this->service->listarEnderecos();
+        
+        $response->getBody()->write(json_encode($enderecos));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return Endereco | null
-     */
-    public function buscar(int $id): Endereco | null
+    public function buscar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->buscarEnderecoPorId($id);
+        $id = (int)$args['id'];
+        $endereco = $this->service->buscarEnderecoPorId($id);
+
+        $response->getBody()->write(json_encode($endereco));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param array{
-     * clienteId: int,
-     * logradouro: string,
-     * cidade: string,
-     * bairro: string,
-     * numero: string,
-     * cep: string,
-     * complemento: string
-     * } $dados
-     * @return int
-     */
-    public function criar(array $dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovoEndereco($dados);
+        $dados = $request->getParsedBody();
+        $novoEnderecoId = $this->service->criarNovoEndereco($dados);
+
+        $response->getBody()->write($novoEnderecoId);
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @param array{
-     * logradouro: string,
-     * cidade: string,
-     * bairro: string,
-     * numero: string,
-     * cep: string,
-     * complemento: string,
-     * clienteId: int
-     * } $dados
-     * @return int
-     */
-    public function atualizar(int $id, array $dados): int
+    public function atualizar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->atualizarEndereco($id, $dados);
+        $id = (int)$args['id'];
+        $dados = $request->getParsedBody();
+        $enderecoAtualizado = $this->service->atualizarEndereco($id, $dados);
+
+        $response->getBody()->write($enderecoAtualizado);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function remover(int $id): int
+    public function remover(Request $request, Response $response, array $args): Response
     {
-        return $this->service->removerEnderecoPorId($id);
+        $id = (int)$args['id'];
+        $enderecoRemovido = $this->service->removerEnderecoPorId($id);
+
+        $response->getBody()->write($enderecoRemovido);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

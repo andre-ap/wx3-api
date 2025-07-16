@@ -2,13 +2,12 @@
 
 namespace Src\Controller;
 
-use PDO;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Psr\Http\Message\ResponseInterface as Response;
 use Src\Service\ClienteService;
-use Src\Model\Cliente;
 
 class ClienteController
 {
-
     private ClienteService $service;
 
     public function __construct(ClienteService $service)
@@ -16,56 +15,48 @@ class ClienteController
         $this->service = $service;
     }
 
-    /**
-     * @return Cliente[]
-     */
-    public function listar()
+    public function listar(Request $request, Response $response): Response
     {
-        return $this->service->listarClientes();
+        $clientes = $this->service->listarClientes();
+
+        $response->getBody()->write(json_encode($clientes));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return Cliente | null
-     */
-    public function buscar(int $id): Cliente | null
+    public function buscar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->buscarClientePorID($id);
+        $id = (int)$args['id'];
+        $cliente = $this->service->buscarClientePorID($id);
+        
+        $response->getBody()->write(json_encode($cliente));
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param array{
-     *  nomeCompleto: string, 
-     *  cpf: string,
-     *  dataNascimento: string
-     * } $dados
-     * @return int
-     */
-    public function criar(array $dados): int
+    public function criar(Request $request, Response $response): Response
     {
-        return $this->service->criarNovoCliente($dados);
+        $dados = $request->getParsedBody();
+        $novoClienteId = $this->service->criarNovoCliente($dados);
+
+        $response->getBody()->write($novoClienteId);
+        return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @param array{
-     *  nomeCompleto: string, 
-     *  cpf: string,
-     *  dataNascimento: string
-     * } $dados
-     * @return int
-     */
-    public function atualizar(int $id, array $dados): int
+    public function atualizar(Request $request, Response $response, array $args): Response
     {
-        return $this->service->atualizarCliente($id, $dados);
+        $id = (int)$args['id'];
+        $dados = $request->getParsedBody();
+        $clienteAtualizado = $this->service->atualizarCliente($id, $dados);
+
+        $response->getBody()->write($clienteAtualizado);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 
-    /**
-     * @param int $id
-     * @return int
-     */
-    public function remover(int $id): int
+    public function remover(Request $request, Response $response, array $args): Response
     {
-        return $this->service->removerCliente($id);
+        $id = (int)$args['id'];
+        $clienteRemovido = $this->service->removerCliente($id);
+
+        $response->getBody()->write($clienteRemovido);
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }
