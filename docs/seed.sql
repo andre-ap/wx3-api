@@ -5,11 +5,11 @@ INSERT INTO categorias (nome, descricao) VALUES
 ('Calçados', 'Tênis e sapatos esportivos'),
 ('Acessórios', 'Itens complementares como bonés, mochilas, etc');
 
-INSERT INTO produtos (nome, cor, imagem, preco_base, descricao, peso, categoria_id)
+INSERT INTO produtos (nome, cor, imagem, descricao, peso, categoria_id)
 VALUES
-('Camiseta Dry Fit', 'Branca', 'camiseta.jpg', 59.90, 'Camiseta leve e respirável para treino.', 0.25, 1),
-('Tênis Corrida Pro', 'Preto', 'tenis.jpg', 299.90, 'Tênis com amortecimento ideal para corrida.', 0.9, 2),
-('Mochila Compacta', 'Cinza', 'mochila.jpg', 119.90, 'Mochila leve para levar seus itens ao treino.', 0.6, 3);
+('Camiseta Dry Fit', 'Branca', 'camiseta.jpg', 'Camiseta leve e respirável para treino.', 0.25, 1),
+('Tênis Corrida Pro', 'Preto', 'tenis.jpg', 'Tênis com amortecimento ideal para corrida.', 0.9, 2),
+('Mochila Compacta', 'Cinza', 'mochila.jpg', 'Mochila leve para levar seus itens ao treino.', 0.6, 3);
 
 INSERT INTO variacoes (produto_id, tamanho, estoque, preco) VALUES
 (1, 'P', 10, 59.90),

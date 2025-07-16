@@ -1,4 +1,4 @@
-DROP DATABASE acme_teste;
+DROP DATABASE IF EXISTS acme_teste;
 
 CREATE DATABASE IF NOT EXISTS acme_teste;
 

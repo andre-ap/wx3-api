@@ -33,7 +33,7 @@ $app->group('/api/produtos', function ($app) {
 
 // === CATEGORIAS ===
 $app->group('/api/categorias', function ($app) {
-    $app->get('', [CategoriaController::class, 'listarTodos']);
+    $app->get('', [CategoriaController::class, 'listar']);
     $app->get('/{id}', [CategoriaController::class, 'buscar']);
     $app->post('', [CategoriaController::class, 'criar']);
     $app->put('/{id}', [CategoriaController::class, 'atualizar']);

@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../vendor/autoload.php';
 
-use Src\Config\ConexaoDB;
+use Src\Config\ConexaoTeste;
 
 class SetupBancoTestes
 {
@@ -15,18 +15,24 @@ class SetupBancoTestes
 
     private static function montarBanco(): void
     {
-        $pdo = ConexaoDB::conectar();
-        $sql  = file_get_contents(__DIR__ . "/../../docs/bd_teste.sql");
+        $pdo = self::conectarSemBanco();
+
+        $sql = file_get_contents(__DIR__ . "/../../docs/bd_teste.sql");
+        if ($sql === false) {
+            throw new Exception("Arquivo bd_teste.sql não encontrado ou vazio");
+        }
+
         try {
             $pdo->exec($sql);
         } catch (PDOException $e) {
-            echo 'Erro ao montar o banco' . $e;
+            echo 'Erro ao montar o banco: ' . $e->getMessage();
+            throw $e;
         }
     }
 
     private static function inserirDados(): void
     {
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
         $sql  = file_get_contents(__DIR__ . "/../../docs/seed_teste.sql");
         if ($sql === false) {
             throw new Exception("Arquivo seed_teste.sql não encontrado ou vazio");
@@ -40,7 +46,7 @@ class SetupBancoTestes
 
     public static function excluirTabelasBanco(): void
     {
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
         $sql  = file_get_contents(__DIR__ . "/../../docs/drop_database.sql");
         try {
             $pdo->exec($sql);
@@ -48,5 +54,22 @@ class SetupBancoTestes
             echo 'Erro ao excluir tabelas: ' . $e->getMessage();
             throw $e;
         }
+    }
+
+    private static function conectarSemBanco(): PDO
+    {
+        $dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/../../');
+        $dotenv->load();
+
+        $host = $_ENV['DB_HOST'];
+        $port = $_ENV['DB_PORT'];
+        $user = $_ENV['DB_USER'];
+        $pass = $_ENV['DB_PASSWORD'];
+
+        $dsn = "mysql:host=$host;port=$port;charset=utf8";
+
+        return new PDO($dsn, $user, $pass, [
+            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        ]);
     }
 }
