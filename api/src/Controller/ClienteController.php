@@ -27,7 +27,7 @@ class ClienteController
     {
         $id = (int)$args['id'];
         $cliente = $this->service->buscarClientePorID($id);
-        
+
         $response->getBody()->write(json_encode($cliente));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -37,7 +37,7 @@ class ClienteController
         $dados = $request->getParsedBody();
         $novoClienteId = $this->service->criarNovoCliente($dados);
 
-        $response->getBody()->write($novoClienteId);
+        $response->getBody()->write(json_encode($novoClienteId));
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
@@ -47,7 +47,7 @@ class ClienteController
         $dados = $request->getParsedBody();
         $clienteAtualizado = $this->service->atualizarCliente($id, $dados);
 
-        $response->getBody()->write($clienteAtualizado);
+        $response->getBody()->write(json_encode($clienteAtualizado));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -56,7 +56,7 @@ class ClienteController
         $id = (int)$args['id'];
         $clienteRemovido = $this->service->removerCliente($id);
 
-        $response->getBody()->write($clienteRemovido);
+        $response->getBody()->write(json_encode($clienteRemovido));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

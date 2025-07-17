@@ -51,7 +51,7 @@ class ProdutoController
         $dados = $request->getParsedBody();
         $novoProdutoId = $this->service->criarNovoProduto($dados);
         
-        $response->getBody()->write(json_encode(['id' => $novoProdutoId]));
+        $response->getBody()->write(json_encode($novoProdutoId));
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
@@ -67,7 +67,7 @@ class ProdutoController
         $dados = $request->getParsedBody();
         $produtoAtualizado = $this->service->atualizarProduto($id, $dados);
         
-        $response->getBody()->write(json_encode(['id' => $produtoAtualizado]));
+        $response->getBody()->write(json_encode($produtoAtualizado));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 
@@ -82,7 +82,7 @@ class ProdutoController
         $id = (int) $args['id'];
         $produtoRemovido = $this->service->removerProduto($id);
         
-        $response->getBody()->write(json_encode(['id' => $produtoRemovido]));
+        $response->getBody()->write(json_encode($produtoRemovido));
         return $response->withStatus(200)->withHeader('Content-Type', 'application/json');
     }
 }

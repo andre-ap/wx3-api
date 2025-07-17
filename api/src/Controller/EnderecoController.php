@@ -19,7 +19,7 @@ class EnderecoController
     public function listar(Request $request, Response $response): Response
     {
         $enderecos = $this->service->listarEnderecos();
-        
+
         $response->getBody()->write(json_encode($enderecos));
         return $response->withHeader('Content-Type', 'application/json');
     }
@@ -38,7 +38,7 @@ class EnderecoController
         $dados = $request->getParsedBody();
         $novoEnderecoId = $this->service->criarNovoEndereco($dados);
 
-        $response->getBody()->write($novoEnderecoId);
+        $response->getBody()->write(json_encode($novoEnderecoId));
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
@@ -48,7 +48,7 @@ class EnderecoController
         $dados = $request->getParsedBody();
         $enderecoAtualizado = $this->service->atualizarEndereco($id, $dados);
 
-        $response->getBody()->write($enderecoAtualizado);
+        $response->getBody()->write(json_encode($enderecoAtualizado));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -57,7 +57,7 @@ class EnderecoController
         $id = (int)$args['id'];
         $enderecoRemovido = $this->service->removerEnderecoPorId($id);
 
-        $response->getBody()->write($enderecoRemovido);
+        $response->getBody()->write(json_encode($enderecoRemovido));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

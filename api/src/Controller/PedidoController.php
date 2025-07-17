@@ -20,7 +20,7 @@ class PedidoController
         $dados = $request->getParsedBody();
         $novoPedidoId = $this->service->criarNovoPedido($dados);
 
-        $response->getBody()->write($novoPedidoId);
+        $response->getBody()->write(json_encode($novoPedidoId));
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 }

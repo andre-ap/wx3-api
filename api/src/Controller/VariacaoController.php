@@ -37,7 +37,7 @@ class VariacaoController
         $dados = $request->getParsedBody();
         $novaVariacaoId = $this->service->criarNovaVariacao($dados);
 
-        $response->getBody()->write($novaVariacaoId);
+        $response->getBody()->write(json_encode($novaVariacaoId));
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
@@ -47,7 +47,7 @@ class VariacaoController
         $dados = $request->getParsedBody();
         $variacaoAtualizada = $this->service->atualizarVariacao($id, $dados);
 
-        $response->getBody()->write($variacaoAtualizada);
+        $response->getBody()->write(json_encode($variacaoAtualizada));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -56,7 +56,7 @@ class VariacaoController
         $id = (int)$args['id'];
         $variacaoRemovida = $this->service->removerVariacaoPorId($id);
 
-        $response->getBody()->write($variacaoRemovida);
+        $response->getBody()->write(json_encode($variacaoRemovida));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }

@@ -19,7 +19,7 @@ class CategoriaController
     {
         $categorias = $this->service->listarTodasCategorias();
         $response->getBody()->write(json_encode($categorias));
-        
+
         return $response->withHeader('Content-Type', 'application/json');
     }
 
@@ -47,16 +47,16 @@ class CategoriaController
         $dados = $request->getParsedBody();
         $linhasAfetadas = $this->service->atualizarCategoria($id, $dados);
 
-        $response->getBody()->write($linhasAfetadas);
+        $response->getBody()->write(json_encode($linhasAfetadas));
         return $response->withHeader('Content-Type', 'application/json');
     }
 
-    public function remover(Response $response, array $args): Response
+    public function remover(Request $request, Response $response, array $args): Response
     {
         $id = (int)$args['id'];
         $linhasAfetadas = $this->service->removerItemPorID($id);
 
-        $response->getBody()->write($linhasAfetadas);
+        $response->getBody()->write(json_encode($linhasAfetadas));
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
