@@ -16,7 +16,7 @@ class ClienteException extends TratadorDeErros
 
     public static function cpfInvalido(): self
     {
-        return new self("O cpf deve ser uma texto com 14 dígitos Ex: '123.456.789-00' ", 422);
+        return new self("O CPF digitado é inválido", 422);
     }
 
     public static function clienteExistente(): self

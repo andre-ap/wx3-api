@@ -8,6 +8,8 @@ use Src\Model\Cliente;
 
 class ClienteService
 {
+    private const TAMANHO_CPF = 11;
+
     private ClienteDAOInterface $dao;
 
     public function __construct(ClienteDAOInterface $dao)
@@ -119,8 +121,56 @@ class ClienteService
             throw ClienteException::nomeInvalido();
         }
 
-        if (strlen($dados['cpf']) !== 14) {
+        if (!self::validarCPF($dados['cpf'])) {
             throw ClienteException::cpfInvalido();
+        }
+    }
+
+
+    // https://www.goulart.pro.br/cbasico/Calculo_dv.htm
+    public function validarCPF(string $cpf)
+    {
+        $soma = 0;
+        $primeiroDigito = 0;
+        $segundoDigito = 0;
+
+        $cpf = preg_replace("/\D/", "", $cpf);
+
+        if (strlen($cpf) != self::TAMANHO_CPF) {
+            throw ClienteException::cpfInvalido();
+        }
+
+
+        for ($i = 0; $i < 9; $i++) {
+            $soma += (int) $cpf[$i] * (10 - $i);
+        }
+
+        $primeiroDigito = $soma % 11;
+
+        if ($primeiroDigito < 2) {
+            $primeiroDigito = 0;
+        } else {
+            $primeiroDigito = 11 - $primeiroDigito;
+        }
+
+        $soma = 0;
+
+        for ($i = 0; $i < 10; $i++) {
+            $soma += (int) $cpf[$i] * (11 - $i);
+        }
+
+        $segundoDigito = $soma % 11;
+
+        if ($segundoDigito < 2) {
+            $segundoDigito = 0;
+        } else {
+            $segundoDigito = 11 - $segundoDigito;
+        }
+
+        if ($cpf[9] == $primeiroDigito && $cpf[10] == $segundoDigito) {
+            return true;
+        } else {
+            return false;
         }
     }
 }
