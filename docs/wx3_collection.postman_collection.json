@@ -15,12 +15,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/clientes",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/clientes",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"clientes"
@@ -35,12 +33,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/clientes/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/clientes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"clientes",
@@ -57,7 +53,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis Pinto\",\r\n    \"cpf\": \"162.229.097-60\",\r\n    \"dataNascimento\": \"1995-03-22\"\r\n}",
+							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis Pinto\",\r\n    \"cpf\": \"163.229.097-60\",\r\n    \"dataNascimento\": \"1995-03-22\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -65,15 +61,13 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/clientes",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
-								"enderecos"
+								"clientes"
 							]
 						}
 					},
@@ -86,7 +80,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis\",\r\n    \"cpf\": \"162.229.097-00\",\r\n    \"dataNascimento\": \"1990-01-01\"\r\n}",
+							"raw": "{\r\n    \"nomeCompleto\": \"Cliente Novo\",\r\n    \"cpf\": \"111.222.333-44\",\r\n    \"dataNascimento\": \"1990-01-01\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -94,12 +88,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/clientes/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/clientes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"clientes",
@@ -115,16 +107,14 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/clientes/51",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/clientes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"clientes",
-								"51"
+								"1"
 							]
 						}
 					},
@@ -148,12 +138,10 @@
 							"raw": "{\r\n    \"nomeCompleto\": \"Andre de Assis Pinto\",\r\n    \"cpf\": \"162.229.097-60\",\r\n    \"dataNascimento\": \"1995-03-22\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/categorias",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/categorias",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"categorias"
@@ -168,12 +156,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/categorias/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/categorias/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"categorias",
@@ -190,7 +176,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}",
+							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -198,12 +184,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/categorias",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/categorias",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"categorias"
@@ -219,7 +203,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}",
+							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo atualizado\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -227,16 +211,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/categorias/51",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/categorias/7",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"categorias",
-								"51"
+								"7"
 							]
 						}
 					},
@@ -252,16 +234,14 @@
 							"raw": "{\r\n    \"nome\": \"Aneis\",\r\n    \"descricao\": \"Pra colocar no dedo 4\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/categorias/51",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/categorias/7",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"categorias",
-								"51"
+								"7"
 							]
 						}
 					},
@@ -287,12 +267,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/pedidos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/pedidos",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"pedidos"
@@ -319,12 +297,10 @@
 							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/produtos",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"produtos"
@@ -346,12 +322,10 @@
 							"raw": "{\r\n  \"clienteId\": 1,\r\n  \"enderecoEntregaId\": 2,\r\n  \"formaPagamento\": \"PIX\",\r\n  \"itens\": [\r\n    {\r\n      \"variacaoId\": 3,\r\n      \"quantidade\": 2\r\n    },\r\n    {\r\n      \"variacaoId\": 2,\r\n      \"quantidade\": 2\r\n    }\r\n  ]\r\n}\r\n"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/produtos/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"produtos",
@@ -368,7 +342,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata leve.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"descricao\": \"Camiseta regata leve.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -376,12 +350,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/produtos",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"produtos"
@@ -405,16 +377,14 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/produtos/6",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"produtos",
-								"1"
+								"6"
 							]
 						}
 					},
@@ -430,12 +400,10 @@
 							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/produtos/3",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/produtos/3",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"produtos",
@@ -463,12 +431,10 @@
 							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/enderecos",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"enderecos"
@@ -483,12 +449,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/enderecos/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"enderecos",
@@ -513,12 +477,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/enderecos",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"enderecos"
@@ -542,12 +504,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/enderecos/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"enderecos",
@@ -572,12 +532,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/enderecos/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/enderecos/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"enderecos",
@@ -605,12 +563,10 @@
 							"raw": "{\r\n    \"clienteId\": 1,\r\n    \"logradouro\": \"Av Barao de Catangalo\",\r\n    \"cidade\": \"Cantagalo\",\r\n    \"bairro\": \"Centro\",\r\n    \"numero\": \"46\",\r\n    \"cep\": \"28500-000\",\r\n    \"complemento\": \"Última casa da vila\"\r\n}"
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/variacoes",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/variacoes",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"variacoes"
@@ -625,12 +581,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/variacoes/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/variacoes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"variacoes",
@@ -667,12 +621,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/variacoes",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/variacoes",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"variacoes"
@@ -696,12 +648,10 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:8080/api/variacoes/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/variacoes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"variacoes",
@@ -717,12 +667,10 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8080/api/variacoes/1",
-							"protocol": "http",
+							"raw": "{{Wx3API}}/api/variacoes/1",
 							"host": [
-								"localhost"
+								"{{Wx3API}}"
 							],
-							"port": "8080",
 							"path": [
 								"api",
 								"variacoes",
@@ -733,6 +681,40 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "Auth",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"cpf\": \"11122233301\",\r\n    \"senha\": \"rodrigues123\"\r\n}\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{Wx3API}}/api/login",
+					"host": [
+						"{{Wx3API}}"
+					],
+					"path": [
+						"api",
+						"login"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "Wx3API",
+			"value": "http://localhost:8080",
+			"type": "default"
 		}
 	]
 }
