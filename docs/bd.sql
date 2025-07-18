@@ -77,3 +77,13 @@ CREATE TABLE itens_pedido (
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
     FOREIGN KEY (variacao_id) REFERENCES variacoes(id)
 ) ENGINE=InnoDB;
+
+CREATE TABLE funcionarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_completo VARCHAR(255) NOT NULL,
+    cpf CHAR(11) NOT NULL UNIQUE,
+    senha_hash CHAR(128) NOT NULL,
+    sal VARCHAR(32) NOT NULL
+) ENGINE=InnoDB;
+
+
