@@ -23,13 +23,12 @@ CREATE TABLE produtos (
     nome VARCHAR(100) NOT NULL,
     cor VARCHAR(50),
     imagem VARCHAR(255),
-    preco_base DECIMAL(10,2) NOT NULL,
     descricao TEXT,
-    data_cadastro DATE NOT NULL DEFAULT CURRENT_DATE,
+    data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     peso DECIMAL(10,2),
     categoria_id INT,
     FOREIGN KEY (categoria_id) REFERENCES categorias(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE variacoes (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -38,14 +37,14 @@ CREATE TABLE variacoes (
     estoque INT NOT NULL DEFAULT 0,
     preco DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (produto_id) REFERENCES produtos(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE clientes (
     id INT AUTO_INCREMENT PRIMARY KEY,
     nome_completo VARCHAR(150) NOT NULL,
     cpf VARCHAR(14) NOT NULL UNIQUE,
     data_nascimento DATE NOT NULL
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE enderecos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -57,7 +56,7 @@ CREATE TABLE enderecos (
     cep VARCHAR(10) NOT NULL,
     complemento VARCHAR(100),
     FOREIGN KEY (cliente_id) REFERENCES clientes(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE pedidos (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -70,7 +69,7 @@ CREATE TABLE pedidos (
     data_pedido DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (cliente_id) REFERENCES clientes(id),
     FOREIGN KEY (endereco_entrega_id) REFERENCES enderecos(id)
-);
+) ENGINE=InnoDB;
 
 CREATE TABLE itens_pedido (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -80,4 +79,14 @@ CREATE TABLE itens_pedido (
     preco_unitario DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (pedido_id) REFERENCES pedidos(id),
     FOREIGN KEY (variacao_id) REFERENCES variacoes(id)
-);
+) ENGINE=InnoDB;
+
+CREATE TABLE funcionarios (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    nome_completo VARCHAR(255) NOT NULL,
+    cpf CHAR(11) NOT NULL UNIQUE,
+    senha_hash CHAR(128) NOT NULL,
+    sal VARCHAR(32) NOT NULL
+) ENGINE=InnoDB;
+
+
