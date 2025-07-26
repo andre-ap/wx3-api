@@ -46,7 +46,7 @@ describe('ClienteService', function () {
     it('deve criar novo cliente com dados válidos', function () {
         $dados = [
             'nomeCompleto' => 'Carlos Teste',
-            'cpf' => '111.222.333-33',
+            'cpf' => '921.625.550-18',
             'dataNascimento' => '1995-03-22'
         ];
 
@@ -59,9 +59,11 @@ describe('ClienteService', function () {
     it('deve lançar exceção ao tentar criar cliente duplicado', function () {
         $dados = [
             'nomeCompleto' => 'João da Silva',
-            'cpf' => '123.456.789-00',
+            'cpf' => '921.625.550-18',
             'dataNascimento' => '1990-05-10'
         ];
+
+        $this->service->criarNovoCliente($dados);
 
         expect(function () use ($dados) {
             $this->service->criarNovoCliente($dados);
@@ -89,13 +91,13 @@ describe('ClienteService', function () {
 
         expect(function () use ($dados) {
             $this->service->criarNovoCliente($dados);
-        })->toThrow(new ClienteException("O cpf deve ser uma texto com 14 dígitos Ex: '123.456.789-00' ", 422));
+        })->toThrow(new ClienteException("O CPF digitado é inválido", 422));
     });
 
     it('deve atualizar cliente existente', function () {
         $dados = [
             'nomeCompleto' => 'Cliente Atualizado',
-            'cpf' => '123.456.789-00',
+            'cpf' => '057.353.540-00',
             'dataNascimento' => '1990-05-10'
         ];
 
@@ -108,7 +110,7 @@ describe('ClienteService', function () {
     it('deve remover cliente existente', function () {
         $dados = [
             'nomeCompleto' => 'Andre Teste',
-            'cpf' => '555.666.777-88',
+            'cpf' => '548.654.280-11',
             'dataNascimento' => '1999-12-31'
         ];
 
