@@ -9,11 +9,13 @@
 6. Edite o arquivo `.env` para o contexto do seu banco de dados.
 7. Para rodar os testes usando Kahlan, basta usar o comando `composer test`
 8. Para testar o end-points usando Postman, importe a collection `wx3_collection.postman_collection.json` da pasta /docs.
+9. Lembre-se de primeiro usar o endpoint `Auth` para gerar o token JWT e se autenticar.
 
 ## Referências:
 
 - PHP 8.2: https://www.php.net/
-- MariaDB 10.4 https://mariadb.org/
+- MySQL 8.0 https://www.mysql.com/
 - Slim Framework: https://www.slimframework.com/
 - Kahlan: https://kahlan.github.io/docs/
 - PHPStan: https://phpstan.org/
+- JWT: https://www.jwt.io/
