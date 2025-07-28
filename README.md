@@ -2,10 +2,13 @@
 
 ## ⚠️ Código melhorado na branch v2
 Várias melhorias no código foram feitas após o dia 10/07, como:
-- Desacoplamento de classes 
-- Injeção de dependências para um index mais limpo;
-- Autenticação utilizando JWT;
-- Correção de bugs, etc.
+- Desacoplamento de classes;
+- Injeção de dependências para uma rota mais limpa;
+- Validação real de CPF;
+- Autenticação simples utilizando JWT;
+- Correção de bugs, repetição de código, etc.
+
+Acesse: [Branch V2](https://github.com/andre-ap/wx3-api/tree/v2)
 
 ## Para rodar o projeto siga os passos:
 
