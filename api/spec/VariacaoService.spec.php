@@ -1,6 +1,6 @@
 <?php
 
-use Src\Config\ConexaoDB;
+use Src\Config\ConexaoTeste;
 use Src\DAO\VariacaoDAO;
 use Src\Service\VariacaoService;
 use Src\Exception\VariacaoException;
@@ -12,7 +12,7 @@ describe('VariacaoService', function () {
     beforeEach(function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
         $dao = new VariacaoDAO($pdo);
         $this->service = new VariacaoService($dao);
     });

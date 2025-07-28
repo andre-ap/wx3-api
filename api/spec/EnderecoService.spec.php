@@ -1,6 +1,6 @@
 <?php
 
-use Src\Config\ConexaoDB;
+use Src\Config\ConexaoTeste;
 use Src\DAO\EnderecoDAO;
 use Src\Service\EnderecoService;
 use Src\Exception\EnderecoException;
@@ -12,7 +12,7 @@ describe('EnderecoService', function () {
     beforeEach(function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
         $dao = new EnderecoDAO($pdo);
 
         $this->service = new EnderecoService($dao);

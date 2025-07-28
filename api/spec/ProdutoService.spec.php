@@ -1,6 +1,7 @@
 <?php
 
 use Src\Config\ConexaoDB;
+use Src\Config\ConexaoTeste;
 use Src\DAO\CategoriaDAO;
 use Src\DAO\ProdutoDAO;
 use Src\Exception\CategoriaException;
@@ -17,7 +18,8 @@ describe('ProdutoService', function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
 
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
+
 
         $produtoDAO = new ProdutoDAO($pdo);
         $categoriaDAO = new CategoriaDAO($pdo);

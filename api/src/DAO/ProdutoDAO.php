@@ -93,7 +93,7 @@ class ProdutoDAO implements ProdutoDAOInterface
     public function inserirProduto(Produto $produto): int
     {
         $data = new DateTime();
-        $dataString = $data->format('Y/m/d');
+        $dataString = $data->format('Y/m/d H:i:s');
         $sql = "INSERT INTO produtos (nome, cor, imagem, preco, descricao, data_cadastro, peso, categoria_id)
             VALUES (:nome, :cor, :imagem, :preco, :descricao, :data_cadastro, :peso, :categoria_id)";
 

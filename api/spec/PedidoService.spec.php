@@ -1,6 +1,7 @@
 <?php
 
 use Src\Config\ConexaoDB;
+use Src\Config\ConexaoTeste;
 use Src\DAO\ClienteDAO;
 use Src\DAO\EnderecoDAO;
 use Src\DAO\PedidoDAO;
@@ -21,7 +22,8 @@ describe('PedidoService', function () {
         SetupBancoTestes::excluirTabelasBanco();
         SetupBancoTestes::setup();
 
-        $pdo = ConexaoDB::conectar();
+        $pdo = ConexaoTeste::conectar();
+
 
         $pedidoDAO = new PedidoDAO($pdo);
         $clienteDAO = new ClienteDAO($pdo);
