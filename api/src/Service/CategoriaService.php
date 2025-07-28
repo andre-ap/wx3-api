@@ -2,8 +2,6 @@
 
 namespace Src\Service;
 
-use PDO;
-use Src\DAO\CategoriaDAO;
 use Src\DAO\CategoriaDAOInterface;
 use Src\Model\Categoria;
 use Src\Exception\CategoriaException;
@@ -44,7 +42,6 @@ class CategoriaService
 
     /**
      * @param array{
-     * id: int,
      * nome: string,
      * descricao: string
      * } $dados
@@ -65,7 +62,6 @@ class CategoriaService
     /**
      * @param int $id
      * @param array{
-     * id: int,
      * nome: string,
      * descricao: string
      * } $dados
@@ -116,7 +112,6 @@ class CategoriaService
 
     /**
      * @param array{
-     * id: int,
      * nome: string,
      * descricao: string
      * } $dados

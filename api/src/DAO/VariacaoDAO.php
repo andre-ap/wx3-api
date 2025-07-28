@@ -20,7 +20,7 @@ class VariacaoDAO implements VariacaoDAOInterface
      */
     public function listarVariacoes(): array
     {
-        $ps = $this->pdo->query("SELECT id, produto_id, tamanho, estoque, preco FROM variacoes");
+        $ps = $this->pdo->query("SELECT id, produto_id, tamanho, estoque FROM variacoes");
 
         if (!$ps) {
             throw new Exception("SQL mal formatada ou erro ao executar");
@@ -40,7 +40,6 @@ class VariacaoDAO implements VariacaoDAOInterface
                 produtoId: $linha["produto_id"],
                 tamanho: $linha["tamanho"],
                 estoque: $linha["estoque"],
-                preco: $linha["preco"],
             );
         }
 
@@ -53,7 +52,7 @@ class VariacaoDAO implements VariacaoDAOInterface
      */
     public function buscarVariacaoPorId($id): Variacao|null
     {
-        $sql = "SELECT id, produto_id, tamanho, estoque, preco 
+        $sql = "SELECT id, produto_id, tamanho, estoque 
                 FROM variacoes
                 WHERE id = :id";
 
@@ -72,7 +71,6 @@ class VariacaoDAO implements VariacaoDAOInterface
             produtoId: $variacao["produto_id"],
             tamanho: $variacao["tamanho"],
             estoque: $variacao["estoque"],
-            preco: $variacao["preco"],
         );
     }
 
@@ -82,8 +80,8 @@ class VariacaoDAO implements VariacaoDAOInterface
      */
     public function criarNovaVariacao(Variacao $variacao): int
     {
-        $sql = "INSERT INTO variacoes (produto_id, tamanho, estoque, preco)
-                VALUES (:produto_id, :tamanho, :estoque, :preco)";
+        $sql = "INSERT INTO variacoes (produto_id, tamanho, estoque)
+                VALUES (:produto_id, :tamanho, :estoque)";
 
         $ps = $this->pdo->prepare($sql);
 
@@ -91,7 +89,6 @@ class VariacaoDAO implements VariacaoDAOInterface
             ':produto_id' => $variacao->produtoId,
             ':tamanho' => $variacao->tamanho,
             ':estoque' => $variacao->estoque,
-            ':preco' => $variacao->preco
         ]);
 
         return (int) $this->pdo->lastInsertId();
@@ -103,14 +100,13 @@ class VariacaoDAO implements VariacaoDAOInterface
      * produtoId: int,
      * tamanho: string,
      * estoque: int,
-     * preco: float
      * } $dados
      * @return int
      */
     public function atualizarVariacao(int $id, array $dados): int
     {
         $sql = "UPDATE variacoes SET produto_id = :produto_id, tamanho = :tamanho,
-                estoque = :estoque, preco = :preco
+                estoque = :estoque
                 WHERE id = :id";
 
         $ps = $this->pdo->prepare($sql);
@@ -119,7 +115,6 @@ class VariacaoDAO implements VariacaoDAOInterface
             ':produto_id' => $dados['produtoId'],
             ':tamanho' => $dados['tamanho'],
             ':estoque' => $dados['estoque'],
-            ':preco' => $dados['preco'],
             ':id' => $id
         ]);
 
@@ -139,5 +134,22 @@ class VariacaoDAO implements VariacaoDAOInterface
         $ps->execute([':id' => $id]);
 
         return $id;
+    }
+
+    /**
+     * @param int $id
+     * @return float
+     */
+    public function buscarPrecoVariacao(int $id): float
+    {
+        $sql = "SELECT produtos.preco 
+        FROM produtos INNER JOIN variacoes ON variacoes.produto_id = produtos.id 
+        WHERE variacoes.id = :id";
+
+        $ps = $this->pdo->prepare($sql); 
+
+        $preco = $ps->fetch(PDO::FETCH_ASSOC);
+
+        return $preco;
     }
 }

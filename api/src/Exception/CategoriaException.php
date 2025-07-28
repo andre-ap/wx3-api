@@ -28,4 +28,14 @@ class CategoriaException extends TratadorDeErros
     {
         return new self("Categoria não encontrada", 404); 
     }
+
+    public static function JsonInvalido(): self
+    {
+        return new self("Erro interno ao criar resposta para essa requisição");
+    }
+
+    public static function parametrosAusentes(): self
+    {
+        return new self ("Parâmetros obrigatórios ausentes", 400);
+    }
 }

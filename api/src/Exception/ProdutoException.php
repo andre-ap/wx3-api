@@ -49,4 +49,14 @@ class ProdutoException extends TratadorDeErros
         return new self ("A categoria de id: $id não existe");
     }
 
+    public static function JsonInvalido(): self
+    {
+        return new self("Erro interno ao criar resposta para essa requisição");
+    }
+
+    public static function parametrosAusentes(): self
+    {
+        return new self ("Parâmetros obrigatórios ausentes", 400);
+    }
+
 }

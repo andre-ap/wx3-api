@@ -2,8 +2,6 @@
 
 namespace Src\Service;
 
-use PDO;
-use Src\DAO\PedidoDAO;
 use Src\DAO\PedidoDAOInterface;
 use Src\Exception\PedidoException;
 use Src\Model\ItemPedido;
@@ -66,15 +64,17 @@ class PedidoService
 
         foreach ($itens as $item) {
             $variacao = $this->variacaoService->buscarVariacaoPorId($item['variacaoId']);
-
+            
             if (!$variacao instanceof Variacao) {
                 throw PedidoException::variacaoInexistente();
             }
 
+            $preco = $this->variacaoService->buscarPreco($item['variacaoId']);
+
             $itensPedido[] = new ItemPedido([
                 'variacaoId' => $item['variacaoId'],
                 'quantidade' => $item['quantidade'],
-                'precoUnitario' => $variacao->preco
+                'precoUnitario' => $preco
             ]);
         }
 
@@ -163,7 +163,7 @@ class PedidoService
                 throw PedidoException::variacaoInexistente();
             }
 
-            $preco = $variacao->preco;
+            $preco = $this->variacaoService->buscarPreco((int)$item['variacaoId']);
             $quantidade = (int)$item['quantidade'];
             $subtotal += $preco * $quantidade;
         }

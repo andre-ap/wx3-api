@@ -12,16 +12,26 @@
 				{
 					"name": "Listar Todos",
 					"request": {
+						"auth": {
+							"type": "noauth"
+						},
 						"method": "GET",
-						"header": [],
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJleHAiOjE3NTM2OTEwNTQsImlhdCI6MTc1MzY4NzQ1NCwiY3BmIjoiMTExMjIyMzMzMDEifQ.von9JgmlgG6MnPJ8sAr_N8p5I6RP89tAnV3izHev3ws",
+								"type": "text"
+							}
+						],
 						"url": {
-							"raw": "{{Wx3API}}/api/clientes",
+							"raw": "{{Wx3API}}/api/clientes/3",
 							"host": [
 								"{{Wx3API}}"
 							],
 							"path": [
 								"api",
-								"clientes"
+								"clientes",
+								"3"
 							]
 						}
 					},
@@ -342,7 +352,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"descricao\": \"Camiseta regata leve.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 200.00,\r\n    \"descricao\": \"Camiseta regata leve.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -369,7 +379,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.9,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
+							"raw": "{\r\n    \"nome\": \"Camiseta Regata\",\r\n    \"cor\": \"Preta\",\r\n    \"imagem\": \"regata.jpg\",\r\n    \"preco\": 39.90,\r\n    \"descricao\": \"Camiseta regata pesada.\",\r\n    \"peso\": 0.25,\r\n    \"categoriaId\": 1\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -613,7 +623,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50,\r\n    \"preco\": 30.00\r\n}",
+							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -640,7 +650,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50,\r\n    \"preco\": 30.00\r\n}",
+							"raw": "{\r\n    \"produtoId\": 3,\r\n    \"tamanho\": \"G\",\r\n    \"estoque\": 50\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"

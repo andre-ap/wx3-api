@@ -76,5 +76,13 @@ class PedidoException extends TratadorDeErros
         return new self ("Quantidade insuficiente de itens no estoque.", 422);
     }
 
+    public static function jsonInvalido(): self
+    {
+        return new self ("Erro interno ao criar resposta para essa requisição", 500);
+    }
 
+    public static function parametrosAusentes(): self
+    {
+        return new self ("Parâmetros obrigatórios ausentes", 400);
+    }
 }

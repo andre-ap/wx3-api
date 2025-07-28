@@ -29,4 +29,14 @@ class ClienteException extends TratadorDeErros
     {
         return new self ("O cliente buscado não existe", 404);
     }
+
+    public static function jsonInvalido(): self
+    {
+        return new self ("Erro interno ao criar resposta para essa requisição", 500);
+    }
+
+    public static function parametrosAusentes(): self
+    {
+        return new self ("Parâmetros obrigatórios ausentes", 400);
+    }
 }

@@ -7,6 +7,7 @@ class Produto {
         public string $nome,
         public string $cor,
         public string $imagem,
+        public float $preco,
         public string $descricao,
         public string $dataCadastro,
         public float $peso,

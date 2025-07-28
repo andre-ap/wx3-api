@@ -3,7 +3,6 @@
 namespace Src\Service;
 
 use DateTime;
-use PDO;
 use Src\DAO\ProdutoDAOInterface;
 use Src\Exception\ProdutoException;
 use Src\Model\Produto;
@@ -46,10 +45,10 @@ class ProdutoService
 
     /**
      * @param array{
-     *   id: int,
      *   nome: string,
      *   cor: string,
      *   imagem: string,
+     *   preco: float
      *   descricao: string,
      *   peso: float,
      *   categoriaId: int
@@ -67,6 +66,7 @@ class ProdutoService
             nome: $dados['nome'],
             cor: $dados['cor'],
             imagem: $dados['imagem'],
+            preco: $dados['preco'],
             descricao: $dados['descricao'],
             dataCadastro: $dataFormatada,
             peso: $dados['peso'],
@@ -82,6 +82,7 @@ class ProdutoService
      *   nome: string,
      *   cor: string,
      *   imagem: string,
+     *   preco: float
      *   descricao: string,
      *   peso: float,
      *   categoriaId: int
@@ -124,6 +125,7 @@ class ProdutoService
      *   nome: string,
      *   cor: string,
      *   imagem: string,
+     *   preco: float
      *   descricao: string,
      *   peso: float,
      *   categoriaId: int
@@ -138,6 +140,10 @@ class ProdutoService
 
         if (empty($dados['cor']) || strlen($dados['cor']) < 3) {
             throw ProdutoException::corInvalida();
+        }
+
+        if ($dados['preco'] <= 0){
+            throw ProdutoException::precoInvalido();
         }
 
         if (empty($dados['descricao']) || strlen($dados['descricao']) < 5) {

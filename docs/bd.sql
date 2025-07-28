@@ -20,6 +20,7 @@ CREATE TABLE produtos (
     nome VARCHAR(100) NOT NULL,
     cor VARCHAR(50),
     imagem VARCHAR(255),
+    preco DECIMAL(10,2) NOT NULL,
     descricao TEXT,
     data_cadastro DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     peso DECIMAL(10,2),
@@ -32,7 +33,6 @@ CREATE TABLE variacoes (
     produto_id INT NOT NULL,
     tamanho VARCHAR(10) NOT NULL,
     estoque INT NOT NULL DEFAULT 0,
-    preco DECIMAL(10,2) NOT NULL,
     FOREIGN KEY (produto_id) REFERENCES produtos(id)
 ) ENGINE=InnoDB;
 

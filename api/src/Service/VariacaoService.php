@@ -39,7 +39,6 @@ class VariacaoService
      * produtoId: int,
      * tamanho: string,
      * estoque: int,
-     * preco: float
      * } $dados
      * @return int
      */
@@ -51,7 +50,6 @@ class VariacaoService
             produtoId: $dados["produtoId"],
             tamanho: $dados["tamanho"],
             estoque: $dados["estoque"],
-            preco: $dados["preco"],
         );
 
         return $this->dao->criarNovaVariacao($variacao);
@@ -63,7 +61,6 @@ class VariacaoService
      * produtoId: int,
      * tamanho: string,
      * estoque: int,
-     * preco: float
      * } $dados
      * @return int
      */
@@ -96,7 +93,6 @@ class VariacaoService
      * produtoId: int,
      * tamanho: string,
      * estoque: int,
-     * preco: float
      * } $dados
      * @return void
      */
@@ -113,9 +109,10 @@ class VariacaoService
         if ($dados['estoque'] < 0) {
             throw VariacaoException::estoqueInvalido();
         }
-
-        if ($dados['preco'] <= 0) {
-            throw VariacaoException::precoInvalido();
-        }
+    }
+  
+    public function buscarPreco (int $id): float 
+    {
+        return $this->dao->buscarPrecoVariacao($id);
     }
 }

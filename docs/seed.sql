@@ -14,12 +14,13 @@ VALUES
     );
 
 INSERT INTO
-    produtos (nome, cor, imagem, descricao, peso, categoria_id)
+    produtos (nome, cor, imagem, preco, descricao, peso, categoria_id)
 VALUES
     (
         'Camiseta Dry Fit',
         'Branca',
         'camiseta.jpg',
+        59.90,
         'Camiseta leve e respirável para treino.',
         0.25,
         1
@@ -28,6 +29,7 @@ VALUES
         'Tênis Corrida Pro',
         'Preto',
         'tenis.jpg',
+        259.90,
         'Tênis com amortecimento ideal para corrida.',
         0.9,
         2
@@ -36,21 +38,22 @@ VALUES
         'Mochila Compacta',
         'Cinza',
         'mochila.jpg',
+        129.90,
         'Mochila leve para levar seus itens ao treino.',
         0.6,
         3
     );
 
 INSERT INTO
-    variacoes (produto_id, tamanho, estoque, preco)
+    variacoes (produto_id, tamanho, estoque)
 VALUES
-    (1, 'P', 10, 59.90),
-    (1, 'M', 15, 59.90),
-    (1, 'G', 8, 59.90),
-    (2, '38', 5, 299.90),
-    (2, '39', 6, 299.90),
-    (2, '40', 3, 299.90),
-    (3, 'U', 20, 119.90);
+    (1, 'P', 10),
+    (1, 'M', 15),
+    (1, 'G', 8),
+    (2, '38', 5),
+    (2, '39', 6),
+    (2, '40', 3),
+    (3, 'U', 20);
 
 INSERT INTO
     clientes (nome_completo, cpf, data_nascimento)
@@ -127,66 +130,28 @@ WHERE
     id = 2;
 
 INSERT INTO
-    clientes (
-        nome_completo,
-        data_nascimento,
-        cpf,
-        telefone,
-        email,
-        endereco,
-        foto
-    )
-VALUES
-    (
-        'João da Silva',
-        '1990-05-14',
-        '12345678901',
-        '21999990001',
-        'joao@email.com',
-        'Rua A, 123',
-        'https://randomuser.me/api/portraits/men/33.jpg'
-    ),
-    (
-        'Maria Oliveira',
-        '1985-07-22',
-        '12345678902',
-        '21999990002',
-        'maria@email.com',
-        'Rua B, 456',
-        'https://randomuser.me/api/portraits/women/63.jpg'
-    ),
-    (
-        'Carlos Souza',
-        '1992-09-30',
-        '12345678903',
-        '21999990003',
-        'carlos@email.com',
-        'Rua C, 789',
-        'https://randomuser.me/api/portraits/men/30.jpg'
-    );
-
-INSERT INTO
     funcionarios (nome_completo, cpf, senha_hash, sal)
 VALUES
+    -- Senha: rodrigues123
     (
         'Paulo Rodrigues',
         '11122233301',
         'c3cc365985a2a24d322f9ddc45b5ff60bc4630bc28c9dd2fce990fc1419b6c3bcb02c1ebef9cb14b793329837586f8d8c5b6d3a1678f75a0402882511bc96197',
         '846dbbae1c0d9b75822989043a4f3837'
     ),
-    -- Senha: rodrigues123
+
+    -- Senha: silva123
     (
         'Ana Silva',
         '22233344402',
         '188b26d6a19e166655cf2c3bc34260475213cdad5d319172a19cffcccc5e8fc8257d28fb66d35c55e5aa757616fc490045226b79fd21846a0206465373213ce5',
         '0c33c2866878ae890b393604952bd154'
     ),
-    -- Senha: silva123
+-- Senha: mendes123
+
     (
         'Carlos Mendes',
         '33344455503',
         '24268fb4c1ce814db602e0c8a1b348ef7b2ce402ffa4b40f4770108b426e2c2dc564e93687c0a7a9baec80120111530b1820def24229228a61995c6ecbca9bbc',
         '227f29611bb371f3ed2e71da537f529f'
     );
-
--- Senha: mendes123

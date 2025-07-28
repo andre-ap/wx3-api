@@ -42,7 +42,6 @@ describe('VariacaoService', function () {
             'produtoId' => 1,
             'tamanho' => 'G',
             'estoque' => 20,
-            'preco' => 89.99
         ];
 
         $id = $this->service->criarNovaVariacao($dados);
@@ -55,7 +54,6 @@ describe('VariacaoService', function () {
             'produtoId' => 0,
             'tamanho' => 'M',
             'estoque' => 5,
-            'preco' => 50.00
         ];
 
         expect(function () use ($dados) {
@@ -68,7 +66,6 @@ describe('VariacaoService', function () {
             'produtoId' => 1,
             'tamanho' => 'GG',
             'estoque' => 100,
-            'preco' => 150.00
         ];
 
         $afetados = $this->service->atualizarVariacao(1, $dados);
@@ -81,7 +78,6 @@ describe('VariacaoService', function () {
             'produtoId' => 1,
             'tamanho' => 'P',
             'estoque' => 5,
-            'preco' => 30.00
         ];
 
         expect(function () use ($dados) {
@@ -95,7 +91,6 @@ describe('VariacaoService', function () {
             'produtoId' => 1,
             'tamanho' => 'XG',
             'estoque' => 2,
-            'preco' => 89.99
         ];
 
         $novoID = $this->service->criarNovaVariacao($dados);

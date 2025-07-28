@@ -4,5 +4,5 @@ namespace Src\DAO;
 
 interface LoginDAOInterface
 {
-    public function login($cpf);
+    public function login(string $cpf): mixed;
 }

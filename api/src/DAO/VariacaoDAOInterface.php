@@ -27,4 +27,6 @@ interface VariacaoDAOInterface
     public function atualizarVariacao(int $id, array $dados): int;
 
     public function removerVariacaoPorId(int $id): int;
+
+    public function buscarPrecoVariacao(int $id): float;
 }

@@ -22,7 +22,7 @@ class ProdutoDAO implements ProdutoDAOInterface
     public function buscarProdutos(): array
     {
 
-        $ps = $this->pdo->query("SELECT id, nome, cor, imagem, descricao, 
+        $ps = $this->pdo->query("SELECT id, nome, cor, imagem, preco, descricao, 
                                 data_cadastro, peso, categoria_id 
                                 FROM produtos");
 
@@ -44,6 +44,7 @@ class ProdutoDAO implements ProdutoDAOInterface
                 nome: $linha['nome'],
                 cor: $linha['cor'],
                 imagem: $linha['imagem'],
+                preco: $linha['preco'],
                 descricao: $linha['descricao'],
                 dataCadastro: $linha['data_cadastro'],
                 peso: $linha['peso'],
@@ -60,7 +61,7 @@ class ProdutoDAO implements ProdutoDAOInterface
     public function buscarProdutoPorId(int $id): Produto | array
     {
 
-        $sql = "SELECT id, nome, cor, imagem, descricao, data_cadastro, peso, categoria_id FROM produtos WHERE id = :id";
+        $sql = "SELECT id, nome, cor, imagem, preco, descricao, data_cadastro, peso, categoria_id FROM produtos WHERE id = :id";
 
         $ps = $this->pdo->prepare($sql);
 
@@ -77,6 +78,7 @@ class ProdutoDAO implements ProdutoDAOInterface
             nome: $dados['nome'],
             cor: $dados['cor'],
             imagem: $dados['imagem'],
+            preco: $dados['preco'],
             descricao: $dados['descricao'],
             dataCadastro: $dados['data_cadastro'],
             peso: $dados['peso'],
@@ -92,14 +94,15 @@ class ProdutoDAO implements ProdutoDAOInterface
     {
         $data = new DateTime();
         $dataString = $data->format('Y/m/d');
-        $sql = "INSERT INTO produtos (nome, cor, imagem, descricao, data_cadastro, peso, categoria_id)
-            VALUES (:nome, :cor, :imagem, :descricao, :data_cadastro, :peso, :categoria_id)";
+        $sql = "INSERT INTO produtos (nome, cor, imagem, preco, descricao, data_cadastro, peso, categoria_id)
+            VALUES (:nome, :cor, :imagem, :preco, :descricao, :data_cadastro, :peso, :categoria_id)";
 
         $ps = $this->pdo->prepare($sql);
         $ps->execute([
             ':nome' => $produto->nome,
             ':cor' => $produto->cor,
             ':imagem' => $produto->imagem,
+            ':preco' => $produto->preco,
             ':descricao' => $produto->descricao,
             ':data_cadastro' => $dataString,
             ':peso' => $produto->peso,
@@ -115,6 +118,7 @@ class ProdutoDAO implements ProdutoDAOInterface
      *   nome: string,
      *   cor: string,
      *   imagem: string,
+     *   preco: float,
      *   descricao: string,
      *   peso: float,
      *   categoriaId: int
@@ -127,6 +131,7 @@ class ProdutoDAO implements ProdutoDAOInterface
                 nome = :nome,
                 cor = :cor,
                 imagem = :imagem,
+                preco = :preco,
                 descricao = :descricao,
                 peso = :peso,
                 categoria_id = :categoria_id
@@ -138,6 +143,7 @@ class ProdutoDAO implements ProdutoDAOInterface
             ':nome' => $dados['nome'],
             ':cor' => $dados['cor'],
             ':imagem' => $dados['imagem'],
+            ':preco' => $dados['preco'],
             ':descricao' => $dados['descricao'],
             ':peso' => $dados['peso'],
             ':categoria_id' => $dados['categoriaId'],

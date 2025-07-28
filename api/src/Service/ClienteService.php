@@ -127,14 +127,20 @@ class ClienteService
     }
 
 
-    // https://www.goulart.pro.br/cbasico/Calculo_dv.htm
+    
+
+    /**
+     * https://www.goulart.pro.br/cbasico/Calculo_dv.htm
+     * @param string $cpf
+     * @return bool
+     */
     public function validarCPF(string $cpf)
     {
         $soma = 0;
         $primeiroDigito = 0;
         $segundoDigito = 0;
 
-        $cpf = preg_replace("/\D/", "", $cpf);
+        $cpf = preg_replace("/\D/", "", $cpf) ?? '';
 
         if (strlen($cpf) != self::TAMANHO_CPF) {
             throw ClienteException::cpfInvalido();

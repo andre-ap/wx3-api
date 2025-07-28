@@ -13,7 +13,7 @@ class LoginDAO implements LoginDAOInterface
         $this->pdo = $pdo;
     }
 
-    public function login($cpf)
+    public function login(string $cpf): mixed
     {
         $sql = "SELECT * FROM funcionarios WHERE cpf = :cpf";
         $ps = $this->pdo->prepare($sql);
@@ -24,7 +24,7 @@ class LoginDAO implements LoginDAOInterface
 
         $funcionarioEncontrado = $ps->fetch(PDO::FETCH_ASSOC);
 
-        if (!$funcionarioEncontrado){
+        if (!$funcionarioEncontrado) {
             http_response_code(401);
             exit();
         }

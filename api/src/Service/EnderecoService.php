@@ -43,7 +43,7 @@ class EnderecoService
      * numero: string,
      * cep: string,
      * complemento: string
-     * } $dados // <-- Removed 'id' as it's not needed for creation
+     * } $dados
      * @return int
      */
     public function criarNovoEndereco(array $dados): int
@@ -97,9 +97,9 @@ class EnderecoService
      *  logradouro: string,
      *  cidade: string,
      *  bairro: string,
-     *   numero: string,
+     *  numero: string,
      *  cep: string,
-     *   complemento?: string
+     *  complemento?: string
      * } $dados
      * @throws EnderecoException
      * @return void

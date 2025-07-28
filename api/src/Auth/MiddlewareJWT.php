@@ -9,6 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Slim\Psr7\Response;
+use Src\Exception\AuthExcepetion;
 
 class MiddlewareJWT implements MiddlewareInterface
 {
@@ -19,14 +20,21 @@ class MiddlewareJWT implements MiddlewareInterface
 
         if (!$token) {
             $response = new Response();
-            $response->getBody()->write(json_encode(['erro' => 'Token ausente']));
+            $mensagemErro = json_encode(['erro' => 'Token ausente']);
+
+            if ($mensagemErro === false) {
+                throw AuthExcepetion::erroAoGerarMensagem();
+            }
+
+            $response->getBody()->write($mensagemErro);
+
             return $response
                 ->withStatus(401)
                 ->withHeader('Content-Type', 'application/json; charset=utf-8');
         }
 
         try {
-            $decoded = JWT::decode($token, new Key($_ENV['CHAVE'], 'HS256'));
+            $decoded = JWT::decode($token, new Key((string)$_ENV['CHAVE'], (string)'HS256'));
         } catch (\Throwable $e) {
             $response = new Response();
             $mensagem = $e->getMessage();
@@ -35,7 +43,13 @@ class MiddlewareJWT implements MiddlewareInterface
                 $mensagem = 'Token expirado';
             }
 
-            $response->getBody()->write(json_encode(['erro' => $mensagem]));
+            $mensagemErro = json_encode(['erro' => $mensagem]);
+
+            if ($mensagemErro === false) {
+                throw AuthExcepetion::erroAoGerarMensagem();
+            }
+
+            $response->getBody()->write($mensagemErro);
             return $response
                 ->withStatus(401)
                 ->withHeader('Content-Type', 'application/json; charset=utf-8');

@@ -4,6 +4,7 @@ namespace Src\Controller;
 
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use Src\Exception\ClienteException;
 use Src\Service\ClienteService;
 
 class ClienteController
@@ -19,44 +20,109 @@ class ClienteController
     {
         $clientes = $this->service->listarClientes();
 
-        $response->getBody()->write(json_encode($clientes));
+        $respostaJson = json_encode($clientes);
+
+        if ($respostaJson === false) {
+            throw ClienteException::jsonInvalido();
+        }
+
+        $response->getBody()->write($respostaJson);
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * @param array<string, string> $args
+     */
     public function buscar(Request $request, Response $response, array $args): Response
     {
-        $id = (int)$args['id'];
+        $id = (int)($args['id'] ?? 0);
         $cliente = $this->service->buscarClientePorID($id);
 
-        $response->getBody()->write(json_encode($cliente));
+        $respostaJson = json_encode($cliente);
+
+        if ($respostaJson === false) {
+            throw ClienteException::jsonInvalido();
+        }
+
+        $response->getBody()->write($respostaJson);
         return $response->withHeader('Content-Type', 'application/json');
     }
 
     public function criar(Request $request, Response $response): Response
     {
         $dados = $request->getParsedBody();
-        $novoClienteId = $this->service->criarNovoCliente($dados);
 
-        $response->getBody()->write(json_encode($novoClienteId));
+        if (
+            !is_array($dados) ||
+            !isset($dados['nomeCompleto']) ||
+            !isset($dados['cpf']) ||
+            !isset($dados['dataNascimento'])
+        ) {
+            throw ClienteException::parametrosAusentes();
+        }
+
+        $cliente = [
+            'nomeCompleto' => (string) $dados['nomeCompleto'],
+            'cpf' => (string) $dados['cpf'],
+            'dataNascimento' => (string) $dados['dataNascimento'],
+        ];
+
+        $novoClienteId = $this->service->criarNovoCliente($cliente);
+
+        $respostaJson = json_encode($novoClienteId);
+
+        if ($respostaJson === false) {
+            throw ClienteException::jsonInvalido();
+        }
+
+        $response->getBody()->write($respostaJson);
         return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * @param array<string, string> $args
+     */
     public function atualizar(Request $request, Response $response, array $args): Response
     {
-        $id = (int)$args['id'];
+        $id = (int)($args['id'] ?? 0);
         $dados = $request->getParsedBody();
+
+        if (
+            !is_array($dados) ||
+            !isset($dados['nomeCompleto']) ||
+            !isset($dados['cpf']) ||
+            !isset($dados['dataNascimento'])
+        ) {
+            throw ClienteException::parametrosAusentes();
+        }
+
         $clienteAtualizado = $this->service->atualizarCliente($id, $dados);
 
-        $response->getBody()->write(json_encode($clienteAtualizado));
+        $respostaJson = json_encode($clienteAtualizado);
+
+        if ($respostaJson === false) {
+            throw ClienteException::jsonInvalido();
+        }
+
+        $response->getBody()->write($respostaJson);
         return $response->withHeader('Content-Type', 'application/json');
     }
 
+    /**
+     * @param array<string, string> $args
+     */
     public function remover(Request $request, Response $response, array $args): Response
     {
-        $id = (int)$args['id'];
+        $id = (int)($args['id'] ?? 0);
         $clienteRemovido = $this->service->removerCliente($id);
 
-        $response->getBody()->write(json_encode($clienteRemovido));
+        $respostaJson = json_encode($clienteRemovido);
+
+        if ($respostaJson === false) {
+            throw ClienteException::jsonInvalido();
+        }
+
+        $response->getBody()->write($respostaJson);
         return $response->withHeader('Content-Type', 'application/json');
     }
 }
