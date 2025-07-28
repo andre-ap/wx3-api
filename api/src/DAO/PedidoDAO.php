@@ -27,10 +27,10 @@ class PedidoDAO implements PedidoDAOInterface
             $this->pdo->beginTransaction();
 
             $sqlPedido = "INSERT INTO pedidos 
-                    (cliente_id, endereco_entrega_id, forma_pagamento, 
-                    valor_frete, desconto, valor_total, data_pedido)
-                    VALUES (:cliente_id, :endereco_entrega_id, :forma_pagamento, 
-                    :valor_frete, :desconto, :valor_total, :data_pedido)";
+            (cliente_id, endereco_entrega_id, forma_pagamento, 
+             valor_frete, desconto, valor_total, data_pedido)
+            VALUES (:cliente_id, :endereco_entrega_id, :forma_pagamento, 
+             :valor_frete, :desconto, :valor_total, :data_pedido)";
 
             $ps = $this->pdo->prepare($sqlPedido);
 
@@ -46,10 +46,16 @@ class PedidoDAO implements PedidoDAOInterface
 
             $pedidoId = (int) $this->pdo->lastInsertId();
 
-            $sqlItem = "INSERT into itens_pedido (pedido_id, variacao_id, quantidade, preco_unitario)
-                        VALUES (:pedido_id, :variacao_id, :quantidade, :preco_unitario)";
+            $sqlItem = "INSERT INTO itens_pedido 
+            (pedido_id, variacao_id, quantidade, preco_unitario)
+            VALUES (:pedido_id, :variacao_id, :quantidade, :preco_unitario)";
+
+            $sqlEstoque = "UPDATE variacoes 
+            SET estoque = estoque - :quantidade 
+            WHERE id = :variacao_id";
 
             $psItem = $this->pdo->prepare($sqlItem);
+            $psEstoque = $this->pdo->prepare($sqlEstoque);
 
             foreach ($itens as $item) {
                 $psItem->execute([
@@ -58,10 +64,14 @@ class PedidoDAO implements PedidoDAOInterface
                     ':quantidade' => $item->quantidade,
                     ':preco_unitario' => $item->precoUnitario
                 ]);
+
+                $psEstoque->execute([
+                    ':variacao_id' => $item->variacaoId,
+                    ':quantidade' => $item->quantidade
+                ]);
             }
 
             $this->pdo->commit();
-
             return $pedidoId;
         } catch (Exception $e) {
             $this->pdo->rollBack();
