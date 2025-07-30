@@ -6,6 +6,7 @@ use Src\DAO\ClienteDAO;
 use Src\DAO\EnderecoDAO;
 use Src\DAO\PedidoDAO;
 use Src\DAO\VariacaoDAO;
+use Src\Enum\FormaPagamento;
 use Src\Exception\ClienteException;
 use Src\Exception\EnderecoException;
 use Src\Service\PedidoService;
@@ -140,11 +141,11 @@ describe('PedidoService', function () {
             ['variacaoId' => 1, 'quantidade' => 2]
         ];
 
-        $total = $this->service->calcularTotal($itens, 'PIX');
+        $total = $this->service->calcularTotal($itens, FormaPagamento::PIX);
 
         expect($total)->toBeAn('array');
         expect($total['frete'])->toEqual(10.00);
-        expect($total['desconto'])->toBeGreaterThan(0);
-        expect($total['valorTotal'])->toBeGreaterThan(0);
+        expect($total['desconto'])->toEqual(11.98);
+        expect($total['valorTotal'])->toEqual(119.80);
     });
 });

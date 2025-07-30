@@ -17,14 +17,30 @@ class PedidoController
     }
 
 
+    /**
+     * @param Request $request
+     * @param Response $response
+     * @return Response
+     */
     public function criar(Request $request, Response $response): Response
     {
         $dados = $request->getParsedBody();
+
+        if (
+            !is_array($dados) || 
+            !isset($dados['clienteId']) || 
+            !isset($dados['enderecoEntregaId']) || 
+            !isset($dados['formaPagamento']) || 
+            !isset($dados['itens'])
+        ) {
+            throw PedidoException::parametrosAusentes();
+        }
+
         $novoPedidoId = $this->service->criarNovoPedido($dados);
 
         $respostaJson = json_encode($novoPedidoId);
 
-        if($respostaJson === false) {
+        if ($respostaJson === false) {
             throw PedidoException::jsonInvalido();
         }
 

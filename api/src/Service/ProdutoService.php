@@ -45,13 +45,13 @@ class ProdutoService
 
     /**
      * @param array{
-     *   nome: string,
-     *   cor: string,
-     *   imagem: string,
-     *   preco: float
-     *   descricao: string,
-     *   peso: float,
-     *   categoriaId: int
+     * nome: string,
+     * cor: string,
+     * imagem: string,
+     * preco: float,
+     * descricao: string,
+     * peso: float,
+     * categoriaId: int
      * } $dados
      * @return int
      */
@@ -79,14 +79,15 @@ class ProdutoService
     /**
      * @param int $id
      * @param array{
-     *   nome: string,
-     *   cor: string,
-     *   imagem: string,
-     *   preco: float
-     *   descricao: string,
-     *   peso: float,
-     *   categoriaId: int
+     * nome: string,
+     * cor: string,
+     * imagem: string,
+     * preco: float,
+     * descricao: string,
+     * peso: float,
+     * categoriaId: int
      * } $dados
+     * @return int
      */
     public function atualizarProduto(int $id, array $dados): int
     {
@@ -122,13 +123,13 @@ class ProdutoService
 
     /**
      * @param array{
-     *   nome: string,
-     *   cor: string,
-     *   imagem: string,
-     *   preco: float
-     *   descricao: string,
-     *   peso: float,
-     *   categoriaId: int
+     * nome: string,
+     * cor: string,
+     * imagem: string,
+     * preco: float,
+     * descricao: string,
+     * peso: float,
+     * categoriaId: int
      * } $dados
      * @return void
      */
@@ -142,7 +143,7 @@ class ProdutoService
             throw ProdutoException::corInvalida();
         }
 
-        if ($dados['preco'] <= 0){
+        if ($dados['preco'] <= 0) {
             throw ProdutoException::precoInvalido();
         }
 

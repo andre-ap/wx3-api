@@ -21,7 +21,6 @@ interface VariacaoDAOInterface
      *   produtoId: int,
      *   tamanho: string,
      *   estoque: int,
-     *   preco: float
      * } $dados
      */
     public function atualizarVariacao(int $id, array $dados): int;

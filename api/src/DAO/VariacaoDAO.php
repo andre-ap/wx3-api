@@ -147,9 +147,10 @@ class VariacaoDAO implements VariacaoDAOInterface
         WHERE variacoes.id = :id";
 
         $ps = $this->pdo->prepare($sql); 
+        $ps->execute([':id' => $id]);
 
         $preco = $ps->fetch(PDO::FETCH_ASSOC);
 
-        return $preco;
+        return (float) $preco['preco'];
     }
 }

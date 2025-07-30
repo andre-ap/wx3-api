@@ -3,10 +3,12 @@
 namespace Src\Service;
 
 use Src\DAO\PedidoDAOInterface;
+use Src\Enum\FormaPagamento;
 use Src\Exception\PedidoException;
 use Src\Model\ItemPedido;
 use Src\Model\Pedido;
 use Src\Model\Variacao;
+use ValueError;
 
 class PedidoService
 {
@@ -45,7 +47,7 @@ class PedidoService
     {
         $this->validarDados($dados);
 
-        $formaPagamento = $dados['formaPagamento'];
+        $formaPagamento = FormaPagamento::from($dados['formaPagamento']);
         $itens = $dados['itens'];
 
         $total = $this->calcularTotal($itens, $formaPagamento);
@@ -64,7 +66,7 @@ class PedidoService
 
         foreach ($itens as $item) {
             $variacao = $this->variacaoService->buscarVariacaoPorId($item['variacaoId']);
-            
+
             if (!$variacao instanceof Variacao) {
                 throw PedidoException::variacaoInexistente();
             }
@@ -111,8 +113,9 @@ class PedidoService
             throw PedidoException::enderecoInexistente();
         }
 
-        $pagamentos = ['PIX', 'BOLETO', 'CARTAO_1X'];
-        if (!in_array($dados['formaPagamento'], $pagamentos, true)) {
+        try {
+            $dados['formaPagamento'] = FormaPagamento::from($dados['formaPagamento']);
+        } catch (ValueError) {
             throw PedidoException::formaPagamentoInvalida();
         }
 
@@ -145,14 +148,14 @@ class PedidoService
      *  variacaoId: int, 
      *  quantidade: int
      * }> $itens
-     * @param 'PIX'|'BOLETO'|'CARTAO_1X' $formaPagamento
+     * @param FormaPagamento $formaPagamento
      * @return array{
      *  frete: float,
      *  desconto: float,
      *  valorTotal: float
      * }
      */
-    public function calcularTotal($itens, $formaPagamento): array
+    public function calcularTotal($itens, FormaPagamento $formaPagamento): array
     {
         $subtotal = 0.0;
 
@@ -164,14 +167,15 @@ class PedidoService
             }
 
             $preco = $this->variacaoService->buscarPreco((int)$item['variacaoId']);
+            var_dump("Preço da variação {$item['variacaoId']}: {$preco}");
             $quantidade = (int)$item['quantidade'];
             $subtotal += $preco * $quantidade;
         }
 
         $frete = self::FRETE_PADRAO;
-        $desconto = 0;
+        $desconto = 0.0;
 
-        if ($formaPagamento === 'PIX') {
+        if ($formaPagamento === FormaPagamento::PIX) {
             $desconto = ($subtotal + $frete) * 0.1;
         }
 

@@ -40,4 +40,14 @@ class VariacaoException extends Exception
     {
         return new self("Já existe uma variação com este produto e tamanho.", 409);
     }
+
+    public static function JsonInvalido(): self
+    {
+        return new self("Erro ao codificar a resposta em JSON", 500);
+    }
+
+    public static function parametrosAusentes(): self
+    {
+        return new self("Parâmetros obrigatórios ausentes", 400);
+    }
 }

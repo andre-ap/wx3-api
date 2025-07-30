@@ -70,6 +70,7 @@ class ProdutoController
             !isset($dados['nome']) ||
             !isset($dados['cor']) ||
             !isset($dados['imagem']) ||
+            !isset($dados['preco']) ||
             !isset($dados['descricao']) ||
             !isset($dados['peso']) ||
             !isset($dados['categoriaId'])
@@ -81,6 +82,7 @@ class ProdutoController
             'nome' => (string) $dados['nome'],
             'cor' => (string) $dados['cor'],
             'imagem' => (string) $dados['imagem'],
+            'preco' => (float) $dados['preco'],
             'descricao' => (string) $dados['descricao'],
             'peso' => (float) $dados['peso'],
             'categoriaId' => (int) $dados['categoriaId'],
@@ -114,6 +116,7 @@ class ProdutoController
             !isset($dados['nome']) ||
             !isset($dados['cor']) ||
             !isset($dados['imagem']) ||
+            !isset($dados['preco']) ||
             !isset($dados['descricao']) ||
             !isset($dados['peso']) ||
             !isset($dados['categoriaId'])
@@ -125,6 +128,7 @@ class ProdutoController
             'nome' => (string) $dados['nome'],
             'cor' => (string) $dados['cor'],
             'imagem' => (string) $dados['imagem'],
+            'preco' => (float) $dados['preco'],
             'descricao' => (string) $dados['descricao'],
             'peso' => (float) $dados['peso'],
             'categoriaId' => (int) $dados['categoriaId'],
