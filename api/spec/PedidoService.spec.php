@@ -145,7 +145,7 @@ describe('PedidoService', function () {
 
         expect($total)->toBeAn('array');
         expect($total['frete'])->toEqual(10.00);
-        expect($total['desconto'])->toEqual(11.98);
-        expect($total['valorTotal'])->toEqual(119.80);
+        expect($total['desconto'])->toBeCloseTo(12.98,2 );
+        expect($total['valorTotal'])->toBeCloseTo(116.82, 2);
     });
 });

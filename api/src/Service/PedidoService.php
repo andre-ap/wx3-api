@@ -167,7 +167,6 @@ class PedidoService
             }
 
             $preco = $this->variacaoService->buscarPreco((int)$item['variacaoId']);
-            var_dump("Preço da variação {$item['variacaoId']}: {$preco}");
             $quantidade = (int)$item['quantidade'];
             $subtotal += $preco * $quantidade;
         }
